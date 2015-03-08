@@ -1,0 +1,73 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+// endbower
+.form-wrapper {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #fff;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    box-shadow: none;
+}
+
+.header {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    background-color: #F7F7F9;
+    line-height: 45px;
+}
+.container {
+    padding-top: 10%;
+}
+
+.form-group:nth-child(1) {
+    margin-top: 15px;
+}
+
+.drug {
+    padding-left: 15px;
+    display: inline-block;
+}
+
+.btn-group {
+    padding-top: 5px;
+    padding-right: 15px;
+}
+
+.header .btn {
+    padding: .2em 1em;
+}
+
+.header .btn-group {
+    margin-top: 4px;
+}
+
+.administered-header {
+    background-color: #dff0d8;
+    border-color: #dff0d8;
+}
+
+.administered-header .btn-primary {
+    background-color: #649a8c;
+    border-color: #94bab1;
+}
+
+.administered-header .btn-danger {
+    background-color: black;
+    border-color: black;
+}
+
+.administered-header .label-default {
+    background-color: #56A634;
+}
