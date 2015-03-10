@@ -16,31 +16,25 @@
     'ngRoute',
     'ngSanitize',
     'ngTouch'
-    ])
- .directive('vaccination', function() {
+]);
+
+angular.module('vaccinationsApp').directive('vaccination', function() {
     return {
         restrict: 'E',
         templateUrl: 'scripts/directives/vaccination_administered.html',
-        replace: false
-    };
- })
- .factory('vaccinations', ['$http', function($http){
-    var vaccinations;
-    return {
-        getVaccinations: function(){
-            if (!vaccinations){
-                $http.get('../mock_data/vaccinations.json')
-                    .success(function(result){
-                        vaccinations = result.vaccinations;
-                        return vaccinations;
-                        console.log(result);
-                    })
-                    .error(function(data, status){
-                        console.log(data);
-                });
-            } else {
-                return vaccinations;
-            }
+        controller: 'VaccinationController',
+        scope: {
+            vaccination: '='
         }
     };
+ });
+
+angular.module('vaccinationsApp').factory('vaccinations', ['$resource', function($resource){
+    var config = {
+         // TODO: Ensure caching is working as expected.
+         // This call should only be made once.
+         query: {method:'GET', isArray:false, cache:true}
+    };
+    // TODO: Change this address to the vaccionations of patient id.
+    return $resource('mock_data/vaccinations.json', {}, config);
  }]);

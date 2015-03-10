@@ -1,7 +1,6 @@
 <div class="vaccination">
     <!-- ADMINISTERED HEADER -->
-    {{ administered }}
-    <div class="header form-wrapper administered-header" ng-if="administered">
+    <div class="header form-wrapper administered-header" ng-if="vaccination.administered">
         <h4 class="drug"><span class="label label-default">Polio</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-primary">Edit</button>
@@ -11,7 +10,7 @@
     <!-- /HEADER -->
 
     <!-- UNADMINISTERED HEADER -->
-    <div class="header form-wrapper">
+    <div class="header form-wrapper" ng-if="!vaccination.administered">
         <h4 class="drug"><span class="label label-default">Polio</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-info">Administer</button>
@@ -20,7 +19,7 @@
     <!-- /HEADER -->
 
     <!-- FORM -->
-    <div class="form-wrapper">
+    <div class="form-wrapper" ng-if="vaccination.administered">
         <form class="form-horizontal">
             <div class="form-group form-group-sm">
                 <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
@@ -35,6 +34,25 @@
                 </div>
             </div>
         </form>
-        <!-- FORM -->
     </div>
+    <!-- FORM -->
+
+    <!-- FORM -->
+    <div class="form-wrapper" ng-if="!vaccination.administered">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /FORM -->
 </div>

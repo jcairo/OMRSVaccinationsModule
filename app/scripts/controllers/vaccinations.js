@@ -8,9 +8,16 @@
  * Controller of the vaccinationsApp
  */
 angular.module('vaccinationsApp')
-  .controller('VaccinationsController', ['$scope', '$http', 'vaccinations', function($scope, $http, vaccinations){
-    $scope.hello = {};
-    $scope.hello.name = 'JIM';
-    $scope.vaccinations = vaccinations.getVaccinations();
+.controller('MainController', ['$scope', 'vaccinations', function($scope, vaccinations){
+    $scope.vaccinations = {};
+    vaccinations.query(function(data){
+        $scope.vaccinations = data.vaccinations;
+    });
+}]);
+
+
+
+angular.module('vaccinationsApp')
+.controller('VaccinationController', ['$scope', function($scope){
 
 }]);

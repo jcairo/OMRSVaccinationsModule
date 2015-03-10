@@ -15,8 +15,8 @@
     <!-- endbuild -->
   </head>
   <body ng-app="vaccinationsApp">
-  <div class="container" ng-controller="VaccinationsController">
-    <vaccination ng-repeat="vaccination in vaccinations"></vaccination>
+  <div class="container" ng-controller="MainController">
+    <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations"></vaccination>
   </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
