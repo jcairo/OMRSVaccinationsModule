@@ -15,69 +15,9 @@
     <!-- endbuild -->
   </head>
   <body ng-app="vaccinationsApp">
-  <div class="container">
-    <vaccination></vaccination>
+  <div class="container" ng-controller="VaccinationsController">
+    <vaccination ng-repeat="vaccination in vaccinations"></vaccination>
   </div>
-
-    <div class="container">
-      <div class="vaccination">
-        <!-- HEADER -->
-        <div class="header form-wrapper administered-header">
-          <h4 class="drug"><span class="label label-default">Polio</span></h4>
-          <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-danger">Add Reaction</button>
-          </div>
-        </div>
-        <!-- /HEADER -->
-        <!-- FORM -->
-        <div class="form-wrapper">
-          <form class="form-horizontal">
-            <div class="form-group form-group-sm">
-              <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-              <div class="col-sm-9">
-                <input class="form-control" type="text" id="formGroupInputLarge" placeholder="Date">
-              </div>
-            </div>
-            <div class="form-group form-group-sm">
-              <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-              <div class="col-sm-9">
-                <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
-              </div>
-            </div>
-          </form>
-          <!-- FORM -->
-        </div>
-      </div>
-
-      <div class="vaccination">
-        <!-- HEADER -->
-        <div class="header form-wrapper">
-          <h4 class="drug"><span class="label label-default">Polio</span></h4>
-          <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-info">Administer</button>
-          </div>
-        </div>
-        <!-- /HEADER -->
-        <div class="form-wrapper">
-          <form class="form-horizontal">
-            <div class="form-group form-group-sm">
-              <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-              <div class="col-sm-9">
-                <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
-              </div>
-            </div>
-            <div class="form-group form-group-sm">
-              <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-              <div class="col-sm-9">
-                <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>

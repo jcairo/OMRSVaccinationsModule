@@ -8,16 +8,9 @@
  * Controller of the vaccinationsApp
  */
 angular.module('vaccinationsApp')
-  .controller('VaccinationsController', ['$scope', '$http', function($scope, $http){
+  .controller('VaccinationsController', ['$scope', '$http', 'vaccinations', function($scope, $http, vaccinations){
     $scope.hello = {};
     $scope.hello.name = 'JIM';
+    $scope.vaccinations = vaccinations.getVaccinations();
 
-    $http.get('../mock_data/vaccinations.json')
-        .success(function(result){
-            console.log(result);
-        })
-        .error(function(data, status){
-            console.log(data);
-            console.log(status);
-        });
 }]);
