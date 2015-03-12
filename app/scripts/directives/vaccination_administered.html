@@ -1,7 +1,8 @@
 <div class="vaccination">
     <!-- ADMINISTERED HEADER -->
     <div class="header form-wrapper administered-header" ng-if="vaccination.administered">
-        <h4 class="drug"><span class="label label-default">Polio</span></h4>
+        <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
+        <h4 class="date"><span class="label label-default">{{ vaccination.administration_date | date: 'longDate' }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-primary">Edit</button>
             <button type="button" class="btn btn-danger">Add Reaction</button>

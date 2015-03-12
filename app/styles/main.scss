@@ -2,7 +2,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
-.form-wrapper {
+.vaccination .form-wrapper {
     margin-right: 0;
     margin-left: 0;
     background-color: #fff;
@@ -14,7 +14,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     box-shadow: none;
 }
 
-.header {
+.vaccination .header {
     margin-right: 0;
     margin-left: 0;
     background-color: #fff;
@@ -35,8 +35,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     margin-top: 15px;
 }
 
-.drug {
+.vaccination .drug {
     padding-left: 15px;
+    display: inline-block;
+}
+
+.vaccination .date {
+    padding-left: 5px;
     display: inline-block;
 }
 
@@ -53,21 +58,21 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     margin-top: 4px;
 }
 
-.administered-header {
+.vaccination .administered-header {
     background-color: #dff0d8;
     border-color: #dff0d8;
 }
 
-.administered-header .btn-primary {
+.vaccination .administered-header .btn-primary {
     background-color: #649a8c;
     border-color: #94bab1;
 }
 
-.administered-header .btn-danger {
+.vaccination .administered-header .btn-danger {
     background-color: black;
     border-color: black;
 }
 
-.administered-header .label-default {
+.vaccination .administered-header .label-default {
     background-color: #56A634;
 }

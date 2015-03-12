@@ -16,19 +16,25 @@
   </head>
   <body ng-app="vaccinationsApp">
   <div class="container" ng-controller="MainController">
-    <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations"></vaccination>
+
+    <!-- FORM -->
+    <div class="form-wrapper">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label" for="search">Search</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="search" placeholder="Search" ng-model="search">
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- FORM -->
+
+    <!-- VACCINATIONS -->
+    <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations | orderBy:['name', 'administration_date'] | filter:search"></vaccination>
+    <!-- /VACCINATIONS -->
+
   </div>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
