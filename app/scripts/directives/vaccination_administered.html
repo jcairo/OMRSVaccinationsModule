@@ -12,7 +12,7 @@
 
     <!-- UNADMINISTERED HEADER -->
     <div class="header form-wrapper" ng-if="!vaccination.administered">
-        <h4 class="drug"><span class="label label-default">Polio</span></h4>
+        <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-info">Administer</button>
         </div>
