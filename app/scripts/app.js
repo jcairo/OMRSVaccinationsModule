@@ -25,7 +25,8 @@
 // scope to determine whether an administered or unadministered template
 // should be used. To clean up after myself I use this directive to remove
 // the placeholder include-replace directive.
-angular.module('vaccinationsApp').directive('replace', function() {
+angular.module('vaccinationsApp')
+.directive('replace', function() {
     return {
         require: 'ngInclude',
         restrict: 'E',
@@ -35,7 +36,8 @@ angular.module('vaccinationsApp').directive('replace', function() {
     };
 });
 
-angular.module('vaccinationsApp').directive('vaccination', function() {
+angular.module('vaccinationsApp')
+.directive('vaccination', function() {
     return {
         restrict: 'E',
         // The link function provides access to the scope of the vaccinations
@@ -59,7 +61,8 @@ angular.module('vaccinationsApp').directive('vaccination', function() {
     };
  });
 
-angular.module('vaccinationsApp').factory('vaccinations', ['$resource', function($resource){
+angular.module('vaccinationsApp')
+.factory('vaccinations', ['$resource', function($resource){
     var config = {
          // TODO: Ensure caching is working as expected.
          // This call should only be made once.
