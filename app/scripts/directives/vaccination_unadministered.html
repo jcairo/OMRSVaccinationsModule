@@ -1,29 +1,34 @@
 <div class="vaccination">
-    <!-- HEADER -->
-    <div class="header form-wrapper">
-        <h4 class="drug"><span class="label label-default">Polio</span></h4>
-        <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-info">Administer</button>
+    <!-- UNADIMISTERED TEMPLATE -->
+    <div class="unadministered" ng-if="!vaccination.administered">
+        <!-- UNADMINISTERED HEADER -->
+        <div class="header form-wrapper">
+            <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
+            <h4 class="date" ng-if="vaccination.scheduled"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <button type="button" class="btn btn-info">Administer</button>
+            </div>
         </div>
-    </div>
-    <!-- /HEADER -->
+        <!-- /HEADER -->
 
-    <!-- FORM -->
-    <div class="form-wrapper">
-        <form class="form-horizontal">
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+        <!-- ADMINISTRATION FORM -->
+        <div class="form-wrapper" ng-if="vaccination.administered" ng-show="state.entryOpen">
+            <form class="form-horizontal">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label">Date</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" placeholder="Date">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <!-- / ADMINISTRATION FORM -->
     </div>
-    <!-- /FORM -->
+    <!-- /UNADMINISTERED TEMPLATE -->
 </div>

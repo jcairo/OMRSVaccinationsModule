@@ -1,48 +1,74 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
-.vaccination .form-wrapper {
-    margin-right: 0;
-    margin-left: 0;
-    background-color: #fff;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-radius: 0 0 4px 4px;
-    box-shadow: none;
+.vaccination {
+    .form-wrapper {
+        margin-right: 0;
+        margin-left: 0;
+        background-color: #fff;
+        border-top: 1px solid #fff;
+        border-left: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        // border-radius: 0 0 4px 4px;
+        box-shadow: none;
+    }
+
+    .header {
+        margin-right: 0;
+        margin-left: 0;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-radius: 4px 4px 4px 4px;
+        box-shadow: none;
+        background-color: #F7F7F9;
+        line-height: 45px;
+    }
+
+    .header:nth-child(1) {
+    }
+
+    .drug {
+        padding-left: 15px;
+        display: inline-block;
+    }
+
+    .date {
+        padding-left: 5px;
+        display: inline-block;
+    }
+
+    .administered-header {
+        background-color: #dff0d8;
+        border-color: #CCDACC;
+
+        .btn-primary {
+            background-color: #649a8c;
+            border-color: #94bab1;
+        }
+
+        .btn-danger {
+            background-color: black;
+            border-color: black;
+        }
+
+        .label-default {
+            background-color: #56A634;
+        }
+    }
 }
 
-.vaccination .header {
-    margin-right: 0;
-    margin-left: 0;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-radius: 4px 4px 0 0;
-    box-shadow: none;
-    background-color: #F7F7F9;
-    line-height: 45px;
-}
 .container {
     padding-top: 10%;
 }
 
 .form-group:nth-child(1) {
     margin-top: 15px;
-}
-
-.vaccination .drug {
-    padding-left: 15px;
-    display: inline-block;
-}
-
-.vaccination .date {
-    padding-left: 5px;
-    display: inline-block;
 }
 
 .btn-group {
@@ -58,21 +84,3 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     margin-top: 4px;
 }
 
-.vaccination .administered-header {
-    background-color: #dff0d8;
-    border-color: #dff0d8;
-}
-
-.vaccination .administered-header .btn-primary {
-    background-color: #649a8c;
-    border-color: #94bab1;
-}
-
-.vaccination .administered-header .btn-danger {
-    background-color: black;
-    border-color: black;
-}
-
-.vaccination .administered-header .label-default {
-    background-color: #56A634;
-}

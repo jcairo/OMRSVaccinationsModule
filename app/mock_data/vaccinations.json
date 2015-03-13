@@ -10,6 +10,7 @@
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -22,6 +23,7 @@
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -34,6 +36,7 @@
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -46,6 +49,7 @@
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -58,6 +62,7 @@
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -70,6 +75,7 @@
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -81,7 +87,8 @@
       "route": "left deltoid",
       "administered": true,
       "adverse_reaction": false,
-      "administration_date": "2014-10-01",
+      "administration_date": "",
+      "scheduled_date": "2014-10-01",
       "scheduled": true
     },
     {
@@ -94,6 +101,7 @@
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-09-01",
+      "scheduled_date": "2014-10-01",
       "scheduled": false
     },
     {
@@ -115,6 +123,7 @@
           "manufacture_date": "2013-01-01"
           },
       "administration_date": "2014-10-01",
+      "scheduled_date": "2014-10-01",
       "scheduled": false
     }
   ]

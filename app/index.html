@@ -17,21 +17,21 @@
   <body ng-app="vaccinationsApp">
   <div class="container" ng-controller="MainController">
 
-    <!-- FORM -->
+    <!-- SEARCH FORM -->
     <div class="form-wrapper">
         <form class="form-horizontal">
             <div class="form-group form-group-sm">
                 <label class="col-sm-2 control-label" for="search">Search</label>
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" id="search" placeholder="Search" ng-model="search">
+                    <input class="form-control" type="text" id="search" placeholder="Search" ng-model="search.name">
                 </div>
             </div>
         </form>
     </div>
-    <!-- FORM -->
+    <!-- SEARCH FORM -->
 
     <!-- VACCINATIONS -->
-    <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations | orderBy:['name', 'administration_date'] | filter:search"></vaccination>
+    <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations | orderBy:['name', 'administration_date'] | filter:{name:search.name}"></vaccination>
     <!-- /VACCINATIONS -->
 
   </div>

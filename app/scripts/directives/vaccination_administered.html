@@ -1,59 +1,55 @@
 <div class="vaccination">
-    <!-- ADMINISTERED HEADER -->
-    <div class="header form-wrapper administered-header" ng-if="vaccination.administered">
-        <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <h4 class="date"><span class="label label-default">{{ vaccination.administration_date | date: 'longDate' }}</span></h4>
-        <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-danger">Add Reaction</button>
+    <!-- ADMINISTERED TEMPLATE -->
+    <div class="administered">
+        <!-- ADMINISTERED HEADER -->
+        <div class="header form-wrapper administered-header" ng-click="showForm()">
+            <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
+            <h4 class="date"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
+            <h4 class="date"><span class="label label-default">Administered: {{ vaccination.administration_date | date: 'mediumDate' }}</span></h4>
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary">Edit</button>
+                <button type="button" class="btn btn-danger">Add Reaction</button>
+            </div>
         </div>
-    </div>
-    <!-- /HEADER -->
+        <!-- /HEADER -->
 
-    <!-- UNADMINISTERED HEADER -->
-    <div class="header form-wrapper" ng-if="!vaccination.administered">
-        <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-info">Administer</button>
+        <!-- EDIT FORM -->
+        <div class="form-wrapper" ng-show="state.entryOpen">
+            <form class="form-horizontal">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-    <!-- /HEADER -->
+        <!-- /FORM -->
 
-    <!-- FORM -->
-    <div class="form-wrapper" ng-if="vaccination.administered">
-        <form class="form-horizontal">
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="formGroupInputLarge" placeholder="Date">
+        <!-- ADVERSE REACTION FORM -->
+        <div class="form-wrapper" ng-show="state.entryOpen">
+            <form class="form-horizontal">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <!-- /ADVERSE REACTION FORM -->
     </div>
-    <!-- FORM -->
-
-    <!-- FORM -->
-    <div class="form-wrapper" ng-if="!vaccination.administered">
-        <form class="form-horizontal">
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
-                </div>
-            </div>
-        </form>
-    </div>
-    <!-- /FORM -->
+    <!-- ADMINISTERED TEMPLATE -->
 </div>
