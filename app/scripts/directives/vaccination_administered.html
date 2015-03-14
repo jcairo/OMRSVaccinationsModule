@@ -2,19 +2,19 @@
     <!-- ADMINISTERED TEMPLATE -->
     <div class="administered">
         <!-- ADMINISTERED HEADER -->
-        <div class="header form-wrapper administered-header" ng-click="showForm()">
+        <div class="header form-wrapper administered-header">
             <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
             <h4 class="date"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
             <h4 class="date"><span class="label label-default">Administered: {{ vaccination.administration_date | date: 'mediumDate' }}</span></h4>
             <div class="btn-group pull-right" role="group" aria-label="...">
-                <button type="button" class="btn btn-primary">Edit</button>
-                <button type="button" class="btn btn-danger">Add Reaction</button>
+                <button type="button" class="btn btn-primary" ng-click="showEditForm()">Edit</button>
+                <button type="button" class="btn btn-danger" ng-click="showReactionForm()">Add Reaction</button>
             </div>
         </div>
         <!-- /HEADER -->
 
         <!-- EDIT FORM -->
-        <div class="form-wrapper" ng-show="state.entryOpen">
+        <div class="form-wrapper" ng-show="state.editOpen">
             <form class="form-horizontal">
                 <div class="form-group form-group-sm">
                     <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
@@ -33,7 +33,7 @@
         <!-- /FORM -->
 
         <!-- ADVERSE REACTION FORM -->
-        <div class="form-wrapper" ng-show="state.entryOpen">
+        <div class="form-wrapper" ng-show="state.adverseOpen">
             <form class="form-horizontal">
                 <div class="form-group form-group-sm">
                     <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>

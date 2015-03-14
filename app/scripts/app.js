@@ -62,7 +62,7 @@ angular.module('vaccinationsApp')
  });
 
 angular.module('vaccinationsApp')
-.factory('vaccinations', ['$resource', function($resource){
+.factory('vaccinationsResource', ['$resource', function($resource){
     var config = {
          // TODO: Ensure caching is working as expected.
          // This call should only be made once.
@@ -70,4 +70,22 @@ angular.module('vaccinationsApp')
     };
     // TODO: Change this address to the vaccionations of patient id.
     return $resource('mock_data/vaccinations.json', {}, config);
+ }]);
+
+// Manages the removal and entry of vaccinations objects.
+angular.module('vaccinationsApp')
+.factory('vaccinationsManager', ['vaccinationsResource', function(vaccinationsResource){
+    var vaccinations = {};
+    // Gets the vaccinations list for the current patient from
+    // the server.
+    vaccinationsResource.query(function(data){
+        vaccinations = data.vaccinations;
+        return vaccinations;
+    });
+
+    return {
+        getVaccinations: function(){
+            return vaccinations;
+        }
+    };
  }]);

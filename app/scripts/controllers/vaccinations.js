@@ -8,22 +8,27 @@
  * Controller of the vaccinationsApp
  */
 angular.module('vaccinationsApp')
-.controller('MainController', ['$scope', 'vaccinations', function($scope, vaccinations){
+.controller('MainController', ['$scope', 'vaccinationsResource', function($scope, vaccinationsResource){
     $scope.search = {};
     $scope.search.name = '';
     $scope.vaccinations = {};
-    vaccinations.query(function(data){
+    vaccinationsResource.query(function(data){
+        console.log(data.vaccinations);
         $scope.vaccinations = data.vaccinations;
     });
 }]);
 
-
-
+// Manages a vaccination instance on each vaccination
+// directive.
 angular.module('vaccinationsApp')
-.controller('VaccinationController', ['$scope', function($scope){
+.controller('VaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
+    var a = vaccinationsManager;
+    a = 1;
     $scope.state = {};
-    $scope.state.entryOpen = false;
-    $scope.showForm = function(){
-        $scope.state.entryOpen = !$scope.state.entryOpen;
+    $scope.state.editFormOpen = false;
+    $scope.state.AdverseFormOpen = false;
+    $scope.showEditForm = function(){
+        console.log('hello');
+        $scope.state.editFormOpen = !$scope.state.editFormOpen;
     };
 }]);
