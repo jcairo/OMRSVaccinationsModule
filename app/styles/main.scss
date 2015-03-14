@@ -63,12 +63,19 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     }
 }
 
+.vaccination {
+    .form-button-wrapper {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+}
+
 .container {
     padding-top: 10%;
 }
 
 .form-group:nth-child(1) {
-    margin-top: 15px;
+    margin-top: 60px;
 }
 
 .btn-group {

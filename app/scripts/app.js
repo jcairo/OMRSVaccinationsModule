@@ -74,18 +74,16 @@ angular.module('vaccinationsApp')
 
 // Manages the removal and entry of vaccinations objects.
 angular.module('vaccinationsApp')
-.factory('vaccinationsManager', ['vaccinationsResource', function(vaccinationsResource){
-    var vaccinations = {};
-    // Gets the vaccinations list for the current patient from
-    // the server.
-    vaccinationsResource.query(function(data){
-        vaccinations = data.vaccinations;
-        return vaccinations;
-    });
-
-    return {
-        getVaccinations: function(){
-            return vaccinations;
+.service('vaccinationsManager', ['vaccinationsResource', function(vaccinationsResource){
+    // TODO: This needs to be rethought.
+    this.getVaccinations = function(){
+        if (this.vaccinations){
+            return this.vaccinations;
+        }
+        else {
+            this.vaccinationsQuery = vaccinationsResource.query();
+            this.vaccinations = this.vaccinationsQuery.$promise.vaccinations;
+            return this.vaccinationsQuery.$promise;
         }
     };
  }]);

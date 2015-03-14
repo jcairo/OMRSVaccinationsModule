@@ -23,6 +23,12 @@
     <div class="form-wrapper">
         <form class="form-horizontal">
             <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label" for="search">Add</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="search" placeholder="Vaccine Name" ng-model="search.name">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
                 <label class="col-sm-2 control-label" for="search">Search</label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" id="search" placeholder="Search" ng-model="search.name">
@@ -66,7 +72,6 @@
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
