@@ -75,10 +75,14 @@ angular.module('vaccinationsApp')
 // Manages the removal and entry of vaccinations objects.
 angular.module('vaccinationsApp')
 .service('vaccinationsManager', ['vaccinationsResource', function(vaccinationsResource){
-    // TODO: This needs to be rethought.
+    // TODO: Ensure this is the appropriate way of working with $resource.
+    // This method retrieves a list of vaccinations for a patient from the
+    // server. If the vaccinations list has already been retrieved return
+    // the cached version. All clients to this method should expect a promise
+    // whether the vaccinations list has been cached or not.
     this.getVaccinations = function(){
         if (this.vaccinations){
-            return this.vaccinations;
+            return this.vaccinationsQuery.$promise;
         }
         else {
             this.vaccinationsQuery = vaccinationsResource.query();
