@@ -18,6 +18,14 @@
     'ngTouch'
 ]);
 
+// Constants for this instance of the app
+angular.module('vaccinationsApp')
+.value('appConstants', {
+    // TODO: Retrive this from window.location;
+    providerId: 1,
+    // TODO: Retrive this from window.location;
+    patientId: 1
+});
 
 // The template that is loaded for each vaccination is based on whether
 // it has been administered or not. Angular does not have a nice way of
@@ -62,32 +70,65 @@ angular.module('vaccinationsApp')
  });
 
 angular.module('vaccinationsApp')
-.factory('vaccinationsResource', ['$resource', function($resource){
-    var config = {
-         // TODO: Ensure caching is working as expected.
-         // This call should only be made once.
-         query: {method:'GET', isArray:false, cache:true}
+.service('helperFunctions', function(){
+    return {
+        // Find the index of an object with a given id.
+        findIndexById: function(id, array){
+            for (var i = 0; i < array.length; i++){
+                console.log(array[i]._id);
+                console.log(id);
+                if (array[i]._id === id){
+                    return i;
+                }
+            }
+            return undefined;
+        }
     };
-    // TODO: Change this address to the vaccionations of patient id.
-    return $resource('mock_data/vaccinations.json', {}, config);
- }]);
+});
 
 // Manages the removal and entry of vaccinations objects.
 angular.module('vaccinationsApp')
-.service('vaccinationsManager', ['vaccinationsResource', function(vaccinationsResource){
-    // TODO: Ensure this is the appropriate way of working with $resource.
-    // This method retrieves a list of vaccinations for a patient from the
-    // server. If the vaccinations list has already been retrieved return
-    // the cached version. All clients to this method should expect a promise
-    // whether the vaccinations list has been cached or not.
-    this.getVaccinations = function(){
-        if (this.vaccinations){
-            return this.vaccinationsQuery.$promise;
-        }
-        else {
-            this.vaccinationsQuery = vaccinationsResource.query();
-            this.vaccinations = this.vaccinationsQuery.$promise.vaccinations;
-            return this.vaccinationsQuery.$promise;
+.service('vaccinationsManager', ['$http', '$filter','appConstants', 'helperFunctions',
+    function($http, $filter, appConstants, helperFunctions){
+    var self = this;
+
+    // The main controller gets the vaccinations data from the server
+    // and sets it in the manager.
+    return {
+        addVaccination: function(vaccination) {
+            if (helperFunctions.findIndexById(vaccination._id, self.vaccinations) === undefined){
+                self.vaccinations.push(vaccination);
+            } else {
+                console.log("Could not add vaccination to array, a vaccination with the _id attribute already exists.");
+            }
+        },
+
+        setVaccinations: function(vaccinations){
+            self.vaccinations = vaccinations;
+        },
+
+        getVaccinations: function(){
+            return self.vaccinations;
+        },
+
+        getVaccinationById: function(id){
+            var vaccination = $filter('filter')(self.vaccinations, function(vaccination, index){
+                return vaccination._id === id;
+            });
+            if (vaccination[0]) {
+                return vaccination[0];
+            } else {
+                return undefined;
+            }
+        },
+
+        removeVaccination: function(id){
+            var index = helperFunctions.findIndexById(id, self.vaccinations);
+            if (index !== undefined){
+                self.vaccinations.splice(index, 1);
+            } else {
+                console.log("The index of the vaccination to be removed could not be found.");
+            }
         }
     };
  }]);
