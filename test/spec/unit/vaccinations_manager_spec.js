@@ -18,8 +18,12 @@ describe('Service: vaccinationsManager', function() {
         vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);
     }));
 
+    it('should reject any attempt to set vaccinations more than once', function(){
+        expect(function(){vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);})
+            .toThrow(new Error('Vaccinations have already been set.'));
+    });
+
     it('should allow you to set an array of vaccination objects', function () {
-        vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);
         expect(vaccinationsManager.getVaccinations().length).toBe(9);
     });
 

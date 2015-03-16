@@ -52,6 +52,8 @@ angular.module('vaccinationsApp')
         // element. Use the vaccinations.administered property to decide on
         // which template to include administered/unadministered.
         link: function(scope){
+            scope.vaccination = scope.vaccination();
+            scope.vaccinationDefaults = scope.vaccination;
             scope.getContentUrl = function(){
                 if (scope.vaccination.administered){
                     return '/scripts/directives/vaccination_administered.html';
@@ -60,11 +62,12 @@ angular.module('vaccinationsApp')
                     return '/scripts/directives/vaccination_unadministered.html';
                 }
             };
+
         },
         template: '<include-replace ng-include="getContentUrl()"></include-replace>',
         controller: 'VaccinationController',
         scope: {
-            vaccination: '='
+            vaccination: '&'
         }
     };
  });
@@ -73,11 +76,9 @@ angular.module('vaccinationsApp')
 .service('helperFunctions', function(){
     return {
         // Find the index of an object with a given id.
-        findIndexById: function(id, array){
+        findObjectIndexByAttribute: function(attribute, attributeValue, array){
             for (var i = 0; i < array.length; i++){
-                console.log(array[i]._id);
-                console.log(id);
-                if (array[i]._id === id){
+                if (array[i][attribute] === attributeValue){
                     return i;
                 }
             }
@@ -96,7 +97,8 @@ angular.module('vaccinationsApp')
     // and sets it in the manager.
     return {
         addVaccination: function(vaccination) {
-            if (helperFunctions.findIndexById(vaccination._id, self.vaccinations) === undefined){
+            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccination._id, self.vaccinations);
+            if (index === undefined){
                 self.vaccinations.push(vaccination);
             } else {
                 console.log("Could not add vaccination to array, a vaccination with the _id attribute already exists.");
@@ -104,7 +106,11 @@ angular.module('vaccinationsApp')
         },
 
         setVaccinations: function(vaccinations){
-            self.vaccinations = vaccinations;
+            if (self.vaccinations){
+                throw new Error('Vaccinations have already been set.');
+            } else {
+                self.vaccinations = vaccinations;
+            }
         },
 
         getVaccinations: function(){
@@ -123,7 +129,7 @@ angular.module('vaccinationsApp')
         },
 
         removeVaccination: function(id){
-            var index = helperFunctions.findIndexById(id, self.vaccinations);
+            var index = helperFunctions.findObjectIndexByAttribute('_id', id, self.vaccinations);
             if (index !== undefined){
                 self.vaccinations.splice(index, 1);
             } else {
