@@ -3,9 +3,16 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
-
+.container {
+    margin-bottom: 90px;
+}
 
 .vaccination {
+
+    .form-group:nth-child(1) {
+        margin-top: 45px;
+    }
+
     .form-wrapper:nth-last-child(1) {
         border-bottom-right-radius: 4px !important;
         border-bottom-left-radius: 4px !important;
@@ -86,9 +93,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     padding-top: 10%;
 }
 
-.form-group:nth-child(1) {
-    margin-top: 45px;
-}
+
 
 .btn-group {
     padding-top: 5px;
@@ -103,3 +108,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     margin-top: 4px;
 }
 
+.input-group-addon {
+    background-color: #FAFAFA;
+}

@@ -39,7 +39,11 @@ angular.module('vaccinationsApp')
         $scope.state.administerFormOpen = !$scope.state.administerFormOpen;
     };
 
-    $scope.showEditForm = function(){
+    $scope.toggleReactionForm = function(){
+        $scope.state.adverseFormOpen = !$scope.state.adverseFormOpen;
+    };
+
+    $scope.toggleEditForm = function(){
         console.log('hello');
         $scope.state.editFormOpen = !$scope.state.editFormOpen;
     };
@@ -47,4 +51,5 @@ angular.module('vaccinationsApp')
     $scope.deleteVaccination = function(id) {
         vaccinationsManager.removeVaccination(id);
     };
+
 }]);

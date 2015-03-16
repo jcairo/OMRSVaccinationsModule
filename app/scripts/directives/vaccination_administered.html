@@ -7,48 +7,94 @@
             <h4 class="date"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
             <h4 class="date"><span class="label label-default">Administered: {{ vaccination.administration_date | date: 'mediumDate' }}</span></h4>
             <div class="btn-group pull-right" role="group" aria-label="...">
-                <button type="button" class="btn btn-primary" ng-click="showEditForm()">Edit</button>
-                <button type="button" class="btn btn-danger" ng-click="showReactionForm()">Add Reaction</button>
+                <button type="button" class="btn btn-primary" ng-click="toggleEditForm()">Edit</button>
+                <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()">Add Reaction</button>
             </div>
         </div>
         <!-- /HEADER -->
 
         <!-- EDIT FORM -->
-        <div class="form-wrapper" ng-if="state.editFormOpen">
-            <form class="form-horizontal">
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
-                    </div>
+        <form ng-if="state.editFormOpen">
+            <div class="form-wrapper" >
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Date</label>
+                    <input class="form-control" type="date" ng-model="vaccination.administration_date" placeholder="Date">
                 </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
-                    </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Dose</label>
+                    <input class="form-control" type="text" ng-model="vaccination.dose" placeholder="Dose">
                 </div>
-            </form>
-        </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Units</label>
+                    <input class="form-control" type="text" ng-model="vaccination.dosing_unit" placeholder="Units">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Route</label>
+                    <input class="form-control" type="text" ng-model="vaccination.route" placeholder="Units">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Body Site Administered</label>
+                    <input class="form-control" type="text" ng-model="vaccination.body_site_administered" placeholder="Body Site Administered">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Lot Number</label>
+                    <input class="form-control" type="text" ng-model="vaccination.lot_number" placeholder="Lot Number">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Manufacture Date</label>
+                    <input class="form-control" type="text" ng-model="vaccination.manufacture_date" placeholder="Manufacture Date">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Expiry Date</label>
+                    <input class="form-control" type="text" ng-model="vaccination.expiry_date" placeholder="Expiry Date">
+                </div>
+                <div class="form-button-wrapper">
+                <!-- cannot delete scheduled vaccines. -->
+                    <button type="submit" class="btn btn-danger" ng-show="!vaccination.scheduled" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+            </div>
+        </form>
         <!-- /FORM -->
 
         <!-- ADVERSE REACTION FORM -->
-        <div class="form-wrapper" ng-if="state.adverseOpen">
-            <form class="form-horizontal">
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label" for="formGroupInputLarge">Date</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
-                    </div>
+        <form ng-if="state.adverseFormOpen">
+            <div class="form-wrapper" >
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Date</label>
+                    <input class="form-control" type="date" ng-model="vaccination.administration_date" placeholder="Date">
                 </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">
-                    </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Adverse Event</label>
+                    <input class="form-control" type="text" ng-model="vaccination.dose" placeholder="Adverse Event">
                 </div>
-            </form>
-        </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Grade</label>
+                    <input class="form-control" type="text" ng-model="vaccination.grade" placeholder="Grade">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Manufacturer</label>
+                    <input class="form-control" type="text" ng-model="vaccination.route" placeholder="Manufacturer">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Lot Number</label>
+                    <input class="form-control" type="text" ng-model="vaccination.body_site_administered" placeholder="Lot Number">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Expiry Date</label>
+                    <input class="form-control" type="text" ng-model="vaccination.lot_number" placeholder="Expiry Date">
+                </div>
+                <div class="form-group col-sm-offset-1 col-sm-10">
+                    <label>Manufacture Date</label>
+                    <input class="form-control" type="text" ng-model="vaccination.manufacture_date" placeholder="Manufacture Date">
+                </div>
+                <div class="form-button-wrapper">
+                <!-- cannot delete scheduled vaccines. -->
+                    <button type="submit" class="btn btn-danger" ng-show="!vaccination.scheduled" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+            </div>
+        </form>
         <!-- /ADVERSE REACTION FORM -->
     </div>
     <!-- ADMINISTERED TEMPLATE -->
