@@ -1,9 +1,10 @@
 <!-- UNADIMISTERED TEMPLATE -->
-<div class="vaccination unadministered">
+<div class="vaccination unadministered" ng-class="{'scheduled':vaccination.scheduled}">
     <!-- UNADMINISTERED HEADER -->
-    <div class="header form-wrapper" >
+    <div class="header form-wrapper unadministered-header" >
         <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <h4 class="date" ng-if="vaccination.scheduled"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
+        <h4 class="date"><span class="label label-default">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>
+        <h4 class="date"><span class="label label-default">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-info" ng-click="toggleAdministerForm()">Administer</button>
         </div>
@@ -11,8 +12,8 @@
     <!-- /HEADER -->
 
     <!-- ADMINISTRATION FORM -->
-    <form ng-if="state.administerFormOpen">
-        <div class="form-wrapper" >
+    <form ng-if="state.administerFormOpen" class="form-wrapper show-hide">
+        <div >
             <div class="form-group col-sm-offset-1 col-sm-10">
                 <label>Date</label>
                 <input class="form-control" type="date" ng-model="vaccination.administration_date" placeholder="Date">

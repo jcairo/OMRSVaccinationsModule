@@ -3,6 +3,15 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
+
+// colors
+$adverse-background: #F8E0E4;
+$adverse-foreground: #E7687D;
+
+
+.vaccinations-wrapper:first-child:before {
+    content: "hello";
+}
 .container {
     margin-bottom: 90px;
 }
@@ -21,7 +30,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
     .form-wrapper {
         margin-right: 0;
         margin-left: 0;
-        background-color: #FAFAFA;
+        background-color: #FDFDFD;
         border-top: 1px solid #fff;
         border-left: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
@@ -32,7 +41,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 
     .header {
         margin-right: 0;
-        margin-top: 1px;
+        margin-top: 2px;
         margin-left: 0;
         background-color: #fff;
         border-top: 1px solid #ddd;
@@ -46,9 +55,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
         line-height: 45px;
     }
 
-    .header:nth-child(1) {
-    }
-
     .drug {
         padding-left: 15px;
         display: inline-block;
@@ -59,22 +65,50 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
         display: inline-block;
     }
 
+    .btn {
+        font-weight: bold;
+    }
+
     .administered-header {
         background-color: #dff0d8;
         border-color: #CCDACC;
 
         .btn-primary {
             background-color: #649a8c;
-            border-color: #94bab1;
+            border-color: white;
         }
 
         .btn-danger {
-            background-color: black;
-            border-color: black;
+            background-color: rgb(80, 207, 134);
+            border-color: white;
         }
 
         .label-default {
-            background-color: #56A634;
+            background-color: rgba(99, 190, 135, 1);
+        }
+    }
+
+    .unadministered-header {
+        .btn-info {
+            border-color: white;
+        }
+
+        .label-default {
+            background-color: lightgrey;
+            color: white;
+        }
+    }
+
+    .adverse-header {
+        background-color: $adverse-background;
+        border-color: #FAB9C4;
+        .label {
+            border: 1px solid white;
+            background-color: $adverse-foreground;
+        }
+
+        .btn {
+            background-color: $adverse-foreground;
         }
     }
 }
