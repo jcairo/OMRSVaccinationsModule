@@ -21,23 +21,22 @@ angular.module('vaccinationsApp')
 
     $scope.search = {};
     $scope.search.name = '';
+
+    $scope.orderByTemplate = function(vaccination) {
+        return vaccination.hasOwnProperty('_template_id');
+    };
 }]);
 
 // Manages a vaccination instance on each vaccination
 // directive.
 angular.module('vaccinationsApp')
-.controller('VaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
-    $scope.enteredFormData = {};
-    $scope.enteredFormData.date = new Date().now;
+.controller('AdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
+    // Form data inits.
+    $scope.enteredAdminFormData = $scope.getVaccination();
     $scope.state = {};
 
     // Form states and methods.
     $scope.state.editFormOpen = false;
-    $scope.state.adverseFormOpen = false;
-    $scope.state.administerFormOpen = false;
-    $scope.toggleAdministerForm = function(){
-        $scope.state.administerFormOpen = !$scope.state.administerFormOpen;
-    };
 
     $scope.toggleReactionForm = function(){
         $scope.state.adverseFormOpen = !$scope.state.adverseFormOpen;
@@ -48,6 +47,42 @@ angular.module('vaccinationsApp')
         $scope.state.editFormOpen = !$scope.state.editFormOpen;
     };
 
+    // Available for all administered vaccinations.
+    // Deletes a vaccination of type unscheduled, vaccinations of type
+    // scheduled become unadministered instead of being removed.
+    $scope.deleteVaccination = function(id) {
+        vaccinationsManager.removeVaccination(id);
+    };
+
+}]);
+
+
+// Manages a vaccination instance on each vaccination
+// directive.
+angular.module('vaccinationsApp')
+.controller('UnAdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
+    // Form data inits.
+    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
+
+    // Form states and methods.
+    $scope.state = {};
+    $scope.state.administerFormOpen = false;
+
+    $scope.resetFormDataToDefaults = function(){
+        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
+    };
+
+    $scope.toggleAdministerForm = function(){
+        $scope.state.administerFormOpen = !$scope.state.administerFormOpen;
+    };
+
+    // Called when vaccination data from form has been validated
+    // and ready to create a new vaccination event.
+    $scope.addVaccination = function(vaccinationData) {
+        vaccinationsManager.addVaccination(vaccinationData);
+    };
+
+    // Only available if the vaccination is of type unscheduled.
     $scope.deleteVaccination = function(id) {
         vaccinationsManager.removeVaccination(id);
     };

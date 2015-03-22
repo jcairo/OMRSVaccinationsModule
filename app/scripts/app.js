@@ -27,6 +27,26 @@ angular.module('vaccinationsApp')
     patientId: 1
 });
 
+// Filter for sorting vaccinations by template_id
+angular.module('vaccinationsApp')
+.filter('routine', function () {
+    return function (items) {
+        return items.filter(function (item) {
+            return item.hasOwnProperty('_template_id');
+        });
+    };
+});
+
+// Filter for sorting vaccinations by template_id
+angular.module('vaccinationsApp')
+.filter('nonRoutine', function () {
+    return function (items) {
+        return items.filter(function (item) {
+            return !item.hasOwnProperty('_template_id');
+        });
+    };
+});
+
 // The template that is loaded for each vaccination is based on whether
 // it has been administered or not. Angular does not have a nice way of
 // doing this. I have used ng-include and a function which accesses the
@@ -44,16 +64,24 @@ angular.module('vaccinationsApp')
     };
 });
 
+
+
 angular.module('vaccinationsApp')
 .directive('vaccination', function() {
     return {
         restrict: 'E',
-        // The link function provides access to the scope of the vaccinations
+        // compile: function(scope, element, attrs){
+        //     console.log(scope);
+        // },
+        // The link function provides access to the scope of the vaccination
         // element. Use the vaccinations.administered property to decide on
         // which template to include administered/unadministered.
-        link: function(scope){
-            scope.vaccination = scope.vaccination();
-            scope.vaccinationDefaults = scope.vaccination;
+        // The controller is assigned in the html templates.
+        link: function(scope, element, attrs){
+            scope.vaccination = scope.getVaccination();
+            // scope.defaultData = scope.vaccination();
+            // scope.vaccinationDefaults = scope.vaccination();
+
             scope.getContentUrl = function(){
                 if (scope.vaccination.administered){
                     return '/scripts/directives/vaccination_administered.html';
@@ -63,11 +91,11 @@ angular.module('vaccinationsApp')
                 }
             };
 
+
         },
         template: '<include-replace ng-include="getContentUrl()"></include-replace>',
-        controller: 'VaccinationController',
         scope: {
-            vaccination: '&'
+            getVaccination: '&',
         }
     };
  });

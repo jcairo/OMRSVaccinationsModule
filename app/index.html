@@ -45,13 +45,17 @@
     </div>
     <!-- /SEARCH ADD FORM -->
 
+    <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
-        <!-- VACCINATIONS -->
-        <vaccination vaccination="vaccination" ng-repeat="vaccination in vaccinations | orderBy:['-scheduled', 'name', 'indication'] | filter:{name:search.name}"></vaccination>
-        <!-- /VACCINATIONS -->
-    </div>
+        <!-- ROUTINE VACCINATIONS -->
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | routine | orderBy:['name', 'scheduled_date'] | filter:{name:search.name}"></vaccination>
 
-  </div>
+        <!-- NONROUTINE VACCINATIONS -->
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | nonRoutine | orderBy:['name', 'scheduled_date'] | filter:{name:search.name}"></vaccination>
+    </div>
+    <!-- /VACCINATIONS -->
+
+</div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
