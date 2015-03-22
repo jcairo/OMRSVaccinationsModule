@@ -22,12 +22,13 @@ $adverse-foreground: #E7687D;
         margin-top: 45px;
     }
 
-    .form-wrapper:nth-last-child(1) {
+    .form-wrapper, .header:nth-last-child(1) {
         border-bottom-right-radius: 4px !important;
         border-bottom-left-radius: 4px !important;
     }
 
     .form-wrapper {
+        padding: 15px 80px;
         margin-right: 0;
         margin-left: 0;
         background-color: #FDFDFD;

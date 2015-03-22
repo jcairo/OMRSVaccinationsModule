@@ -31,6 +31,9 @@ angular.module('vaccinationsApp')
 angular.module('vaccinationsApp')
 .filter('routine', function () {
     return function (items) {
+        if (!items) {
+                return [];
+            }
         return items.filter(function (item) {
             return item.hasOwnProperty('_template_id');
         });
@@ -41,6 +44,9 @@ angular.module('vaccinationsApp')
 angular.module('vaccinationsApp')
 .filter('nonRoutine', function () {
     return function (items) {
+        if (!items) {
+            return [];
+        }
         return items.filter(function (item) {
             return !item.hasOwnProperty('_template_id');
         });
