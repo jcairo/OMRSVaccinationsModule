@@ -9,16 +9,18 @@
  */
 angular.module('vaccinationsApp')
 .controller('MainController', ['$scope', '$http', 'vaccinationsManager', function($scope, $http, vaccinationsManager){
-    $http.get('mock_data/vaccinations.json')
-    // var vaccsPromise = $http.get('/vaccinations/patients/' + appConstants.patientId)
-        .success(function(data, status, headers, config){
-            $scope.vaccinations = data.vaccinations;
-            vaccinationsManager.setVaccinations($scope.vaccinations);
-        })
-        .error(function(data, status, headers, config){
-            alert('Error when retrieving patient vaccinations.');
-        });
-
+    // $http.get('mock_data/vaccinations.json')
+    // // var vaccsPromise = $http.get('/vaccinations/patients/' + appConstants.patientId)
+    //     .success(function(data, status, headers, config){
+    //         $scope.vaccinations = data.vaccinations;
+    //         vaccinationsManager.setVaccinations($scope.vaccinations);
+    //     })
+    //     .error(function(data, status, headers, config){
+    //         alert('Error when retrieving patient vaccinations.');
+    //     });
+    vaccinationsManager.getVaccinations().success(function(data) {
+        $scope.vaccinations = data.vaccinations;
+    });
     $scope.search = {};
     $scope.search.name = '';
 

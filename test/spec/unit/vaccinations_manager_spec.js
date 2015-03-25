@@ -3,7 +3,7 @@
 describe('Service: vaccinationsManager', function() {
     beforeEach(module('vaccinationsApp'));
 
-    var vaccinationsManager, httpBackend, mockVaccinationsData, mockVaccination;
+    var vaccinationsManager, httpBackend, mockVaccinationsData, mockVaccination, vaccinations;
 
     beforeEach(inject(function(_vaccinationsManager_, $httpBackend){
         vaccinationsManager = _vaccinationsManager_;
@@ -15,39 +15,49 @@ describe('Service: vaccinationsManager', function() {
         $httpBackend.whenGET('mock_data/vaccinations.json').respond(mockVaccinationsData);
 
         // Add mock data to the manager.
-        vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);
+        // vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);
+
     }));
 
-    it('should reject any attempt to set vaccinations more than once', function(){
-        expect(function(){vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);})
-            .toThrow(new Error('Vaccinations have already been set.'));
+    beforeEach(function (done) {
+        vaccinationsManager.getVaccinations().success( function (data) {
+            vaccinations = data.vaccinations;
+            done();
+        });
+        httpBackend.flush();
     });
 
+    // it('should reject any attempt to set vaccinations more than once', function(){
+    //     expect(function(){vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);})
+    //         .toThrow(new Error('Vaccinations have already been set.'));
+    // });
+
     it('should allow you to set an array of vaccination objects', function () {
-        expect(vaccinationsManager.getVaccinations().length).toBe(9);
+        expect(vaccinations.length).toBe(10);
     });
 
     it('should remove a vaccination from the array based on id', function(){
-        var idOfVaccinationToRemove = vaccinationsManager.getVaccinations()[0]._id;
-        var vaccinations = vaccinationsManager.getVaccinations();
+        var idOfVaccinationToRemove = vaccinations[0]._id;
         vaccinationsManager.removeVaccination(idOfVaccinationToRemove);
-        expect(vaccinationsManager.getVaccinations().length).toBe(8);
+        expect(vaccinations.length).toBe(9);
         expect(vaccinationsManager.getVaccinationById(idOfVaccinationToRemove)).not.toBeDefined();
 
-        // Ensure the object reference hasn't been changed.
-        // The app relies on modifications to the object in place.
-        var modifiedVaccinations = vaccinationsManager.getVaccinations();
-        expect(vaccinations).toEqual(modifiedVaccinations);
+        // vaccinationsManager.getVaccinations().success( function(data) {
+        //     vaccsCheck = data.vaccinations;
+        //     expect(vaccinations).toEqual(vaccsCheck);
+        //     done();
+        // });
+        // httpBackend.flush();
     });
 
     it('should add a new vaccination object to the array if its _id attribute is unique', function(){
         mockVaccination._id = mockVaccination._id + '1';
         vaccinationsManager.addVaccination(mockVaccination);
-        expect(vaccinationsManager.getVaccinations().length).toBe(10);
+        expect(vaccinationsManager.testHelper().length).toBe(11);
     });
 
     it('should reject a new vaccination from being added to the array if its _id attribute is not unique', function() {
         vaccinationsManager.addVaccination(mockVaccination);
-        expect(vaccinationsManager.getVaccinations().length).toBe(9);
+        expect(vaccinationsManager.testHelper().length).toBe(10);
     });
 });
