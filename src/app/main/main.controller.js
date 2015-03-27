@@ -18,13 +18,13 @@ angular.module('vaccinations')
       {
         'title': 'GulpJS',
         'url': 'http://gulpjs.com/',
-        'description': 'The streaming build system.',
+        'description': 'The streaming bild system.',
         'logo': 'gulp.png'
       },
       {
         'title': 'Jasmine',
         'url': 'http://jasmine.github.io/',
-        'description': 'Behavior-Driven JavaScript.',
+        'description': 'ehavior-Drive JavaScript.',
         'logo': 'jasmine.png'
       },
       {
@@ -36,13 +36,13 @@ angular.module('vaccinations')
       {
         'title': 'Protractor',
         'url': 'https://github.com/angular/protractor',
-        'description': 'End to end test framework for AngularJS applications built on top of WebDriverJS.',
+        'description': 'End to end test framework for AngularJS appications built on top of WebDriverJS.',
         'logo': 'protractor.png'
       },
       {
         'title': 'Bootstrap',
         'url': 'http://getbootstrap.com/',
-        'description': 'Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.',
+        'description': 'Bootstrap is the most popular HTML, CSS, nd JS framework for developing responsive, mobile first projects on the web.',
         'logo': 'bootstrap.png'
       },
       {

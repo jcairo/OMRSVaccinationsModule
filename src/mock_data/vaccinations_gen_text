@@ -1,0 +1,20 @@
+{
+  vaccinations:
+[ 
+  '{{repeat(10, 7)}}',
+  {
+    _id: '{{objectId()}}',
+    
+    name: '{{random("Polio", "Hepatitis B", "MMR", "Rotavirus", "Measles", "Yellow Fever")}}',
+    indication: '{{random("2 mo", "3 mo")}}',
+    dose: '{{random(".05", ".1", "2", ".5")}}',
+    dosing_unit: '{{random("ml", "drops")}}',
+        route: '{{random("outer thigh","left deltoid")}}',
+    administered: '{{random("true", "false")}}',
+    adverse_reaction: '{{random("true", "false")}}',
+    administration_date: '2014-10-01',
+    scheduled: '{{random("true", "false")}}'
+    
+  }
+]
+}
