@@ -1,6 +1,6 @@
 'use strict';
 
-var mockBackend = angular.module('mockBackend', ['vaccinationsApp', 'ngMockE2E']);
+var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E']);
 mockBackend.run(function($httpBackend, $resource){
     // Get the mock json data
     var vaccinations = $resource('../mock_data/vaccinations.json').get();
@@ -18,5 +18,5 @@ mockBackend.run(function($httpBackend, $resource){
 });
 // Manually bootstrap the backend.
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['vaccinationsApp']);
+    angular.bootstrap(document, ['vaccinations']);
 });

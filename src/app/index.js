@@ -1,3 +1,18 @@
 'use strict';
 
-angular.module('vaccinations', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize']);
+/**
+ * @ngdoc overview
+ * @name vaccinationsApp
+ * @description
+ * # vaccinationsApp
+ *
+ * Main module of the application.
+ */
+ angular
+ .module('vaccinations', [
+    'ngAnimate',
+    'ngCookies',
+    'ngSanitize',
+    'ngTouch',
+    'mgcrea.ngStrap'
+]);
