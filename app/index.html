@@ -20,38 +20,45 @@
   <body>
   <div class="container" ng-controller="MainController">
 
-    <!-- SEARCH ADD FORM -->
-    <div class="search-add-form-wrapper">
+    <!-- SEARCH ADD SECTION -->
+    <form class="form-horizontal">
+        <div class="form-group form-group-sm">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon">Search</span>
+                    <input class="form-control" type="text" id="search" ng-model="search.vaccinations" placeholder="Search">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="add-vaccination-wrapper" ng-controller="AddVaccinationController">
         <form class="form-horizontal">
             <div class="form-group form-group-sm">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="input-group">
-                        <span class="input-group-addon">Search</span>
-                        <input class="form-control" type="text" id="search" ng-model="search.name" placeholder="Search">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm" ng-controller="VaccinesController">
-                <div class="col-sm-10 col-sm-offset-1">
-                    <div class="input-group">
                         <span class="input-group-addon">Add New Vaccination</span>
-                        <input class="form-control" type="text" id="search" placeholder="Vaccine Name">
-                        <span class="input-group-addon">+</span>
+                        <input class="form-control" type="text" id="search" placeholder="Vaccine Name" ng-model="newVaccine" bs-options="vaccines as vaccines.name for vaccines in vaccines " bs-typeahead>
+                        <span class="input-group-addon" ng-click="stageNewVaccination(newVaccine)">+</span>
                     </div>
                 </div>
             </div>
         </form>
+
+        <!-- STAGE VACCINATIONS -->
+        <vaccination get-vaccination="stagedVaccination" ng-if="stagedVaccination"></vaccination>
+
     </div>
-    <!-- /SEARCH ADD FORM -->
+    <!-- /SEARCH ADD SECTION -->
 
     <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
+
         <!-- ROUTINE VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.name}"></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'} "></vaccination>
 
         <!-- NONROUTINE VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.name}"></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}"></vaccination>
     </div>
     <!-- /VACCINATIONS -->
 
@@ -85,13 +92,14 @@
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/vaccinations.js"></script>
-        <script src="scripts/controllers/vaccines.js"></script>
         <script src="scripts/mock_backend.js"></script>
         <!-- endbuild -->
 </body>

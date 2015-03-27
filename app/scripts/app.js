@@ -15,7 +15,8 @@
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mgcrea.ngStrap'
 ]);
 
 // Constants for this instance of the app
@@ -47,7 +48,7 @@ angular.module('vaccinationsApp')
 
 
 angular.module('vaccinationsApp')
-.directive('vaccination', function() {
+.directive('vaccination', ['$popover', function($popover) {
     return {
         restrict: 'E',
         // compile: function(scope, element, attrs){
@@ -59,14 +60,26 @@ angular.module('vaccinationsApp')
         // The controller is assigned in the html templates.
         link: function(scope, element, attrs){
             scope.vaccination = scope.getVaccination();
+            // Add popover for staged vaccinations.
+            if (scope.vaccination._staged) {
+                scope._popover = $popover(element, {
+                    title: 'My TI',
+                    content: 'hel',
+                    placement: 'top'
+                });
+                scope._popover.$promise.then(scope._popover.show);
+            }
             // scope.defaultData = scope.vaccination();
             // scope.vaccinationDefaults = scope.vaccination();
 
             scope.getContentUrl = function(){
-                if (scope.vaccination.administered){
+                if (scope.vaccination._staged){
+                    return '/scripts/directives/vaccination_staged_template.html';
+                }
+                else if (scope.vaccination.administered){
                     return '/scripts/directives/vaccination_administered.html';
                 }
-                if (!scope.vaccination.administered){
+                else if (!scope.vaccination.administered){
                     return '/scripts/directives/vaccination_unadministered.html';
                 }
             };
@@ -78,7 +91,7 @@ angular.module('vaccinationsApp')
             getVaccination: '&',
         }
     };
- });
+ }]);
 
 angular.module('vaccinationsApp')
 .service('helperFunctions', function(){
@@ -98,28 +111,18 @@ angular.module('vaccinationsApp')
 angular.module('vaccinationsApp')
 .service('vaccinesManager', ['$http', function($http) {
     var self = this;
-    var setVaccines = function(vaccines) {
-        if (self.vaccines) {
-            throw new Error('Vaccinations have already been set.');
-        } else {
-            self.vaccines = vaccines;
-        }
-    };
-
-    var promise = $http.get('mock_data/vaccines.json')
-        .success( function(data, status, headers, config) {
-            setVaccines(data.vaccines);
-        })
-        .error( function(data, status, headers, config) {
-            alert('Error when retrieving vaccines from server.');
-        });
+    var promise = $http.get('mock_data/vaccines.json').success( function(data) {
+        self.vaccines = data.vaccines;
+    });
 
     var exports = {
-        getVaccines: function () {
+        getVaccines: function() {
             return promise;
         }
     };
+
     return exports;
+
 }]);
 
 
@@ -178,7 +181,7 @@ angular.module('vaccinationsApp')
             } else {
                 console.log("The index of the vaccination to be removed could not be found.");
             }
-        },
+        }
     };
 
     return exports;
