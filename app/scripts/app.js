@@ -46,6 +46,22 @@ angular.module('vaccinationsApp')
 });
 
 
+angular.module('vaccinationsApp')
+.directive('header', ['$popover', function($popover) {
+    return {
+        restrict: 'E',
+        templateUrl: '/scripts/directives/vaccination_unadministered.html',
+        link: function (scope, element, tattr) {
+            var header = element.find('div.vaccination');
+            scope._popover = $popover(header, {
+                title: 'My TI lkafd lkajf l lajfl k jlkdsfj',
+                content: 'hellf ljkalksj lkj laksjlaksjaf ',
+                placement: 'top'
+            });
+            scope._popover.$promise.then(scope._popover.show);
+        }
+    };
+}]);
 
 angular.module('vaccinationsApp')
 .directive('vaccination', ['$popover', function($popover) {
@@ -58,35 +74,37 @@ angular.module('vaccinationsApp')
         // element. Use the vaccinations.administered property to decide on
         // which template to include administered/unadministered.
         // The controller is assigned in the html templates.
-        link: function(scope, element, attrs){
-            scope.vaccination = scope.getVaccination();
-            // Add popover for staged vaccinations.
-            if (scope.vaccination._staged) {
-                scope._popover = $popover(element, {
-                    title: 'My TI',
-                    content: 'hel',
-                    placement: 'top'
-                });
-                scope._popover.$promise.then(scope._popover.show);
-            }
-            // scope.defaultData = scope.vaccination();
-            // scope.vaccinationDefaults = scope.vaccination();
-
-            scope.getContentUrl = function(){
-                if (scope.vaccination._staged){
-                    return '/scripts/directives/vaccination_staged_template.html';
-                }
-                else if (scope.vaccination.administered){
-                    return '/scripts/directives/vaccination_administered.html';
-                }
-                else if (!scope.vaccination.administered){
-                    return '/scripts/directives/vaccination_unadministered.html';
+        compile: function compile (element, attrs) {
+            return {
+                post: function postLink(scope, element, attributes) {
+                    // Add popover for staged vaccinations.
+                    scope.vaccination = scope.getVaccination();
+                    scope.getContentUrl = function(){
+                        if (scope.vaccination.hasOwnProperty('_staged')) {
+                            return '/scripts/directives/vaccination_staged_template.html';
+                        }
+                        else if (scope.vaccination.administered){
+                            return '/scripts/directives/vaccination_administered.html';
+                        }
+                        else if (!scope.vaccination.administered){
+                            return '/scripts/directives/vaccination_unadministered.html';
+                        }
+                    };
+                    if (scope.vaccination.hasOwnProperty('_staged')) {
+                        // var header = angular.element(element).find('div.header');
+                        scope._popover = $popover(element, {
+                            title: 'My TI',
+                            content: 'hel',
+                            placement: 'top'
+                        });
+                        scope._popover.$promise.then(scope._popover.show);
+                    }
                 }
             };
-
-
         },
-        template: '<include-replace ng-include="getContentUrl()"></include-replace>',
+
+        template: '<header ng-if="vaccination.administered"></header>',
+        //template: '<include-replace ng-include="getContentUrl()"></include-replace>',
         scope: {
             getVaccination: '&',
         }

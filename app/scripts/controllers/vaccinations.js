@@ -36,7 +36,7 @@ controller('AddVaccinationController', ['$scope', '$http', 'vaccinationsManager'
 
     $scope.stageNewVaccination = function (vaccine) {
         vaccine._staged = 'true';
-        $scope.stagedVaccination = vaccine;
+        $scope.stagedVaccination = angular.copy(vaccine);
     };
 
     $scope.unstageNewVaccination = function () {
