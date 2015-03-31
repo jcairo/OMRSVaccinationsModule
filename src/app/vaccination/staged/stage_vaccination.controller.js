@@ -1,27 +1,29 @@
 'use strict';
 
 angular.module('vaccinations')
-.controller('StagedVaccinationController', ['$scope', '$http', 'vaccinationsManager',
-    function ($scope, $http, vaccinationsManager) {
+.controller('StagedVaccinationController', ['$scope', '$http', '$interval', 'vaccinationsManager',
+    function ($scope, $http, $interval, vaccinationsManager) {
     //$scope.enteredFormData = getVaccination();
     $scope.state = {};
     $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
     $scope.state.administerFormOpen = true;
     $scope.popover = {
-        'title': 'New Vaccination',
-        'content': 'Fill in details and click submit to save.'
+        title: 'New Vaccination',
+        content: 'Fill in details and click submit to save.',
+        trigger: 'hover',
+        show: true,
+        autoClose: true
     };
+
+    $scope.removeStagedVaccination = function () {
+        vaccinationsManager.removeStagedVaccination();
+    };
+
     $scope.resetFormDataToDefaults = function () {
         $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
     };
-    $scope.submitVaccination = function () {
-        $http.post('/vaccines/patients/1', vaccine)
-        .success( function (data) {
-            vaccinationsManager.addVaccination(data.vaccination);
-            $scope.unstageNewVaccination();
-        })
-        .error( function (data) {
-            alert("A problem occured adding this vaccination. It has not been saved. Please try again.")
-        });
+
+    $scope.commitStagedVaccination = function () {
+        vaccinationsManager.commitStagedVaccination($scope.enteredAdminFormData);
     };
 }]);

@@ -1,5 +1,5 @@
 <!-- STAGED TEMPLATE -->
-<div ng-controller="StagedVaccinationController" class="vaccination unadministered vaccination-staged" ng-class="{'scheduled':vaccination._template_id}" data-placement="top" bs-popover="popover">
+<div ng-controller="StagedVaccinationController" class="vaccination unadministered vaccination-staged" ng-class="{'scheduled':vaccination._template_id}" bs-show="true" data-placement="top" bs-popover="popover">
     <!-- STAGED HEADER -->
     <div class="header unadministered-header" >
         <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
@@ -47,9 +47,9 @@
             </div>
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button type="submit" class="btn btn-danger" ng-show="!vaccination._template_id" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="submit" class="btn btn-danger" ng-click="removeStagedVaccination()">Cancel</button>
                 <button type="submit" class="btn btn-primary" ng-click="resetFormDataToDefaults()">Reset</button>
-                <button type="submit" class="btn btn-warning">Submit</button>
+                <button type="submit" class="btn btn-warning" ng-click="commitStagedVaccination()">Submit</button>
             </div>
         </div>
     </form>

@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: vaccinationsManager', function() {
-    beforeEach(module('vaccinationsApp'));
+    beforeEach(module('vaccinations'));
 
     var vaccinationsManager, httpBackend, mockVaccinationsData, mockVaccination, vaccinations;
 
@@ -9,9 +9,14 @@ describe('Service: vaccinationsManager', function() {
         vaccinationsManager = _vaccinationsManager_;
         httpBackend = $httpBackend;
 
+        jasmine.getFixtures().fixturesPath = 'base/src/mock_data/';
+        var f = readFixtures('vaccinations.json');
+        json = JSON.parse(f);
+        expect(json).toBeDefined();
+
         // Create a mock response.
-        mockVaccinationsData = readJSON('app/mock_data/vaccinations.json');
-        mockVaccination = readJSON('app/mock_data/vaccinations.json').vaccinations[0];
+        mockVaccinationsData = readJSON('src/mock_data/vaccinations.json');
+        mockVaccination = readJSON('src/mock_data/vaccinations.json').vaccinations[0];
         $httpBackend.whenGET('mock_data/vaccinations.json').respond(mockVaccinationsData);
 
         // Add mock data to the manager.

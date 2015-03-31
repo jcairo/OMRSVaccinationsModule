@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vaccinations')
-.directive('vaccination', ['$popover', function($popover) {
+.directive('vaccination', [ function() {
     return {
         restrict: 'E',
         // compile: function(scope, element, attrs){
@@ -24,24 +24,15 @@ angular.module('vaccinations')
                             return '/app/vaccination/administered/vaccination_administered.template.html';
                         }
                         else if (!scope.vaccination.administered){
-                            return '/app/vaccination/unadministered/vaccination_unadministered.html';
+                            return '/app/vaccination/unadministered/vaccination_unadministered.template.html';
                         }
                     };
-                    if (scope.vaccination.hasOwnProperty('_staged')) {
-                        // var header = angular.element(element).find('div.header');
-                        scope._popover = $popover(element, {
-                            title: 'My TI',
-                            content: 'hel',
-                            placement: 'top'
-                        });
-                        scope._popover.$promise.then(scope._popover.show);
-                    }
                 }
             };
         },
 
-        template: '<header ng-if="vaccination.administered"></header>',
-        //template: '<include-replace ng-include="getContentUrl()"></include-replace>',
+        //template: '<header></header>',
+        template: '<include-replace ng-include="getContentUrl()"></include-replace>',
         scope: {
             getVaccination: '&',
         }

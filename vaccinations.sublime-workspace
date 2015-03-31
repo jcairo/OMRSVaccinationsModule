@@ -5,7 +5,19 @@
 		[
 			[
 				"vacc",
-				"vaccination"
+				"vaccinations"
+			],
+			[
+				"moc",
+				"mock_data"
+			],
+			[
+				"mock",
+				"mock_data"
+			],
+			[
+				"un",
+				"unadministered"
 			],
 			[
 				"head",
@@ -146,14 +158,6 @@
 			[
 				"toBe",
 				"toBeDefined"
-			],
-			[
-				"moc",
-				"mockVaccination"
-			],
-			[
-				"mock",
-				"mockVaccination"
 			],
 			[
 				"Main",
@@ -496,97 +500,42 @@
 	"buffers":
 	[
 		{
-			"contents": "'use strict';\n\n/**\n * @ngdoc function\n * @name vaccinationsApp.controller:VaccinationsController\n * @description\n * # VaccinationsController\n * Controller of the vaccinationsApp\n */\nangular.module('vaccinationsApp')\n.controller('MainController', ['$scope', '$http', 'vaccinationsManager', 'vaccinesManager',\n    function($scope, $http, vaccinationsManager, vaccinesManager){\n\n\n    $scope.search = {};\n    $scope.search.vaccinations = '';\n    $scope.search.vaccines = '';\n\n    // Get list of patient vaccinations.\n    vaccinationsManager.getVaccinations().success(function(data) {\n        $scope.vaccinations = data.vaccinations;\n    });\n\n    // Get list of vaccines.\n    vaccinesManager.getVaccines().success( function(data) {\n        $scope.vaccines = data.vaccines;\n    });\n\n}]);\n\n// Adds a vaccine from the new vaccination input box to the\n// patients vaccination list.\nangular.module('vaccinationsApp').\ncontroller('AddVaccinationController', ['$scope', '$http', 'vaccinationsManager',\n    function ($scope, $http, vaccinationsManager) {\n\n    $scope.stageNewVaccination = function (vaccine) {\n        vaccine._staged = 'true';\n        $scope.stagedVaccination = angular.copy(vaccine);\n    };\n\n    $scope.unstageNewVaccination = function () {\n        delete $scope.stagedVaccination;\n    };\n\n\n}]);\n\nangular.module('vaccinationsApp')\n.controller('StagedVaccinationController', ['$scope', '$http', 'vaccinationsManager',\n    function ($scope, $http, vaccinationsManager) {\n    //$scope.enteredFormData = getVaccination();\n    $scope.state = {};\n    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    $scope.state.administerFormOpen = true;\n    $scope.popover = {\n        'title': 'New Vaccination',\n        'content': 'Fill in details and click submit to save.'\n    };\n    $scope.resetFormDataToDefaults = function () {\n        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    };\n    $scope.submitVaccination = function () {\n        $http.post('/vaccines/patients/1', vaccine)\n        .success( function (data) {\n            vaccinationsManager.addVaccination(data.vaccination);\n            $scope.unstageNewVaccination();\n        })\n        .error( function (data) {\n            alert(\"A problem occured adding this vaccination. It has not been saved. Please try again.\")\n        });\n    };\n}]);\n\n// Manages a vaccination instance on each vaccination\n// directive.\nangular.module('vaccinationsApp')\n.controller('AdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){\n    // Form data inits.\n    $scope.enteredAdminFormData = $scope.getVaccination();\n    $scope.state = {};\n\n    // Form states and methods.\n    $scope.state.editFormOpen = false;\n\n    $scope.toggleReactionForm = function(){\n        $scope.state.adverseFormOpen = !$scope.state.adverseFormOpen;\n    };\n\n    $scope.toggleEditForm = function(){\n        console.log('hello');\n        $scope.state.editFormOpen = !$scope.state.editFormOpen;\n    };\n\n    // Available for all administered vaccinations.\n    // Deletes a vaccination of type unscheduled, vaccinations of type\n    // scheduled become unadministered instead of being removed.\n    $scope.deleteVaccination = function(id) {\n        vaccinationsManager.removeVaccination(id);\n    };\n\n}]);\n\n\n// Manages a vaccination instance on each vaccination\n// directive.\nangular.module('vaccinationsApp')\n.controller('UnAdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){\n    // Form data inits.\n    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n\n    // Form states and methods.\n    $scope.state = {};\n    $scope.state.administerFormOpen = false;\n\n    $scope.resetFormDataToDefaults = function(){\n        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    };\n\n    $scope.toggleAdministerForm = function(){\n        $scope.state.administerFormOpen = !$scope.state.administerFormOpen;\n    };\n\n    // Called when vaccination data from form has been validated\n    // and ready to create a new vaccination event.\n    $scope.addVaccination = function(vaccinationData) {\n        vaccinationsManager.addVaccination(vaccinationData);\n    };\n\n    // Only available if the vaccination is of type unscheduled.\n    $scope.deleteVaccination = function(id) {\n        vaccinationsManager.removeVaccination(id);\n    };\n\n}]);",
-			"file": "app/scripts/controllers/vaccinations.js",
-			"file_size": 4403,
-			"file_write_time": 130718991600000000,
+			"file": "src/index.html",
 			"settings":
 			{
-				"buffer_size": 4403,
+				"buffer_size": 3633,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "'use strict';\n\n/**\n * @ngdoc overview\n * @name vaccinationsApp\n * @description\n * # vaccinationsApp\n *\n * Main module of the application.\n */\n angular\n .module('vaccinationsApp', [\n    'ngAnimate',\n    'ngCookies',\n    'ngResource',\n    'ngRoute',\n    'ngSanitize',\n    'ngTouch',\n    'mgcrea.ngStrap'\n]);\n\n// Constants for this instance of the app\nangular.module('vaccinationsApp')\n.value('appConstants', {\n    // TODO: Retrive this from window.location;\n    providerId: 1,\n    // TODO: Retrive this from window.location;\n    patientId: 1\n});\n\n// The template that is loaded for each vaccination is based on whether\n// it has been administered or not. Angular does not have a nice way of\n// doing this. I have used ng-include and a function which accesses the\n// scope to determine whether an administered or unadministered template\n// should be used. To clean up after myself I use this directive to remove\n// the placeholder include-replace directive.\nangular.module('vaccinationsApp')\n.directive('replace', function() {\n    return {\n        require: 'ngInclude',\n        restrict: 'E',\n        link: function(scope, el){\n            el.replaceWith(el.children());\n        }\n    };\n});\n\n\nangular.module('vaccinationsApp')\n.directive('header', ['$popover', function($popover) {\n    return {\n        restrict: 'E',\n        templateUrl: '/scripts/directives/vaccination_unadministered.html',\n        link: function (scope, element, tattr) {\n            var header = element.find('div.vaccination');\n            scope._popover = $popover(header, {\n                title: 'My TI lkafd lkajf l lajfl k jlkdsfj',\n                content: 'hellf ljkalksj lkj laksjlaksjaf ',\n                placement: 'top'\n            });\n            scope._popover.$promise.then(scope._popover.show);\n        }\n    };\n}]);\n\nangular.module('vaccinationsApp')\n.directive('vaccination', ['$popover', function($popover) {\n    return {\n        restrict: 'E',\n        // compile: function(scope, element, attrs){\n        //     console.log(scope);\n        // },\n        // The link function provides access to the scope of the vaccination\n        // element. Use the vaccinations.administered property to decide on\n        // which template to include administered/unadministered.\n        // The controller is assigned in the html templates.\n        compile: function compile (element, attrs) {\n            return {\n                post: function postLink(scope, element, attributes) {\n                    // Add popover for staged vaccinations.\n                    scope.vaccination = scope.getVaccination();\n                    scope.getContentUrl = function(){\n                        if (scope.vaccination.hasOwnProperty('_staged')) {\n                            return '/scripts/directives/vaccination_staged_template.html';\n                        }\n                        else if (scope.vaccination.administered){\n                            return '/scripts/directives/vaccination_administered.html';\n                        }\n                        else if (!scope.vaccination.administered){\n                            return '/scripts/directives/vaccination_unadministered.html';\n                        }\n                    };\n                    if (scope.vaccination.hasOwnProperty('_staged')) {\n                        // var header = angular.element(element).find('div.header');\n                        scope._popover = $popover(element, {\n                            title: 'My TI',\n                            content: 'hel',\n                            placement: 'top'\n                        });\n                        scope._popover.$promise.then(scope._popover.show);\n                    }\n                }\n            };\n        },\n\n        template: '<header ng-if=\"vaccination.administered\"></header>',\n        //template: '<include-replace ng-include=\"getContentUrl()\"></include-replace>',\n        scope: {\n            getVaccination: '&',\n        }\n    };\n }]);\n\nangular.module('vaccinationsApp')\n.service('helperFunctions', function(){\n    return {\n        // Find the index of an object with a given id.\n        findObjectIndexByAttribute: function(attribute, attributeValue, array){\n            for (var i = 0; i < array.length; i++){\n                if (array[i][attribute] === attributeValue){\n                    return i;\n                }\n            }\n            return undefined;\n        }\n    };\n});\n\nangular.module('vaccinationsApp')\n.service('vaccinesManager', ['$http', function($http) {\n    var self = this;\n    var promise = $http.get('mock_data/vaccines.json').success( function(data) {\n        self.vaccines = data.vaccines;\n    });\n\n    var exports = {\n        getVaccines: function() {\n            return promise;\n        }\n    };\n\n    return exports;\n\n}]);\n\n\n// Manages the retrival of vaccinations from the server and the\n// removal and entry of vaccinations for a patient.\nangular.module('vaccinationsApp')\n.service('vaccinationsManager', ['$http', '$filter','appConstants', 'helperFunctions',\n    function($http, $filter, appConstants, helperFunctions){\n    var self = this;\n\n\n    var setVaccinations = function (vaccinations) {\n        if (self.vaccinations){\n            throw new Error('Vaccinations have already been set.');\n        } else {\n            self.vaccinations = vaccinations;\n        }\n    };\n\n    var promise = $http.get('mock_data/vaccinations.json')\n        // var vaccsPromise = $http.get('/vaccinations/patients/' + appConstants.patientId)\n        .success(function(data, status, headers, config){\n            setVaccinations(data.vaccinations);\n        })\n        .error(function(data, status, headers, config){\n            alert('Error when retrieving patient vaccinations from server.');\n        });\n    // The main controller gets the vaccinations data from the server\n    // and sets it in the manager.\n    var exports = {\n\n        addVaccination: function(vaccination) {\n            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccination._id, self.vaccinations);\n            if (index === undefined){\n                self.vaccinations.push(vaccination);\n            } else {\n                console.log(\"Could not add vaccination to array, a vaccination with the _id attribute already exists.\");\n            }\n        },\n\n        getVaccinations: function(){\n            return promise;\n        },\n\n        getVaccinationById: function(id){\n            var vaccination = $filter('filter')(self.vaccinations, function(vaccination, index){\n                return vaccination._id === id;\n            });\n            return vaccination[0];\n        },\n\n        removeVaccination: function(id){\n            var index = helperFunctions.findObjectIndexByAttribute('_id', id, self.vaccinations);\n            if (index !== undefined){\n                self.vaccinations.splice(index, 1);\n            } else {\n                console.log(\"The index of the vaccination to be removed could not be found.\");\n            }\n        }\n    };\n\n    return exports;\n }]);\n",
-			"file": "app/scripts/app.js",
-			"file_size": 7030,
-			"file_write_time": 130719045350000000,
+			"file": "src/app/main/vaccination.directive.js",
 			"settings":
 			{
-				"buffer_size": 7030,
+				"buffer_size": 1693,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "",
-			"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/AngularJS-sublime-package.sublime-settings",
-			"file_size": -1,
-			"file_write_time": -1,
+			"file": "src/app/main/helper_common.service.js",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 460,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "------------------------\nMulti Part Key Conflicts\n------------------------\n [ctrl+f12]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   (ctrl+f12,c,s)\n     run_existing_window_command            SublimeREPL           \n   (ctrl+f12,c,t)\n     run_existing_window_command            SublimeREPL           \n [ctrl+shift+,]\n   color_convert_prev                       Color Highlighter     [{\"key\": \"color_highlighter.color_convert_prev\"}]\n   (ctrl+shift+,,b)\n     repl_transfer_current                  SublimeREPL           \n   (ctrl+shift+,,f)\n     repl_transfer_current                  SublimeREPL           \n   (ctrl+shift+,,l)\n     repl_transfer_current                  SublimeREPL           \n   (ctrl+shift+,,s)\n     repl_transfer_current                  SublimeREPL           \n [g]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   (g,d)\n     anaconda_goto                          Anaconda              [{\"operand\": \"source.python\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.command_mode\"}, {\"operand\": false, \"key\": \"setting.is_widget\"}]\n-------------------------------------\nKey Conflicts (Only direct conflicts)\n-------------------------------------\n [\"]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\)|]|\\\\}|>|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"[\\\"a-zA-Z0-9_]$\", \"key\": \"preceding_text\", \"operator\": \"not_regex_contains\"}, {\"match_all\": true, \"operand\": \"string.quoted.double - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   move                                     Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^\\\"\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"punctuation.definition.string.begin\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"operand\": \"string.quoted.double - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [#]\n   emmet_insert_attribute                   Emmet                 [{\"match_all\": true, \"operand\": \"text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.auto_id_class\", \"operator\": \"equal\"}]\n   insert_snippet                           Ruby                  [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"(string.quoted.double.ruby | string.interpolated.ruby) - string source\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [']\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\)|]|\\\\}|>|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"['a-zA-Z0-9_]$\", \"key\": \"preceding_text\", \"operator\": \"not_regex_contains\"}, {\"match_all\": true, \"operand\": \"string.quoted.single - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   move                                     Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^'\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"punctuation.definition.string.begin\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"operand\": \"string.quoted.single - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [(]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\)|]|;|\\\\}|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [)]\n   move                                     Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^\\\\)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [+]\n   git_diff_change_hunk_size                SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [-]\n   git_diff_change_hunk_size                SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [.]\n   emmet_insert_attribute                   Emmet                 [{\"match_all\": true, \"operand\": \"text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.auto_id_class\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [/]\n   close_tag                                Default               [{\"match_all\": true, \"operand\": \"(text.html, text.xml) - string - comment\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \".*<$\", \"key\": \"preceding_text\", \"operator\": \"regex_match\"}, {\"key\": \"setting.auto_close_tags\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [1]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [2]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [3]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [4]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [5]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [:]\n   insert_snippet                           CSS                   [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"source.css - meta.selector.css\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\}|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [;]\n   move                                     CSS                   [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"source.css - meta.selector.css\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^;\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [A]\n   git_status_stash_pop                     SublimeGit            [{\"operand\": \"meta.git-status.stashes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [C]\n   git_commit                               SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [I]\n   git_status_ignore                        SublimeGit            [{\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [N]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_move                            SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [P]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_move                            SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [S]\n   git_status_stage                         SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [U]\n   git_status_unstage                       SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [Z]\n   git_stash                                SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [[]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\)|]|;|\\\\}|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n []]\n   move                                     Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^\\\\]\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [a]\n   git_status_stash_apply                   SublimeGit            [{\"operand\": \"meta.git-status.stashes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [alt+ctrl+d]\n   anaconda_doc                             Anaconda              \n   go_to_var_definition                     Color Highlighter     [{\"key\": \"color_highlighter.color_convert_next\"}]\n [alt+ctrl+enter]\n   replace_all                              Default               [{\"operand\": \"replace\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   expand_as_you_type                       Emmet                 [{\"match_all\": true, \"operand\": false, \"key\": \"setting.is_widget\", \"operator\": \"equal\"}, {\"match_all\": true, \"key\": \"emmet_action_enabled.expand_as_you_type\"}]\n [alt+ctrl+left]\n   move                                     Default               \n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.prev_edit_point\"}]\n [alt+ctrl+right]\n   move                                     Default               \n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.next_edit_point\"}]\n [alt+enter]\n   find_all                                 Default               [{\"operand\": \"find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   find_all                                 Default               [{\"operand\": \"replace\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   find_all                                 Default               [{\"operand\": \"incremental_find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n [alt+f2]\n   select_all_bookmarks                     Default               \n   context_menu                             Default               \n [alt+super+down]\n   goto_definition                          Default               \n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.decrement_number_by_10\"}]\n [alt+super+up]\n   switch_file                              Default               \n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.increment_number_by_10\"}]\n [b]\n   git_blame_blame                          SublimeGit            [{\"operand\": \"meta.git-blame.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [backspace]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\"$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\"\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"punctuation.definition.string.begin\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"operand\": \"string.quoted.double - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"'$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^'\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"punctuation.definition.string.begin\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"operand\": \"string.quoted.single - punctuation.definition.string.end\", \"key\": \"eol_selector\", \"operator\": \"not_equal\"}]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\\($\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\\)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\\[$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\\]\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\\{$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\\}\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   run_macro_file                           CSS                   [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"source.css - meta.selector.css\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \":$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^;\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   git_status_discard                       SublimeGit            [{\"operand\": \"constant.other.git-status.header\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_status_discard                       SublimeGit            [{\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   repl_backspace                           SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl_sublime2\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [c]\n   git_commit                               SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+0]\n   focus_side_bar                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+1]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+2]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+3]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+4]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+5]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+6]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+7]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+8]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+9]\n   focus_group                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+a]\n   repl_home                                SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+backspace]\n   delete_word                              Default               \n   repl_ctrl_backspace                      SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl_sublime2\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n [ctrl+c]\n   exec                                     Default               \n   _enter_normal_mode                       Vintageous            [{\"key\": \"vi_insert_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+d]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.balance_outward\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+e]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.expand_abbreviation\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+f2]\n   sublime_bookmark                         Sublime Bookmarks     \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+f5]\n   sort_lines                               Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   run_all_tests                            Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [ctrl+f6]\n   next_misspelling                         Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+g]\n   show_overlay                             Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+h]\n   dash_doc                                 DashDoc               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+j]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.balance_inward\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+k]\n   run_macro_file                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+l]\n   show_at_center                           Default               \n   repl_clear                               SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_insert_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+m]\n   move_to                                  Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+n]\n   repl_view_next                           SublimeREPL           [{\"operand\": false, \"key\": \"setting.history_arrows\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+o]\n   insert_snippet                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+p]\n   repl_view_previous                       SublimeREPL           [{\"operand\": false, \"key\": \"setting.history_arrows\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+q]\n   toggle_record_macro                      Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+r]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+.]\n   color_convert_next                       Color Highlighter     [{\"key\": \"color_highlighter.color_convert_next\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+a]\n   color_convert                            Color Highlighter     [{\"key\": \"color_highlighter.color_convert\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+b]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+c]\n   color_picker                             Color Highlighter     [{\"key\": \"color_highlighter.color_picker\"}]\n   git_commit_amend                         SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   subprocess_repl_send_signal              SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+d]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.encode_decode_data_url\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+f2]\n   sublime_bookmark                         Sublime Bookmarks     \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+f6]\n   prev_misspelling                         Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+i]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.update_image_size\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+k]\n   run_macro_file                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+m]\n   expand_selection                         Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+p]\n   show_scope_name                          Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+q]\n   run_macro                                Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+s]\n   git_status_stage                         SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+t]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.matching_pair\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+u]\n   update_as_you_type                       Emmet                 [{\"match_all\": true, \"operand\": false, \"key\": \"setting.is_widget\", \"operator\": \"equal\"}, {\"match_all\": true, \"key\": \"emmet_action_enabled.update_as_you_type\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+shift+w]\n   insert_snippet                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+space]\n   auto_complete                            Default               \n   replace_completion_with_auto_complete    Default               [{\"operand\": \"insert_best_completion\", \"key\": \"last_command\", \"operator\": \"equal\"}, {\"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.tab_completion\", \"operator\": \"equal\"}]\n [ctrl+t]\n   transpose                                Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+w]\n   wrap_as_you_type                         Emmet                 [{\"match_all\": true, \"operand\": false, \"key\": \"setting.is_widget\", \"operator\": \"equal\"}, {\"match_all\": true, \"key\": \"emmet_action_enabled.wrap_as_you_type\"}]\n   delete_word                              Vintageous            [{\"key\": \"vi_insert_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+x]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_insert_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [ctrl+y]\n   yank                                     Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}, {\"key\": \"vi_use_ctrl_keys\"}]\n [d]\n   git_status_diff                          SublimeGit            [{\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [down]\n   repl_view_next                           SublimeREPL           [{\"operand\": true, \"key\": \"setting.history_arrows\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   cycle_cmdline_history                    Vintageous            [{\"key\": \"vi_is_cmdline\"}]\n [enter]\n   commit_completion                        Default               [{\"key\": \"auto_complete_visible\"}, {\"operand\": false, \"key\": \"setting.auto_complete_commit_on_tab\"}]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_indent\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\\{$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\\}\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_indent\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"meta.scope.between-tag-pair\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   find_next                                Default               [{\"operand\": \"find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   find_next                                Default               [{\"operand\": \"replace\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   hide_panel                               Default               [{\"operand\": \"incremental_find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   insert_snippet                           Emmet                 [{\"match_all\": true, \"operand\": \"meta.scope.between-tag-pair.html, meta.scope.between-tag-pair.xml\", \"key\": \"selector\"}, {\"match_all\": true, \"operand\": false, \"key\": \"auto_complete_visible\"}, {\"match_all\": true, \"key\": \"clear_fields_on_enter_key\"}, {\"match_all\": true, \"operand\": false, \"key\": \"setting.disable_formatted_linebreak\"}]\n   git_status_open_file                     SublimeGit            [{\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_blame_show                           SublimeGit            [{\"operand\": \"meta.git-blame.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   repl_enter                               SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}]\n   repl_enter                               SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.auto_complete_commit_on_tab\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [escape]\n   single_selection                         Default               [{\"operand\": 1, \"key\": \"num_selections\", \"operator\": \"not_equal\"}]\n   clear_fields                             Default               [{\"operand\": true, \"key\": \"has_next_field\", \"operator\": \"equal\"}]\n   clear_fields                             Default               [{\"operand\": true, \"key\": \"has_prev_field\", \"operator\": \"equal\"}]\n   hide_panel                               Default               [{\"operand\": true, \"key\": \"panel_visible\", \"operator\": \"equal\"}]\n   hide_overlay                             Default               [{\"operand\": true, \"key\": \"overlay_visible\", \"operator\": \"equal\"}]\n   hide_popup                               Default               [{\"operand\": true, \"key\": \"popup_visible\", \"operator\": \"equal\"}]\n   hide_auto_complete                       Default               [{\"operand\": true, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}]\n   repl_escape                              SublimeREPL           [{\"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   _enter_normal_mode                       Vintageous            [{\"key\": \"vi_insert_mode_aware\"}]\n [f12]\n   goto_definition                          Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [f2]\n   next_bookmark                            Default               \n   sublime_bookmark                         Sublime Bookmarks     \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [f4]\n   next_result                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [f5]\n   sort_lines                               Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   run_tests_for_active_view                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [f6]\n   toggle_setting                           Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [f7]\n   build                                    Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [home]\n   repl_home                                SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [i]\n   git_status_ignore                        SublimeGit            [{\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [left]\n   repl_left                                SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [n]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_move                            SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [p]\n   git_status_move                          SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_move                            SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [r]\n   git_status_refresh                       SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_refresh                         SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [s]\n   git_status_stage                         SublimeGit            [{\"operand\": \"meta.git-status.untracked_files\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"constant.other.git-status.header\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_status_stage                         SublimeGit            [{\"operand\": \"meta.git-status.untracked_files\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_status_stage                         SublimeGit            [{\"operand\": \"meta.git-status.unstaged_changes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"constant.other.git-status.header\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_status_stage                         SublimeGit            [{\"operand\": \"meta.git-status.unstaged_changes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_stage_unstage_hunk              SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [shift+enter]\n   run_macro_file                           Default               [{\"operand\": true, \"key\": \"setting.auto_indent\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"\\\\{$\", \"key\": \"preceding_text\", \"operator\": \"regex_contains\"}, {\"match_all\": true, \"operand\": \"^\\\\}\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_indent\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"meta.scope.between-tag-pair\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   find_prev                                Default               [{\"operand\": \"find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   find_prev                                Default               [{\"operand\": \"replace\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   find_prev                                Default               [{\"operand\": \"incremental_find\", \"key\": \"panel\"}, {\"key\": \"panel_has_focus\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [shift+f2]\n   prev_bookmark                            Default               \n   sublime_bookmark                         Sublime Bookmarks     \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [shift+f4]\n   prev_result                              Default               \n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [shift+super+,]\n   color_convert_prev                       Color Highlighter     [{\"key\": \"color_highlighter.color_convert_prev\"}]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.select_previous_item\"}]\n [shift+super+.]\n   color_convert_next                       Color Highlighter     [{\"key\": \"color_highlighter.color_convert_next\"}]\n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.select_next_item\"}]\n [shift+super+a]\n   expand_selection                         Default               \n   color_convert                            Color Highlighter     [{\"key\": \"color_highlighter.color_convert\"}]\n [shift+super+r]\n   goto_symbol_in_project                   Default               \n   run_emmet_action                         Emmet                 [{\"key\": \"emmet_action_enabled.reflect_css_value\"}]\n [shift+tab]\n   insert                                   Default               \n   unindent                                 Default               [{\"operand\": true, \"key\": \"setting.shift_tab_unindent\", \"operator\": \"equal\"}]\n   unindent                                 Default               [{\"operand\": \"^[\\t ]*\", \"key\": \"preceding_text\", \"operator\": \"regex_match\"}]\n   unindent                                 Default               [{\"operand\": \"\\n\", \"key\": \"text\", \"operator\": \"regex_contains\"}]\n   prev_field                               Default               [{\"operand\": true, \"key\": \"has_prev_field\", \"operator\": \"equal\"}]\n [super+backspace]\n   run_macro_file                           Default               \n   repl_super_backspace                     SublimeREPL           [{\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n [super+k,shift+super+left]\n   move_to_neighboring_group                Default               \n   destroy_pane                             Origami               \n [super+k,shift+super+right]\n   move_to_neighboring_group                Default               \n   destroy_pane                             Origami               \n [super+k,shift+super+up]\n   new_pane                                 Default               \n   destroy_pane                             Origami               \n [super+k,super+c]\n   show_at_center                           Default               \n   resize_pane                              Origami               \n [super+k,super+down]\n   close_pane                               Default               \n   create_pane                              Origami               \n [super+k,super+left]\n   focus_neighboring_group                  Default               \n   create_pane                              Origami               \n [super+k,super+right]\n   focus_neighboring_group                  Default               \n   create_pane                              Origami               \n [super+k,super+up]\n   new_pane                                 Default               \n   create_pane                              Origami               \n [super+r]\n   show_overlay                             Default               \n   git_status_refresh                       SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n [super+s]\n   save                                     Default               \n   noop                                     SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_commit_save                          SublimeGit            [{\"operand\": \"text.git-commit\", \"key\": \"selector\", \"operator\": \"equal\"}]\n [super+y]\n   redo_or_repeat                           Default               \n   noop                                     SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n [super+z]\n   undo                                     Default               \n   noop                                     SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n [tab]\n   insert_best_completion                   Default               \n   insert_best_completion                   Default               [{\"operand\": true, \"key\": \"setting.tab_completion\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \".*[^0-9]$\", \"key\": \"preceding_text\", \"operator\": \"regex_match\"}]\n   replace_completion_with_next_completion  Default               [{\"operand\": \"insert_best_completion\", \"key\": \"last_command\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.tab_completion\", \"operator\": \"equal\"}]\n   reindent                                 Default               [{\"operand\": true, \"key\": \"setting.auto_indent\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^$\", \"key\": \"preceding_text\", \"operator\": \"regex_match\"}, {\"match_all\": true, \"operand\": \"^$\", \"key\": \"following_text\", \"operator\": \"regex_match\"}]\n   indent                                   Default               [{\"operand\": \"\\n\", \"key\": \"text\", \"operator\": \"regex_contains\"}]\n   next_field                               Default               [{\"operand\": true, \"key\": \"has_next_field\", \"operator\": \"equal\"}]\n   commit_completion                        Default               [{\"key\": \"auto_complete_visible\"}, {\"key\": \"setting.auto_complete_commit_on_tab\"}]\n   insert                                   AdvancedNewFile       [{\"key\": \"setting.anf_panel\"}]\n   expand_abbreviation_by_tab               Emmet                 [{\"match_all\": true, \"operand\": \"source.css, source.sass, source.less, source.scss, source.stylus, source.jade, text.slim, text.xml, text.html - source, text.haml, text.scala.html, source string\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"storage.type.templatetag.django\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"key\": \"selection_empty\"}, {\"match_all\": true, \"operand\": false, \"key\": \"has_next_field\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"setting.disable_tab_abbreviations\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}, {\"match_all\": true, \"key\": \"is_abbreviation\"}]\n   expand_abbreviation_by_tab               Emmet                 [{\"match_all\": true, \"operand\": \"source.css, source.sass, source.less, source.scss, source.stylus, source.jade, text.slim, text.xml, text.html - source, text.haml, text.scala.html, source string\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"storage.type.templatetag.django\", \"key\": \"selector\", \"operator\": \"not_equal\"}, {\"match_all\": true, \"key\": \"selection_empty\"}, {\"match_all\": true, \"operand\": false, \"key\": \"has_next_field\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"setting.disable_tab_abbreviations_on_auto_complete\", \"operator\": \"equal\"}, {\"match_all\": true, \"key\": \"is_abbreviation\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   fs_completion                            Vintageous            [{\"key\": \"vi_is_cmdline\"}, {\"key\": \"vi_cmdline_at_fs_completion\"}]\n   vi_setting_completion                    Vintageous            [{\"key\": \"vi_is_cmdline\"}, {\"key\": \"vi_cmdline_at_setting_completion\"}]\n [u]\n   git_status_unstage                       SublimeGit            [{\"operand\": \"meta.git-status.staged_changes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"constant.other.git-status.header\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_status_unstage                       SublimeGit            [{\"operand\": \"meta.git-status.staged_changes\", \"key\": \"selector\", \"operator\": \"equal\"}, {\"operand\": \"meta.git-status.line\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   git_diff_stage_unstage_hunk              SublimeGit            [{\"operand\": \"source.git-diff\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [up]\n   repl_view_previous                       SublimeREPL           [{\"operand\": true, \"key\": \"setting.history_arrows\", \"operator\": \"equal\"}, {\"operand\": true, \"key\": \"setting.repl\", \"operator\": \"equal\"}, {\"operand\": false, \"key\": \"auto_complete_visible\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n   cycle_cmdline_history                    Vintageous            [{\"key\": \"vi_is_cmdline\"}]\n [z]\n   git_stash                                SublimeGit            [{\"operand\": \"text.git-status\", \"key\": \"selector\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [{]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^(?:\\t| |\\\\)|]|\\\\}|$)\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   wrap_block                               Default               [{\"match_all\": true, \"key\": \"indented_block\"}, {\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^$\", \"key\": \"following_text\", \"operator\": \"regex_match\"}]\n   insert_snippet                           Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": false, \"key\": \"selection_empty\", \"operator\": \"equal\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n [}]\n   move                                     Default               [{\"operand\": true, \"key\": \"setting.auto_match_enabled\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": true, \"key\": \"selection_empty\", \"operator\": \"equal\"}, {\"match_all\": true, \"operand\": \"^\\\\}\", \"key\": \"following_text\", \"operator\": \"regex_contains\"}]\n   press_key                                Vintageous            [{\"key\": \"vi_command_mode_aware\"}]\n",
+			"file": "src/app/main/vaccines_manager.service.js",
 			"settings":
 			{
-				"buffer_size": 53740,
-				"line_ending": "Unix",
-				"name": "All Key Conflicts",
-				"scratch": true
-			}
-		},
-		{
-			"contents": "<!doctype html>\n<html class=\"no-js\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title></title>\n    <meta name=\"description\" content=\"\">\n    <meta name=\"viewport\" content=\"width=device-width\">\n    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->\n    <!-- build:css(.) styles/vendor.css -->\n    <!-- bower:css -->\n    <!-- endbower -->\n    <!-- endbuild -->\n    <!-- build:css(.tmp) styles/main.css -->\n    <link rel=\"stylesheet\" href=\"styles/main.css\">\n    <!-- endbuild -->\n  </head>\n  <!-- TODO: Uncomment this when you switch from mock backend\n  <body ng-app=\"vaccinationsApp\">\n  -->\n  <body>\n  <div class=\"container\" ng-controller=\"MainController\">\n\n    <!-- SEARCH ADD SECTION -->\n    <form class=\"form-horizontal\">\n        <div class=\"form-group form-group-sm\">\n            <div class=\"col-sm-10 col-sm-offset-1\">\n                <div class=\"input-group\">\n                    <span class=\"input-group-addon\">Search</span>\n                    <input class=\"form-control\" type=\"text\" id=\"search\" ng-model=\"search.vaccinations\" placeholder=\"Search\">\n                </div>\n            </div>\n        </div>\n    </form>\n\n    <div class=\"add-vaccination-wrapper\" ng-controller=\"AddVaccinationController\">\n        <form class=\"form-horizontal\">\n            <div class=\"form-group form-group-sm\">\n                <div class=\"col-sm-10 col-sm-offset-1\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\">Add New Vaccination</span>\n                        <input class=\"form-control\" type=\"text\" id=\"search\" placeholder=\"Vaccine Name\" ng-model=\"newVaccine\" bs-options=\"vaccines as vaccines.name for vaccines in vaccines \" bs-typeahead>\n                        <span class=\"input-group-addon\" ng-click=\"stageNewVaccination(newVaccine)\">+</span>\n                    </div>\n                </div>\n            </div>\n        </form>\n\n        <!-- STAGED VACCINATIONS -->\n        <vaccination get-vaccination=\"stagedVaccination\" ng-if=\"stagedVaccination\"></vaccination>\n\n    </div>\n    <!-- /SEARCH ADD SECTION -->\n\n    <!-- VACCINATIONS -->\n    <div class=\"vaccinations-wrapper\">\n\n        <!-- ROUTINE VACCINATIONS -->\n        <vaccination get-vaccination=\"vaccination\" ng-repeat=\"vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'} \"></vaccination>\n\n        <!-- NONROUTINE VACCINATIONS -->\n        <vaccination get-vaccination=\"vaccination\" ng-repeat=\"vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}\"></vaccination>\n    </div>\n    <!-- /VACCINATIONS -->\n\n</div>\n\n    <!--[if lt IE 9]>\n    <script src=\"bower_components/es5-shim/es5-shim.js\"></script>\n    <script src=\"bower_components/json3/lib/json3.min.js\"></script>\n    <![endif]-->\n\n    <!-- build:js(.) scripts/vendor.js -->\n    <!-- bower:js -->\n    <script src=\"bower_components/jquery/dist/jquery.js\"></script>\n    <script src=\"bower_components/angular/angular.js\"></script>\n    <script src=\"bower_components/json3/lib/json3.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/carousel.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/dropdown.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/scrollspy.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tooltip.js\"></script>\n    <script src=\"bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/popover.js\"></script>\n    <script src=\"bower_components/angular-resource/angular-resource.js\"></script>\n    <script src=\"bower_components/angular-cookies/angular-cookies.js\"></script>\n    <script src=\"bower_components/angular-sanitize/angular-sanitize.js\"></script>\n    <script src=\"bower_components/angular-animate/angular-animate.js\"></script>\n    <script src=\"bower_components/angular-touch/angular-touch.js\"></script>\n    <script src=\"bower_components/angular-route/angular-route.js\"></script>\n    <script src=\"bower_components/angular-strap/dist/angular-strap.js\"></script>\n    <script src=\"bower_components/angular-strap/dist/angular-strap.tpl.js\"></script>\n    <!-- endbower -->\n    <!-- endbuild -->\n\n        <!-- build:js({.tmp,app}) scripts/scripts.js -->\n        <script src=\"scripts/app.js\"></script>\n        <script src=\"scripts/controllers/vaccinations.js\"></script>\n        <script src=\"scripts/mock_backend.js\"></script>\n        <!-- endbuild -->\n</body>\n</html>\n",
-			"file": "app/index.html",
-			"file_size": 5526,
-			"file_write_time": 130719046290000000,
-			"settings":
-			{
-				"buffer_size": 5526,
+				"buffer_size": 377,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "<!-- UNADIMISTERED TEMPLATE -->\n<div ng-controller=\"UnAdminVaccinationController\" class=\"vaccination unadministered\" ng-class=\"{'scheduled':vaccination._template_id}\">\n    <!-- UNADMINISTERED HEADER -->\n    <div class=\"header unadministered-header\" >\n        <h4 class=\"drug\"><span class=\"label label-default\">{{ vaccination.name }}</span></h4>\n        <h4 class=\"date\"><span class=\"label label-default\">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>\n        <h4 class=\"date\"><span class=\"label label-default\">Scheduled: {{ vaccination.scheduled_date | date: 'mediumDate' }}</span></h4>\n        <div class=\"btn-group pull-right\" role=\"group\" aria-label=\"...\">\n            <button type=\"button\" class=\"btn btn-info\" ng-click=\"toggleAdministerForm()\">Administer</button>\n        </div>\n    </div>\n    <!-- /HEADER -->\n\n    <!-- ADMINISTRATION FORM -->\n    <form ng-if=\"state.administerFormOpen\" class=\"form-wrapper show-hide\">\n        <div>\n            <div class=\"form-group\">\n                <label>Date</label>\n                <input class=\"form-control\" type=\"date\" ng-model=\"enteredAdminFormData.administration_date\" placeholder=\"Date\">\n            </div>\n            <div class=\"form-group\">\n                <label>Dose</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.dose\" placeholder=\"Dose\">\n            </div>\n            <div class=\"form-group\">\n                <label>Units</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.dosing_unit\" placeholder=\"Units\">\n            </div>\n            <div class=\"form-group\">\n                <label>Route</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.route\" placeholder=\"Units\">\n            </div>\n            <div class=\"form-group\">\n                <label>Body Site Administered</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.body_site_administered\" placeholder=\"Body Site Administered\">\n            </div>\n            <div class=\"form-group\">\n                <label>Lot Number</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.lot_number\" placeholder=\"Lot Number\">\n            </div>\n            <div class=\"form-group\">\n                <label>Manufacture Date</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.manufacture_date\" placeholder=\"Manufacture Date\">\n            </div>\n            <div class=\"form-group\">\n                <label>Expiry Date</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.expiry_date\" placeholder=\"Expiry Date\">\n            </div>\n            <div class=\"form-button-wrapper\">\n            <!-- cannot delete scheduled vaccines. -->\n                <button type=\"submit\" class=\"btn btn-danger\" ng-show=\"!vaccination._template_id\" ng-click=\"deleteVaccination(vaccination._id)\">Delete</button>\n                <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"resetFormDataToDefaults()\">Reset</button>\n                <button type=\"submit\" class=\"btn btn-warning\">Submit</button>\n            </div>\n        </div>\n    </form>\n    <!-- / ADMINISTRATION FORM -->\n</div>\n<!-- /UNADMINISTERED TEMPLATE -->",
-			"file": "app/scripts/directives/vaccination_unadministered.html",
-			"file_size": 3335,
-			"file_write_time": 130718727190000000,
+			"file": "src/app/main/vaccinations_manager.controller.js",
 			"settings":
 			{
-				"buffer_size": 3335,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "<!-- STAGED TEMPLATE -->\n<div ng-controller=\"StagedVaccinationController\" class=\"vaccination unadministered vaccination-staged\" ng-class=\"{'scheduled':vaccination._template_id}\" data-placement=\"top\" bs-popover=\"popover\">\n    <!-- STAGED HEADER -->\n    <div class=\"header unadministered-header\" >\n        <h4 class=\"drug\"><span class=\"label label-default\">{{ vaccination.name }}</span></h4>\n        <h4 class=\"date\"><span class=\"label label-default\">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>\n        <div class=\"btn-group pull-right\" role=\"group\" aria-label=\"...\">\n            <button type=\"button\" class=\"btn btn-info\" ng-click=\"toggleAdministerForm()\">Administer</button>\n        </div>\n    </div>\n    <!-- /HEADER -->\n\n    <!-- ADMINISTRATION FORM -->\n    <form ng-if=\"state.administerFormOpen\" class=\"form-wrapper show-hide\">\n        <div>\n            <div class=\"form-group\">\n                <label>Date</label>\n                <input class=\"form-control\" type=\"date\" ng-model=\"enteredAdminFormData.administration_date\" placeholder=\"Date\">\n            </div>\n            <div class=\"form-group\">\n                <label>Dose</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.dose\" placeholder=\"Dose\">\n            </div>\n            <div class=\"form-group\">\n                <label>Units</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.dosing_unit\" placeholder=\"Units\">\n            </div>\n            <div class=\"form-group\">\n                <label>Route</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.route\" placeholder=\"Units\">\n            </div>\n            <div class=\"form-group\">\n                <label>Body Site Administered</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.body_site_administered\" placeholder=\"Body Site Administered\">\n            </div>\n            <div class=\"form-group\">\n                <label>Lot Number</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.lot_number\" placeholder=\"Lot Number\">\n            </div>\n            <div class=\"form-group\">\n                <label>Manufacture Date</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.manufacture_date\" placeholder=\"Manufacture Date\">\n            </div>\n            <div class=\"form-group\">\n                <label>Expiry Date</label>\n                <input class=\"form-control\" type=\"text\" ng-model=\"enteredAdminFormData.expiry_date\" placeholder=\"Expiry Date\">\n            </div>\n            <div class=\"form-button-wrapper\">\n            <!-- cannot delete scheduled vaccines. -->\n                <button type=\"submit\" class=\"btn btn-danger\" ng-show=\"!vaccination._template_id\" ng-click=\"deleteVaccination(vaccination._id)\">Delete</button>\n                <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"resetFormDataToDefaults()\">Reset</button>\n                <button type=\"submit\" class=\"btn btn-warning\">Submit</button>\n            </div>\n        </div>\n    </form>\n    <!-- / ADMINISTRATION FORM -->\n</div>\n<!-- /STAGED TEMPLATE -->",
-			"file": "app/scripts/directives/vaccination_staged_template.html",
-			"file_size": 3236,
-			"file_write_time": 130718906590000000,
-			"settings":
-			{
-				"buffer_size": 3236,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "$icon-font-path: \"../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/\";\n\n// bower:scss\n@import \"bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss\";\n// endbower\n\n// colors\n$adverse-background: #F8E0E4;\n$adverse-foreground: #E7687D;\n\n\n.vaccinations-wrapper:first-child:before {\n    content: \"hello\";\n}\n.container {\n    margin-bottom: 90px;\n}\n\n.vaccination-staged {\n        margin-top: 120px;\n        margin-bottom: 85px;\n}\n\n.vaccination {\n\n\n    .form-group:nth-child(1) {\n        margin-top: 45px;\n    }\n\n    .form-wrapper, .header:nth-last-child(1) {\n        border-bottom-right-radius: 4px !important;\n        border-bottom-left-radius: 4px !important;\n    }\n\n    .form-wrapper {\n        padding: 15px 80px;\n        margin-right: 0;\n        margin-left: 0;\n        background-color: #FDFDFD;\n        border-top: 1px solid #fff;\n        border-left: 1px solid #ddd;\n        border-bottom: 1px solid #ddd;\n        border-right: 1px solid #ddd;\n        // border-radius: 0 0 4px 4px;\n        box-shadow: none;\n    }\n\n    .header {\n        margin-right: 0;\n        margin-top: 2px;\n        margin-left: 0;\n        background-color: #fff;\n        border-top: 1px solid #ddd;\n        border-left: 1px solid #ddd;\n        border-bottom: 1px solid #ddd;\n        border-right: 1px solid #ddd;\n        border-top-right-radius: 4px;\n        border-top-left-radius: 4px;\n        box-shadow: none;\n        background-color: #F7F7F9;\n        line-height: 45px;\n    }\n\n    .drug {\n        padding-left: 15px;\n        display: inline-block;\n    }\n\n    .date {\n        padding-left: 5px;\n        display: inline-block;\n    }\n\n    .btn {\n        font-weight: bold;\n    }\n\n    .administered-header {\n        background-color: #dff0d8;\n        border-color: #CCDACC;\n\n        .btn-primary {\n            background-color: #649a8c;\n            border-color: white;\n        }\n\n        .btn-danger {\n            background-color: rgb(80, 207, 134);\n            border-color: white;\n        }\n\n        .label-default {\n            background-color: rgba(99, 190, 135, 1);\n        }\n    }\n\n    .unadministered-header {\n        .btn-info {\n            border-color: white;\n        }\n\n        .label-default {\n            background-color: lightgrey;\n            color: white;\n        }\n    }\n\n    .adverse-header {\n        background-color: $adverse-background;\n        border-color: #FAB9C4;\n        .label {\n            border: 1px solid white;\n            background-color: $adverse-foreground;\n        }\n\n        .btn {\n            background-color: $adverse-foreground;\n        }\n    }\n}\n\n.vaccination {\n    .form-button-wrapper {\n        text-align: center;\n        button {\n            margin-bottom: 30px;\n            margin-top: 15px;\n        }\n    }\n}\n\n.container {\n    padding-top: 10%;\n}\n\n\n\n.btn-group {\n    padding-top: 5px;\n    padding-right: 15px;\n}\n\n.header .btn {\n    padding: .2em 1em;\n}\n\n.header .btn-group {\n    margin-top: 4px;\n}\n\n.input-group-addon {\n    background-color: #FAFAFA;\n}\n",
-			"file": "app/styles/main.scss",
-			"file_size": 3017,
-			"file_write_time": 130718908250000000,
-			"settings":
-			{
-				"buffer_size": 3017,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
-			"settings":
-			{
-				"buffer_size": 1167,
+				"buffer_size": 2252,
 				"line_ending": "Unix"
 			}
 		},
@@ -595,6 +544,89 @@
 			"settings":
 			{
 				"buffer_size": 99,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/vaccination/staged/add_vaccination.controller.js",
+			"settings":
+			{
+				"buffer_size": 580,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/main/main.controller.js",
+			"settings":
+			{
+				"buffer_size": 772,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\n\nangular.module('vaccinations')\n.controller('StagedVaccinationController', ['$scope', '$http', '$interval', 'vaccinationsManager',\n    function ($scope, $http, $interval, vaccinationsManager) {\n    //$scope.enteredFormData = getVaccination();\n    $scope.state = {};\n    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    $scope.state.administerFormOpen = true;\n    $scope.popover = {\n        title: 'New Vaccination',\n        content: 'Fill in details and click submit to save.',\n        trigger: 'manual',\n        show: true\n    };\n\n    $scope.deleteStagedVaccination = function () {\n\n    };\n\n    $scope.resetFormDataToDefaults = function () {\n        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    };\n    \n    $scope.submitVaccination = function () {\n        $http.post('/vaccines/patients/1', vaccine)\n        .success( function (data) {\n            vaccinationsManager.addVaccination(data.vaccination);\n            $scope.unstageNewVaccination();\n        })\n        .error( function (data) {\n            alert(\"A problem occured adding this vaccination. It has not been saved. Please try again.\")\n        });\n    };\n}]);",
+			"file": "src/app/vaccination/staged/stage_vaccination.controller.js",
+			"file_size": 1121,
+			"file_write_time": 130719933000000000,
+			"settings":
+			{
+				"buffer_size": 1186,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bower_components/angular-strap/src/popover/popover.js",
+			"settings":
+			{
+				"buffer_size": 3270,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/vaccination/staged/vaccination_staged.template.html",
+			"settings":
+			{
+				"buffer_size": 3224,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/main/vaccination_popover.directive.js",
+			"settings":
+			{
+				"buffer_size": 662,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/dev/mock_backend.js",
+			"settings":
+			{
+				"buffer_size": 918,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/vaccination/administered/administered_vaccination.controller.js",
+			"settings":
+			{
+				"buffer_size": 970,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app/vaccination/unadministered/unadministered_vaccination.controller.js",
+			"settings":
+			{
+				"buffer_size": 1110,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "karma.conf.js",
+			"settings":
+			{
+				"buffer_size": 243,
 				"line_ending": "Unix"
 			}
 		}
@@ -606,10 +638,34 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 267.0,
-		"last_filter": "angular",
+		"height": 327.0,
+		"last_filter": "pack in",
 		"selected_items":
 		[
+			[
+				"pack in",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"an",
+				"AngularJS: Look Up Definition"
+			],
+			[
+				"ang",
+				"AngularJS: Look Up Definition"
+			],
+			[
+				"zoom",
+				"Origami: Zoom Current Pane"
+			],
+			[
+				"create pane be",
+				"Origami: Create Pane Below"
+			],
 			[
 				"angular",
 				"Set Syntax: HTML (Angular.js)"
@@ -669,10 +725,6 @@
 			[
 				"defini",
 				"AngularJS: Look Up Definition"
-			],
-			[
-				"pack in",
-				"Package Control: Install Package"
 			],
 			[
 				"new ",
@@ -813,10 +865,6 @@
 			[
 				"unzo",
 				"Origami: Unzoom Current Pane"
-			],
-			[
-				"zoom",
-				"Origami: Zoom Current Pane"
 			],
 			[
 				"creapabel",
@@ -1011,10 +1059,6 @@
 				"Origami: Move File to Pane Below"
 			],
 			[
-				"pack",
-				"Package Control: Remove Package"
-			],
-			[
 				"sass",
 				"SassBeautify"
 			],
@@ -1060,13 +1104,34 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/jon/Desktop/KMRI/vaccinations"
+		"/Users/jon/Desktop/KMRI/vaccinations",
+		"/Users/jon/Desktop/KMRI/vaccinations/bower_components",
+		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap",
+		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap/src",
+		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap/src/popover",
+		"/Users/jon/Desktop/KMRI/vaccinations/src",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/administered",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/staged",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/unadministered",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/mock_data"
 	],
 	"file_history":
 	[
+		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/controllers/vaccinations.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/index.scss",
+		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/app.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main/vaccinations_manager.spec.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/dist/scripts/scripts.b0b2534f.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular/angular.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main/vaccinations.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/index.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main/constants.value.js",
+		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main/vaccination_popover.directive.js",
 		"/Users/jon/Library/Application Support/Sublime Text 3/Packages/SublimeLinter/Default (OSX).sublime-keymap",
 		"/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
-		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/app.js",
 		"/Users/jon/Library/Application Support/Sublime Text 3/Packages/AngularJS/AngularJS-sublime-package.sublime-settings",
 		"/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/mock_data/vaccinations.json",
@@ -1074,7 +1139,6 @@
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/directives/vaccination_unadministered.html",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/mock_data/vaccines.json",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/index.html",
-		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/controllers/vaccinations.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/typeahead/vaccines_manager_service.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/typeahead/typeahead_controller.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/mock_backend.js",
@@ -1093,7 +1157,6 @@
 		"/Users/jon/Desktop/KMRI/vaccinations/.sass-cache/c1bf5b9fb19c60c82f10bc9684bf9d4846c9d5a3/_text-emphasis.scssc",
 		"/Users/jon/Desktop/KMRI/vaccinations/node_modules/grunt-karma/TODO.md",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/directives/vaccination_administered.html",
-		"/Users/jon/Desktop/KMRI/vaccinations/dist/scripts/scripts.b0b2534f.js",
 		"/Users/jon/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/directives/directives.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/dist/mock_data/vaccinations.json",
@@ -1162,7 +1225,6 @@
 		"/Users/jon/Desktop/KMRI/vaccinations/node_modules/karma/node_modules/useragent/test/mocha.opts",
 		"/Users/jon/Desktop/KMRI/vaccinations/node_modules/grunt-google-cdn/node_modules/bower/node_modules/inquirer/node_modules/cli-color/node_modules/es5-ext/object/copy-deep.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/node_modules/grunt-svgmin/node_modules/svgo/node_modules/sax/test/cdata.js",
-		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular/angular.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/directives/vaccinations",
 		"/Users/jon/Desktop/KMRI/vaccinations/node_modules/grunt-google-cdn/node_modules/bower/node_modules/mout/lang/isNull.js",
 		"/Users/jon/Desktop/KMRI/vaccinations/app/views/vaccination.html",
@@ -1185,13 +1247,7 @@
 		"/Users/jon/Desktop/prj/socialdistribution/external/views.py",
 		"/Users/jon/Desktop/prj/socialdistribution/timeline/tests.py",
 		"/Users/jon/Desktop/prj/socialdistribution/external/models.py",
-		"/Users/jon/Desktop/prj/socialdistribution/sysadmin/models.py",
-		"/Users/jon/Desktop/prj/socialdistribution/timeline/models.py",
-		"/Users/jon/Desktop/prj/socialdistribution/author/models.py",
-		"/Users/jon/Desktop/prj/socialdistribution/author/__init__.py",
-		"/Users/jon/Desktop/prj/404_prj/sysadmin/tests.py",
-		"/Users/jon/Desktop/prj/404_prj/external/tests.py",
-		"/Users/jon/Desktop/prj/404_prj/author/models.py"
+		"/Users/jon/Desktop/prj/socialdistribution/sysadmin/models.py"
 	],
 	"find":
 	{
@@ -1210,6 +1266,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"show",
+			"vaccinationsApp",
+			"main",
+			"app/main/vaccin",
+			"vaccinationsApp",
+			"ng-app",
 			"angular",
 			"angularjs",
 			"ctrl+l",
@@ -1331,13 +1393,7 @@
 			"uuid",
 			"getauthorfollowers",
 			"friendrequest",
-			"test_get_uuid",
-			"uuid",
-			"uui",
-			"user",
-			"/author/",
-			"GetPosts",
-			"UserDetails"
+			"test_get_uuid"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1355,24 +1411,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 6,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/scripts/controllers/vaccinations.js",
+					"file": "src/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4403,
+						"buffer_size": 3633,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2060,
-								2060
+								1485,
+								1485
 							]
 						],
 						"settings":
@@ -1380,14 +1436,12 @@
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"history_list_is_closing": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
-								"_vintageous_non_interactive": false,
-								"_vintageous_processing_notation": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
@@ -1398,79 +1452,216 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 0
+								"xpos": 26
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 430.0,
+						"translation.y": 407.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/scripts/app.js",
+					"file": "src/app/main/vaccination.directive.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7030,
+						"buffer_size": 1693,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4005,
-								4005
+								879,
+								879
 							]
 						],
 						"settings":
 						{
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
-								"_vintageous_non_interactive": false,
-								"_vintageous_processing_notation": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
+								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 53
+								"visual_block_direction": 2,
+								"xpos": 46
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 1392.0,
+						"translation.y": 63.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/AngularJS-sublime-package.sublime-settings",
+					"file": "src/app/main/helper_common.service.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 460,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								459,
+								459
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 2
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/app/main/vaccines_manager.service.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 377,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								376,
+								376
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 3
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/app/main/vaccinations_manager.controller.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2252,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								241,
+								241
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 79
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 1.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 99,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								80,
+								80
 							]
 						],
 						"settings":
@@ -1479,93 +1670,6 @@
 							"syntax": "Packages/JavaScript/JSON.tmLanguage",
 							"vintage":
 							{
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 0
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 53740,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								41013,
-								41016
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"vintage":
-							{
-								"action": null,
-								"action_count": "",
-								"mode": "mode_visual",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 3
-							},
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5520.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5526,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1777,
-								1777
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"vintage":
-							{
 								"_vintageous_glue_until_normal_mode": false,
 								"_vintageous_non_interactive": false,
 								"_vintageous_processing_notation": false,
@@ -1575,43 +1679,42 @@
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
-								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 70
+								"xpos": 38
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 450.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "app/scripts/directives/vaccination_unadministered.html",
+					"buffer": 6,
+					"file": "src/app/vaccination/staged/add_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3335,
+						"buffer_size": 580,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								964,
-								964
+								519,
+								519
 							]
 						],
 						"settings":
 						{
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"history_list_is_closing": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1625,31 +1728,179 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 12
+								"xpos": 29
 							}
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/scripts/directives/vaccination_staged_template.html",
+					"buffer": 7,
+					"file": "src/app/main/main.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3236,
+						"buffer_size": 772,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								125,
-								125
+								771,
+								771
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 3
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"file": "src/app/vaccination/staged/stage_vaccination.controller.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1186,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								496,
+								496
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"visual_block_direction": 2,
+								"xpos": 3
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "bower_components/angular-strap/src/popover/popover.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3270,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3164,
+								3164
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 23
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 304.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/app/vaccination/staged/vaccination_staged.template.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2900,
+								2900
 							]
 						],
 						"settings":
@@ -1672,91 +1923,38 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 100
+								"xpos": 93
 							}
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 0,
-					"file": "app/scripts/controllers/vaccinations.js",
+					"buffer": 11,
+					"file": "src/app/main/vaccination_popover.directive.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4403,
+						"buffer_size": 662,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1129,
-								1129
+								231,
+								231
 							]
 						],
 						"settings":
 						{
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"history_list_is_closing": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"vintage":
-							{
-								"_vintageous_glue_until_normal_mode": false,
-								"_vintageous_non_interactive": false,
-								"_vintageous_processing_notation": false,
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"normal_insert_count": "1",
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 32
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 144.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 7,
-					"file": "app/styles/main.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3017,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								974,
-								974
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true,
 							"vintage":
@@ -1772,138 +1970,201 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 21
+								"visual_block_direction": 2,
+								"xpos": 94
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 237.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 2,
-			"sheets":
-			[
-				{
-					"buffer": 8,
-					"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1167,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								280,
-								280
-							]
-						],
-						"settings":
-						{
-							"auto_complete": true,
-							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"vintage":
-							{
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 30
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "app/scripts/app.js",
+					"buffer": 12,
+					"file": "src/app/dev/mock_backend.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7030,
+						"buffer_size": 918,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4998,
-								4998
+								908,
+								908
 							]
 						],
 						"settings":
 						{
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
+								"_vintageous_glue_until_normal_mode": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
+								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 70
+								"xpos": 45
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 2059.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+					"buffer": 13,
+					"file": "src/app/vaccination/administered/administered_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 99,
+						"buffer_size": 970,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								38,
-								38
+								969,
+								969
 							]
 						],
 						"settings":
 						{
-							"auto_complete": true,
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 3
+							}
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/app/vaccination/unadministered/unadministered_vaccination.controller.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12,
+								12
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 12
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "karma.conf.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 243,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								133,
+								133
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 29
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
 					"type": "text"
 				}
 			]
@@ -1930,26 +2191,19 @@
 			[
 				0,
 				1,
-				2,
-				2
-			],
-			[
 				1,
-				0,
-				2,
-				1
+				2
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
+			0.473710230333,
 			1.0
 		]
 	},
@@ -1976,8 +2230,16 @@
 		"selected_items":
 		[
 			[
+				"addva",
+				"src/app/vaccination/staged/add_vaccination.controller.js"
+			],
+			[
 				"inde",
-				"app/index.html"
+				"src/index.html"
+			],
+			[
+				"index.sc",
+				"src/app/index.scss"
 			],
 			[
 				"app",
@@ -2287,19 +2549,19 @@
 	"selected_group": 0,
 	"settings":
 	{
-		"_vintageous_last_char_search_command": "vi_f",
-		"_vintageous_last_character_search": "a",
+		"_vintageous_last_char_search_command": "vi_big_f",
+		"_vintageous_last_character_search": "'",
 		"_vintageous_reset_during_init": true,
 		"vintage":
 		{
-			"_cmdline_cd": "/Users/jon/Desktop/KMRI/vaccinations/app/scripts"
+			"_cmdline_cd": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User"
 		}
 	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": false,
-	"side_bar_width": 289.0,
+	"side_bar_width": 265.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

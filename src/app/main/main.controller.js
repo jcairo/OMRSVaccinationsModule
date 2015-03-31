@@ -11,7 +11,6 @@ angular.module('vaccinations')
 .controller('MainController', ['$scope', '$http', 'vaccinationsManager', 'vaccinesManager',
     function($scope, $http, vaccinationsManager, vaccinesManager){
 
-
     $scope.search = {};
     $scope.search.vaccinations = '';
     $scope.search.vaccines = '';
@@ -20,10 +19,18 @@ angular.module('vaccinations')
     vaccinationsManager.getVaccinations().success(function(data) {
         $scope.vaccinations = data.vaccinations;
     });
+    // Get list of staged vaccinations.
+    $scope.stagedVaccinations = vaccinationsManager.getStagedVaccinations();
 
     // Get list of vaccines.
     vaccinesManager.getVaccines().success( function(data) {
         $scope.vaccines = data.vaccines;
     });
 
+    $scope.stageNewVaccination = function (vaccine) {
+        var stagedVaccination = angular.copy(vaccine);
+        stagedVaccination._staged = true;
+        vaccinationsManager.addStagedVaccination(stagedVaccination);
+        $scope.newVaccine = '';
+    };
 }]);

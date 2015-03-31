@@ -6,7 +6,7 @@ angular.module('vaccinations')
 .service('vaccinationsManager', ['$http', '$filter','appConstants', 'helperFunctions',
     function($http, $filter, appConstants, helperFunctions){
     var self = this;
-
+    self.stagedVaccinations = [];
 
     var setVaccinations = function (vaccinations) {
         if (self.vaccinations){
@@ -55,6 +55,36 @@ angular.module('vaccinations')
             } else {
                 console.log("The index of the vaccination to be removed could not be found.");
             }
+        },
+
+        addStagedVaccination: function(vaccine) {
+            // We only want 1 staged vaccination at a time to keep
+            // things organized. So clear the array first.
+            this.removeStagedVaccination();
+            self.stagedVaccinations.push(vaccine);
+        },
+
+        getStagedVaccinations: function () {
+            return self.stagedVaccinations;
+        },
+
+        removeStagedVaccination: function () {
+            self.stagedVaccinations.length = 0;
+        },
+
+        commitStagedVaccination: function (vaccine) {
+            if (self.stagedVaccinations.length === 0) {
+                alert("No vaccination is currently staged.")
+                return;
+            }
+            $http.post('vaccinations/patients/1', vaccine)
+                .success( function (data) {
+                    this.removeStagedVaccination();
+                    this.addVaccination(data.vaccination);
+                })
+                .error( function (data) {
+                    alert("Unable to save the vaccination. Try again.");
+                });
         }
     };
 
