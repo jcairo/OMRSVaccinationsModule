@@ -16,7 +16,7 @@ angular.module('vaccinations')
         }
     };
 
-    var promise = $http.get('mock_data/vaccinations.json')
+    var promise = $http.get('vaccinations/patients/1')
         // var vaccsPromise = $http.get('/vaccinations/patients/' + appConstants.patientId)
         .success(function(data, status, headers, config){
             setVaccinations(data.vaccinations);
@@ -73,14 +73,15 @@ angular.module('vaccinations')
         },
 
         commitStagedVaccination: function (vaccine) {
+            var that = this;
             if (self.stagedVaccinations.length === 0) {
                 alert("No vaccination is currently staged.")
                 return;
             }
-            $http.post('vaccinations/patients/1', vaccine)
+            $http.post('/vaccinations/patients/1', {'vaccine': that.getStagedVaccinations()[0]})
                 .success( function (data) {
-                    this.removeStagedVaccination();
-                    this.addVaccination(data.vaccination);
+                    that.removeStagedVaccination();
+                    that.addVaccination(data.vaccination);
                 })
                 .error( function (data) {
                     alert("Unable to save the vaccination. Try again.");

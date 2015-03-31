@@ -1,27 +1,19 @@
 'use strict';
 
 describe('Service: vaccinationsManager', function() {
-    beforeEach(module('vaccinations'));
+    beforeEach(module('vaccinations', 'mockData'));
 
-    var vaccinationsManager, httpBackend, mockVaccinationsData, mockVaccination, vaccinations;
+    var vaccinationsManager, httpBackend, mockVaccinationsData, mockVaccination, mockObjects, vaccinations;
 
-    beforeEach(inject(function(_vaccinationsManager_, $httpBackend){
+    beforeEach(inject(function(_vaccinationsManager_, _mockObjects_, $httpBackend){
+        mockObjects = _mockObjects_;
         vaccinationsManager = _vaccinationsManager_;
         httpBackend = $httpBackend;
 
-        jasmine.getFixtures().fixturesPath = 'base/src/mock_data/';
-        var f = readFixtures('vaccinations.json');
-        json = JSON.parse(f);
-        expect(json).toBeDefined();
-
-        // Create a mock response.
-        mockVaccinationsData = readJSON('src/mock_data/vaccinations.json');
-        mockVaccination = readJSON('src/mock_data/vaccinations.json').vaccinations[0];
-        $httpBackend.whenGET('mock_data/vaccinations.json').respond(mockVaccinationsData);
-
-        // Add mock data to the manager.
-        // vaccinationsManager.setVaccinations(mockVaccinationsData.vaccinations);
-
+        // Create a mock responses and backend.
+        mockVaccinationsData = mockObjects;
+        mockVaccination = mockObjects.vaccinations[0];
+        $httpBackend.whenGET(/\/?vaccinations\/patients\/.+/).respond(mockVaccinationsData);
     }));
 
     beforeEach(function (done) {
@@ -37,7 +29,7 @@ describe('Service: vaccinationsManager', function() {
     //         .toThrow(new Error('Vaccinations have already been set.'));
     // });
 
-    it('should allow you to set an array of vaccination objects', function () {
+    it('should allow automatically set an array of vaccination objects on instantiation', function () {
         expect(vaccinations.length).toBe(10);
     });
 
@@ -58,11 +50,11 @@ describe('Service: vaccinationsManager', function() {
     it('should add a new vaccination object to the array if its _id attribute is unique', function(){
         mockVaccination._id = mockVaccination._id + '1';
         vaccinationsManager.addVaccination(mockVaccination);
-        expect(vaccinationsManager.testHelper().length).toBe(11);
+        expect(vaccinations.length).toBe(11);
     });
 
     it('should reject a new vaccination from being added to the array if its _id attribute is not unique', function() {
         vaccinationsManager.addVaccination(mockVaccination);
-        expect(vaccinationsManager.testHelper().length).toBe(10);
+        expect(vaccinations.length).toBe(10);
     });
 });

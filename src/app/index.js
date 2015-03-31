@@ -13,6 +13,6 @@
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'ngTouch',
+    'ngResource',
     'mgcrea.ngStrap'
 ]);

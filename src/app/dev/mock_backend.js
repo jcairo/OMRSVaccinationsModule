@@ -1,22 +1,32 @@
 'use strict';
 
-var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E']);
-mockBackend.run(function($httpBackend, $resource){
-    // Get the mock json data
-    var vaccinations = $resource('../mock_data/vaccinations.json').get();
-    var vaccines = $resource('../mock_data/vaccines.json').get();
-    $httpBackend.whenGET('/vaccinations/patients/1').respond(vaccinations);
-    $httpBackend.whenGET('/vaccines').respond(vaccines);
+var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E', 'mockData']);
+mockBackend.run(function($httpBackend, $resource, mockObjects){
+    // Get the mock json data from the mockData module.
+    var vaccinations = mockObjects.vaccinations;
+    var vaccines =  mockObjects.vaccines;
 
-    $httpBackend.whenPOST('/vaccinations/patients/1').respond(function(mehod, url, data){
-        var vaccination = angular.fromJson(data);
+    $httpBackend.whenGET(/^\/?vaccinations\/patients\/1/).respond(mockObjects);
+    $httpBackend.whenGET('/vaccines').respond(mockObjects);
+
+    $httpBackend.whenPOST(/^\/vaccinations\/patients\/1/).respond(function(mehod, url, data){
+        console.log("Matched!");
+        var vaccination = angular.fromJson(data).vaccine;
+        // Add a vaccination id field and remove the
+        // staged marker.
+        vaccination._id = "NEWLYADDED-" + Math.random() * 10000000;
+        delete vaccination._staged;
         vaccinations.push(vaccination);
-        return [200, vaccination, {}];
+        return [200, {vaccination:vaccination}, {}];
+
     });
     $httpBackend.whenPUT('vaccinations/patients/1');
-    // $httpBackend.whenGET('/').passThrough();
+
+    // Do not serve anything from the mock server on these routes.
+    $httpBackend.whenGET(/\/?mock_data\/.+/).passThrough();
+    $httpBackend.whenGET(/\/?app\/.+/).passThrough();
 });
 // Manually bootstrap the backend.
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['vaccinations']);
+    angular.bootstrap(document, ['mockBackend']);
 });
