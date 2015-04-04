@@ -503,7 +503,7 @@
 			"file": "src/index.html",
 			"settings":
 			{
-				"buffer_size": 3633,
+				"buffer_size": 3618,
 				"line_ending": "Unix"
 			}
 		},
@@ -532,14 +532,6 @@
 			}
 		},
 		{
-			"file": "src/app/main/vaccinations_manager.controller.js",
-			"settings":
-			{
-				"buffer_size": 2252,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
 			"settings":
 			{
@@ -551,7 +543,7 @@
 			"file": "src/app/vaccination/staged/add_vaccination.controller.js",
 			"settings":
 			{
-				"buffer_size": 580,
+				"buffer_size": 581,
 				"line_ending": "Unix"
 			}
 		},
@@ -559,18 +551,15 @@
 			"file": "src/app/main/main.controller.js",
 			"settings":
 			{
-				"buffer_size": 772,
+				"buffer_size": 1147,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "'use strict';\n\nangular.module('vaccinations')\n.controller('StagedVaccinationController', ['$scope', '$http', '$interval', 'vaccinationsManager',\n    function ($scope, $http, $interval, vaccinationsManager) {\n    //$scope.enteredFormData = getVaccination();\n    $scope.state = {};\n    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    $scope.state.administerFormOpen = true;\n    $scope.popover = {\n        title: 'New Vaccination',\n        content: 'Fill in details and click submit to save.',\n        trigger: 'manual',\n        show: true\n    };\n\n    $scope.deleteStagedVaccination = function () {\n\n    };\n\n    $scope.resetFormDataToDefaults = function () {\n        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());\n    };\n    \n    $scope.submitVaccination = function () {\n        $http.post('/vaccines/patients/1', vaccine)\n        .success( function (data) {\n            vaccinationsManager.addVaccination(data.vaccination);\n            $scope.unstageNewVaccination();\n        })\n        .error( function (data) {\n            alert(\"A problem occured adding this vaccination. It has not been saved. Please try again.\")\n        });\n    };\n}]);",
 			"file": "src/app/vaccination/staged/stage_vaccination.controller.js",
-			"file_size": 1121,
-			"file_write_time": 130719933000000000,
 			"settings":
 			{
-				"buffer_size": 1186,
+				"buffer_size": 988,
 				"line_ending": "Unix"
 			}
 		},
@@ -586,7 +575,7 @@
 			"file": "src/app/vaccination/staged/vaccination_staged.template.html",
 			"settings":
 			{
-				"buffer_size": 3224,
+				"buffer_size": 3243,
 				"line_ending": "Unix"
 			}
 		},
@@ -602,7 +591,7 @@
 			"file": "src/app/dev/mock_backend.js",
 			"settings":
 			{
-				"buffer_size": 918,
+				"buffer_size": 1304,
 				"line_ending": "Unix"
 			}
 		},
@@ -1102,22 +1091,6 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/Users/jon/Desktop/KMRI/vaccinations",
-		"/Users/jon/Desktop/KMRI/vaccinations/bower_components",
-		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap",
-		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap/src",
-		"/Users/jon/Desktop/KMRI/vaccinations/bower_components/angular-strap/src/popover",
-		"/Users/jon/Desktop/KMRI/vaccinations/src",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app/main",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/administered",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/staged",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/app/vaccination/unadministered",
-		"/Users/jon/Desktop/KMRI/vaccinations/src/mock_data"
-	],
 	"file_history":
 	[
 		"/Users/jon/Desktop/KMRI/vaccinations/app/scripts/controllers/vaccinations.js",
@@ -1411,7 +1384,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -1420,15 +1393,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3633,
+						"buffer_size": 3618,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1485,
-								1485
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1437,7 +1410,7 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"history_list_is_closing": true,
 							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
@@ -1459,7 +1432,7 @@
 						"translation.y": 407.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1485,6 +1458,8 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1506,7 +1481,7 @@
 						"translation.y": 63.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1532,6 +1507,8 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1578,6 +1555,8 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1598,57 +1577,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "src/app/main/vaccinations_manager.controller.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2252,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								241,
-								241
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
-							"open_with_edit": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"vintage":
-							{
-								"_vintageous_glue_until_normal_mode": false,
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"normal_insert_count": "1",
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 79
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 1.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "/Users/jon/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
 					"semi_transient": false,
 					"settings":
@@ -1689,24 +1622,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"file": "src/app/vaccination/staged/add_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 580,
+						"buffer_size": 581,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								519,
-								519
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1728,7 +1661,7 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 29
+								"xpos": 0
 							}
 						},
 						"translation.x": 0.0,
@@ -1739,20 +1672,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 6,
 					"file": "src/app/main/main.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 772,
+						"buffer_size": 1147,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								771,
-								771
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1789,16 +1722,16 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"file": "src/app/vaccination/staged/stage_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1186,
+						"buffer_size": 988,
 						"regions":
 						{
 						},
@@ -1815,6 +1748,8 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1836,11 +1771,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 8,
 					"file": "bower_components/angular-strap/src/popover/popover.js",
 					"semi_transient": false,
 					"settings":
@@ -1876,31 +1811,31 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 23
+								"xpos": 0
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 304.0,
+						"translation.y": 994.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 9,
 					"file": "src/app/vaccination/staged/vaccination_staged.template.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3224,
+						"buffer_size": 3243,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2900,
-								2900
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1930,11 +1865,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 10,
 					"file": "src/app/main/vaccination_popover.directive.js",
 					"semi_transient": false,
 					"settings":
@@ -1982,20 +1917,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 11,
 					"file": "src/app/dev/mock_backend.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 918,
+						"buffer_size": 1304,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								908,
-								908
+								0,
+								0
 							]
 						],
 						"settings":
@@ -2025,11 +1960,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 12,
 					"file": "src/app/vaccination/administered/administered_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
@@ -2051,6 +1986,8 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/Flatland_Monokai (SL).tmTheme",
 							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -2071,11 +2008,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 13,
 					"file": "src/app/vaccination/unadministered/unadministered_vaccination.controller.js",
 					"semi_transient": false,
 					"settings":
@@ -2119,11 +2056,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 14,
 					"file": "karma.conf.js",
 					"semi_transient": false,
 					"settings":
@@ -2164,7 +2101,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 12,
 					"type": "text"
 				}
 			]
@@ -2560,7 +2497,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 265.0,
 	"status_bar_visible": true,
 	"template_settings":
