@@ -3,7 +3,7 @@
     <!-- STAGED HEADER -->
     <div class="header unadministered-header" >
         <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <h4 class="date"><span class="label label-default">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>
+        <h4 class="date" ng-if="vaccination.indication"><span class="label label-default">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-info" ng-click="toggleAdministerForm()">Administer</button>
         </div>
@@ -39,17 +39,17 @@
             </div>
             <div class="form-group">
                 <label>Manufacture Date</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.manufacture_date" placeholder="Manufacture Date">
+                <input class="form-control" type="date" ng-model="enteredAdminFormData.manufacture_date" placeholder="Manufacture Date">
             </div>
             <div class="form-group">
                 <label>Expiry Date</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.expiry_date" placeholder="Expiry Date">
+                <input class="form-control" type="date" ng-model="enteredAdminFormData.expiry_date" placeholder="Expiry Date">
             </div>
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button type="submit" class="btn btn-danger" ng-click="removeStagedVaccination()">Cancel</button>
-                <button type="submit" class="btn btn-primary" ng-click="resetFormDataToDefaults()">Reset</button>
-                <button type="submit" class="btn btn-warning" ng-click="commitStagedVaccination()">Submit</button>
+                <button class="btn btn-danger" ng-click="removeStagedVaccination()">Cancel</button>
+                <button class="btn btn-primary" ng-click="resetFormDataToDefaults()">Reset</button>
+                <button type="submit" class="btn btn-warning" ng-click="saveVaccination()">Submit</button>
             </div>
         </div>
     </form>

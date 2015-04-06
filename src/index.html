@@ -33,7 +33,7 @@
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="input-group">
                     <span class="input-group-addon">Search</span>
-                    <input class="form-control" type="text" id="search" ng-model="search.vaccinations" placeholder="Search">
+                    <input class="form-control" type="text" id="search" ng-model="search.vaccinations" placeholder="Search Patient's Vaccinations">
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="input-group">
                         <span class="input-group-addon">Add New Vaccination</span>
-                        <input class="form-control" type="text" id="search" placeholder="Vaccine Name" ng-model="newVaccine" bs-options="vaccines as vaccines.name for vaccines in vaccines " bs-typeahead>
+                        <input class="form-control" type="text" id="search" placeholder="Add a New Vaccination" ng-model="newVaccine" bs-options="vaccines as vaccines.name for vaccines in vaccines " bs-typeahead>
                         <span class="input-group-addon" ng-click="stageNewVaccination(newVaccine)">+</span>
                     </div>
                 </div>
@@ -61,9 +61,11 @@
     <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
 
+        <div class="scheduled-header"><span class="label label-default">Scheduled</span></div>
         <!-- ROUTINE VACCINATIONS -->
         <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'} "></vaccination>
 
+        <div class="not-scheduled-header"><span class="label label-default">Not Scheduled</span></div>
         <!-- NONROUTINE VACCINATIONS -->
         <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}"></vaccination>
     </div>

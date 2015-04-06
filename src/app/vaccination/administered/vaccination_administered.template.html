@@ -1,14 +1,13 @@
-<div ng-controller="AdminVaccinationController" class="vaccination administered" ng-class="{'scheduled':vaccination._template_id}">
-    <!-- ADMINISTERED TEMPLATE -->
+<!-- ADMINISTERED TEMPLATE -->
+<div ng-controller="AdminVaccinationController" class="vaccination administered">
     <!-- ADMINISTERED HEADER -->
     <div class="header administered-header" ng-class="{'adverse-header':vaccination.adverse_reaction}">
         <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <h4 class="date"><span class="label label-default">Age Given: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>
         <h4 class="date"><span class="label label-default">Administered: {{ vaccination.administration_date | date: 'mediumDate' }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-primary" ng-click="toggleEditForm()">Edit</button>
             <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="!vaccination.adverse_reaction">Add Reaction</button>
-            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="vaccination.adverse_reaction">Reaction Details</button>
+            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="vaccination.adverse_reaction">Edit Reaction</button>
         </div>
     </div>
     <!-- /HEADER -->
@@ -37,64 +36,58 @@
                 <input class="form-control" type="text" ng-model="enteredEditFormData.body_site_administered" placeholder="Body Site Administered">
             </div>
             <div class="form-group">
+                <label>Manufacturer</label>
+                <input class="form-control" type="text" ng-model="enteredEditFormData.manufacturer" placeholder="Manufacturer">
+            </div>
+            <div class="form-group">
                 <label>Lot Number</label>
                 <input class="form-control" type="text" ng-model="enteredEditFormData.lot_number" placeholder="Lot Number">
             </div>
             <div class="form-group">
                 <label>Manufacture Date</label>
-                <input class="form-control" type="text" ng-model="enteredEditFormData.manufacture_date" placeholder="Manufacture Date">
+                <input class="form-control" type="date" ng-model="enteredEditFormData.manufacture_date" placeholder="Manufacture Date">
             </div>
             <div class="form-group">
                 <label>Expiry Date</label>
-                <input class="form-control" type="text" ng-model="enteredEditFormData.expiry_date" placeholder="Expiry Date">
+                <input class="form-control" type="date" ng-model="enteredEditFormData.expiry_date" placeholder="Expiry Date">
             </div>
             <div class="clearfix form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button type="submit" class="btn btn-danger" ng-show="!vaccination._template_id" ng-click="deleteVaccination(vaccination._id)">Delete</button>
-                <button type="submit" class="btn btn-warning">Submit</button>
+                <button class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset Form</button>
+                <button class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
+                <button type="submit" class="btn btn-warning" ng-click="updateVaccination(enteredEditFormData)">Submit</button>
             </div>
         </div>
     </form>
-    <!-- /FORM -->
+    <!-- /EDIT FORM -->
 
     <!-- ADVERSE REACTION FORM -->
     <form ng-if="state.adverseFormOpen">
         <div class="form-wrapper" >
             <div class="form-group">
                 <label>Date</label>
-                <input class="form-control" type="date" ng-model="vaccination.administration_date" placeholder="Date">
+                <input class="form-control" type="date" ng-model="enteredAdverseFormData.date" placeholder="Date">
             </div>
             <div class="form-group">
                 <label>Adverse Event</label>
-                <input class="form-control" type="text" ng-model="vaccination.dose" placeholder="Adverse Event">
+                <input class="form-control" type="text" ng-model="enteredAdverseFormData.adverse_event" placeholder="Adverse Event">
             </div>
             <div class="form-group">
                 <label>Grade</label>
-                <input class="form-control" type="text" ng-model="vaccination.grade" placeholder="Grade">
+                <input class="form-control" type="text" ng-model="enteredAdverseFormData.grade" placeholder="Grade">
             </div>
             <div class="form-group">
-                <label>Manufacturer</label>
-                <input class="form-control" type="text" ng-model="vaccination.route" placeholder="Manufacturer">
-            </div>
-            <div class="form-group">
-                <label>Lot Number</label>
-                <input class="form-control" type="text" ng-model="vaccination.body_site_administered" placeholder="Lot Number">
-            </div>
-            <div class="form-group">
-                <label>Expiry Date</label>
-                <input class="form-control" type="text" ng-model="vaccination.lot_number" placeholder="Expiry Date">
-            </div>
-            <div class="form-group">
-                <label>Manufacture Date</label>
-                <input class="form-control" type="text" ng-model="vaccination.manufacture_date" placeholder="Manufacture Date">
+                <label>Description</label>
+                <textarea class="form-control" rows="4" ng-model="enteredAdverseFormData.description"></textarea>
             </div>
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button type="submit" class="btn btn-danger" ng-show="!vaccination._template_id" ng-click="deleteVaccination(vaccination._id)">Delete</button>
-                <button type="submit" class="btn btn-warning">Submit</button>
+                <button class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="submit" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Submit</button>
             </div>
         </div>
     </form>
-        <!-- /ADVERSE REACTION FORM -->
-    <!-- ADMINISTERED TEMPLATE -->
+    <!-- /ADVERSE REACTION FORM -->
 </div>
+<!-- ADMINISTERED TEMPLATE -->

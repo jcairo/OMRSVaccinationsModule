@@ -6,19 +6,45 @@
 angular.module('vaccinations')
 .controller('AdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
     // Form data inits.
-    $scope.enteredAdminFormData = $scope.getVaccination();
-    $scope.state = {};
-
+    $scope.enteredEditFormData = {}
+    $scope.enteredAdverseFormData = {};
     // Form states and methods.
+    $scope.state = {};
     $scope.state.editFormOpen = false;
+    $scope.state.adverseFormOpen = false;
 
     $scope.toggleReactionForm = function(){
+        $scope.state.editFormOpen = false;
         $scope.state.adverseFormOpen = !$scope.state.adverseFormOpen;
     };
 
     $scope.toggleEditForm = function(){
-        console.log('hello');
+        $scope.state.adverseFormOpen = false;
         $scope.state.editFormOpen = !$scope.state.editFormOpen;
+    };
+
+    $scope.resetFormDataToDefaults = function () {
+        $scope.enteredEditFormData = angular.copy($scope.getVaccination());
+        $scope.enteredEditFormData.administration_date =
+            new Date($scope.enteredEditFormData.administration_date);
+        $scope.enteredEditFormData.manufacture_date =
+            new Date($scope.enteredEditFormData.manufacture_date);
+        $scope.enteredEditFormData.expiry_date =
+            new Date($scope.enteredEditFormData.expiry_date);
+
+        if ($scope.enteredEditFormData.adverse_reaction) {
+            $scope.enteredAdverseFormData.date =
+                new Date($scope.enteredEditFormData.reaction_details.date);
+            $scope.enteredAdverseFormData.adverse_event =
+                $scope.enteredEditFormData.reaction_details.adverse_event;
+            $scope.enteredAdverseFormData.grade =
+                $scope.enteredEditFormData.reaction_details.grade;
+        }
+    };
+
+    $scope.addReaction = function (reaction, enteredAdminFormData) {
+        reaction._vaccination_id = enteredAdminFormData._id;
+        vaccinationsManager.submitReaction(reaction, enteredAdminFormData);
     };
 
     // Available for all administered vaccinations.
@@ -28,4 +54,22 @@ angular.module('vaccinations')
         vaccinationsManager.removeVaccination(id);
     };
 
+    $scope.updateVaccination = function (vaccination) {
+        vaccinationsManager.submitVaccination(vaccination);
+    };
+
+    $scope.unadministerVaccination = function (vaccination) {
+        vaccination.provider_id = '';
+        vaccination.scheduler_id = '';
+        vaccination.administered = false;
+        vaccination.adverse_reaction = false;
+        vaccination.administration_date = '';
+        vaccination.lot_number = '';
+        vaccination.manufacture_date = '';
+        vaccination.expiry_date = '';
+        vaccination.manufacturer = '';
+        vaccinationsManager.submitVaccination(vaccination);
+    };
+
+    $scope.resetFormDataToDefaults();
 }]);

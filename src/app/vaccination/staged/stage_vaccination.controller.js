@@ -5,7 +5,6 @@ angular.module('vaccinations')
     function ($scope, $http, $interval, vaccinationsManager) {
     //$scope.enteredFormData = getVaccination();
     $scope.state = {};
-    $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
     $scope.state.administerFormOpen = true;
     $scope.popover = {
         title: 'New Vaccination',
@@ -20,10 +19,16 @@ angular.module('vaccinations')
     };
 
     $scope.resetFormDataToDefaults = function () {
-        $scope.enteredAdminFormData = angular.copy($scope.getVaccination());
+         var vaccination = angular.copy($scope.getVaccination());
+         vaccination.administration_date = new Date();
+         vaccination.manufacture_date = new Date();
+         vaccination.expiry_date = new Date();
+         $scope.enteredAdminFormData = vaccination;
     };
 
-    $scope.commitStagedVaccination = function () {
-        vaccinationsManager.commitStagedVaccination($scope.enteredAdminFormData);
+    $scope.saveVaccination = function () {
+        vaccinationsManager.submitVaccination($scope.enteredAdminFormData);
     };
+
+    $scope.resetFormDataToDefaults();
 }]);

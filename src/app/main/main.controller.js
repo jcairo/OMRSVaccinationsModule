@@ -24,7 +24,7 @@ angular.module('vaccinations')
 
     // Get list of vaccines.
     vaccinesManager.getVaccines().success( function(data) {
-        $scope.vaccines = data.vaccines;
+        $scope.vaccines = data.nonRoutineVaccines;
     });
 
     $scope.stageNewVaccination = function (vaccine) {

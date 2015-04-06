@@ -11,35 +11,32 @@ angular.module('mockData', [])
       "indication": "Birth to 1 yo",
       "dose": "0.05",
       "dosing_unit": "ml",
-      "route": "intra-dermal left forearm",
+      "route": "intra-dermal",
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-09-05",
-      "body_site_administered": "Site",
+      "body_site_administered": "left forearm",
       "dose_number": 1,
+      "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
     },
     {
-      "_id": "54f88ccdfb16c75e35261876",
       "_vaccine_id": "550b46047fcba390ff335bba",
       "routine": true,
       "name": "Bacillus Calmette-Guerin",
       "indication": "Older than 1 yo",
       "dose": "0.1",
       "dosing_unit": "ml",
-      "route": "intra-dermal left forearm",
+      "route": "intra-dermal",
       "administered": false,
       "adverse_reaction": false,
-      "administration_date": "2014-10-01",
+      "administration_date": "",
       "scheduled_date": "2015-09-05",
-      "body_site_administered": "Site",
+      "body_site_administered": "left forearm",
       "dose_number": 2,
-      "lot_number": 1000,
-      "manufacture_date": "2014-01-01",
-      "expiry_date": "2016-01-01"
     },
     {
       "_id": "54f88ccdfb16c75e35261802",
@@ -56,6 +53,7 @@ angular.module('mockData', [])
       "scheduled_date": "2014-09-01",
       "body_site_administered": "Site",
       "dose_number": 1,
+      "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
@@ -68,49 +66,46 @@ angular.module('mockData', [])
       "name": "Rotavirus",
       "dose": "0.1",
       "dosing_unit": "ml",
-      "route": "outer thigh",
+      "route": "",
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",
-      "body_site_administered": "Site",
+      "body_site_administered": "",
+      "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
     },
     {
-      "_id": "54f88ccd1318571c6897a040",
       "_vaccine_id": "550b46047fcba390ff335fff",
       "routine": true,
       "name": "Measles",
       "indication": "9 mo",
       "dose": ".5",
-      "dosing_unit": "SC",
-      "route": "right upper arm",
+      "dosing_unit": "ml",
+      "route": "SC",
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
       "scheduled_date": "2015-07-01",
-      "body_site_administered": "Site",
+      "body_site_administered": "right outer thigh",
       "dose_number": 1,
-      "lot_number": 1000,
-      "manufacture_date": "2014-01-01",
-      "expiry_date": "2016-01-01"
     },
     {
       "_id": "54f88ccddce0415f38397d33",
-      "_vaccine_id": "Hepatitis B",
+      "_vaccine_id": "999",
       "routine": false,
       "provider_id": "BBBB",
       "name": "Hepatitis B",
       "dose": "2",
       "dosing_unit": "ml",
-      "route": "left deltoid",
+      "route": "",
       "administered": true,
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",
-      "body_site_administered": "Site",
+      "body_site_administered": "",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
@@ -122,15 +117,12 @@ angular.module('mockData', [])
       "name": "Hepatitis B",
       "dose": "2",
       "dosing_unit": "ml",
-      "route": "left deltoid",
+      "route": "intra dermal",
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
       "scheduled_date": "2014-11-01",
-      "body_site_administered": "Site",
-      "lot_number": 1000,
-      "manufacture_date": "2014-01-01",
-      "expiry_date": "2016-01-01"
+      "body_site_administered": "left deltoid",
     },
     {
       "_id": "54f88ccda57c4a6954ecfe19",
@@ -146,8 +138,9 @@ angular.module('mockData', [])
       "adverse_reaction": false,
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",
-      "body_site_administered": "Site",
+      "body_site_administered": "left thigh",
       "dose_number": 1,
+      "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
@@ -159,15 +152,11 @@ angular.module('mockData', [])
       "name": "Rotavirus",
       "dose": "0.05",
       "dosing_unit": "ml",
-      "route": "left deltoid",
+      "route": "intra dermal",
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
       "scheduled_date": "2014-11-01",
-      "body_site_administered": "Site",
-      "lot_number": 1000,
-      "manufacture_date": "2014-01-01",
-      "expiry_date": "2016-01-01"
     },
     {
       "_id": "54f88ccdefe294237482eb5f",
@@ -177,30 +166,89 @@ angular.module('mockData', [])
       "name": "DPT",
       "dose": "0.1",
       "dosing_unit": "ml",
-      "route": "outer thigh",
+      "route": "intra dermal",
       "administered": true,
       "adverse_reaction": true,
       "reaction_details": {
+          "_id": "458d82kd",
+          "_vaccination_id":"54f88ccdefe294237482eb5f",
           "date": "2014-10-01",
           "adverse_event": "162265",
           "grade": "160754",
-          "manufacturer": "P. Corp.",
-          "lot_number": "5",
-          "expiry_date": "2015-01-01",
-          "manufacture_date": "2013-01-01"
-          },
+          "desctiption": "Free text for reaction desctiption."
+      },
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",
-      "body_site_administered": "Site",
+      "body_site_administered": "outer thigh",
+      "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",
       "expiry_date": "2016-01-01"
     }
   ],
 
-  vaccines: [
+  nonRoutineVaccines: [
+
       {
-        "_id": "550b46047fcba390ff335aaa",
+        "_vaccine_id": "550b4604d6f88cbkkk3587ba",
+        "name": "Rabies",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "550b4604d6f88cbkkk3587ba",
+        "name": "DPT",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "550b460499dc11cccf4420bb",
+        "name": "Hepatitis A",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "550b4604a8298qqqb151205d",
+        "name": "Hepatitis B",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "4aslkjlkjaslkfjlkah234ql",
+        "name": "Rotavirus",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "550b4604a829wwweb1512ccc",
+        "name": "Vitamin A",
+        "dose": "100000",
+        "dosing_unit": "IU",
+        "route": "PO",
+        "indication": "6 mo",
+        "routine": true
+      },
+      {
+        "_vaccine_id": "550b4604a829wwwxxx512ccc",
+        "name": "Rabies"
+      },
+      {
+        "_vaccine_id": "5zzz4604a829wwwxxx512ccc",
+        "name": "Cholera"
+      },
+      {
+        "_vaccine_id": "5zzz4gg4a829wwwxxx512ccc",
+        "name": "Mumps"
+      },
+      {
+        "_vaccine_id": "xzzz4gg4a829wwwxxx512ccc",
+        "name": "Rubella"
+      },
+      {
+        "_vaccine_id": "xzzz4gg4ls29wwwxxx512ccc",
+        "name": "Tetanus toxoid"
+      }
+
+    ],
+
+    routineVaccines: [
+      {
+        "_vaccine_id": "550b46047fcba390ff335aaa",
         "name": "Bacillus Calmette-Guerin",
         "dose": ".05",
         "dosing_unit": "ml",
@@ -210,7 +258,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff335bba",
+        "_vaccine_id": "550b46047fcba390ff335bba",
         "name": "Bacillus Calmette-Guerin",
         "dose": ".1",
         "dosing_unit": "ml",
@@ -220,7 +268,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff335cca",
+        "_vaccine_id": "550b46047fcba390ff335cca",
         "name": "Polio",
         "dose": "2",
         "dosing_unit": "drops",
@@ -230,7 +278,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff33ddda",
+        "_vaccine_id": "550b46047fcba390ff33ddda",
         "name": "Polio",
         "dose": "2",
         "dosing_unit": "drops",
@@ -240,7 +288,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff33xxxa",
+        "_vaccine_id": "550b46047fcba390ff33xxxa",
         "name": "Polio",
         "dose": "2",
         "dosing_unit": "drops",
@@ -250,7 +298,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff335ccc",
+        "_vaccine_id": "550b46047fcba390ff335ccc",
         "name": "Polio",
         "dose": "2",
         "dosing_unit": "drops",
@@ -260,7 +308,7 @@ angular.module('mockData', [])
         "routine": true
       },
       {
-        "_id": "550b46047fcba390ff335fff",
+        "_vaccine_id": "550b46047fcba390ff335fff",
         "name": "Measles",
         "dose": ".5",
         "dosing_unit": "SC",
@@ -269,40 +317,5 @@ angular.module('mockData', [])
         "indication": "9 mo",
         "routine": true
       },
-      {
-        "_id": "550b4604d6f88cbkkk3587ba",
-        "name": "Rabies",
-        "routine": false
-      },
-      {
-        "_id": "550b4604d6f88cbkkk3587ba",
-        "name": "DPT",
-        "routine": false
-      },
-      {
-        "_id": "550b460499dc11cccf4420bb",
-        "name": "Hepatitis A",
-        "routine": false
-      },
-      {
-        "_id": "550b4604a8298qqqb151205d",
-        "name": "Hepatitis B",
-        "routine": false
-      },
-      {
-        "_id": "4aslkjlkjaslkfjlkah234ql",
-        "name": "Rotavirus",
-        "routine": false
-      },
-      {
-        "_id": "550b4604a829wwweb1512ccc",
-        "name": "Vitamin A",
-        "dose": "100000",
-        "dosing_unit": "IU",
-        "route": "PO",
-        "indication": "6 mo",
-        "routine": false
-
-      }
     ]
 })

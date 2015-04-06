@@ -14,8 +14,23 @@ $adverse-foreground: #E7687D;
         margin-bottom: 85px;
 }
 
-.vaccination {
+.scheduled-header, .not-scheduled-header{
+    border-bottom: 1px solid lightgrey;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 18px;
 
+    .label {
+        background: black;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}
+
+
+.vaccination {
+    margin-top: 4px;
 
     .form-group:nth-child(1) {
         margin-top: 45px;
