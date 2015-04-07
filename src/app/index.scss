@@ -99,7 +99,14 @@ $adverse-foreground: #E7687D;
         }
 
         .label-default {
+            background-color: rgba(99, 190, 135, 0);
+            color: rgba(99, 190, 135, 1);
+            font-style: underline;
+        }
+
+        .drug .label-default {
             background-color: rgba(99, 190, 135, 1);
+            color: white;
         }
     }
 
