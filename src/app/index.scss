@@ -5,13 +5,14 @@ $adverse-foreground: #E7687D;
 .vaccinations-wrapper:first-child:before {
     content: "hello";
 }
+
 .container {
     margin-bottom: 90px;
 }
 
-.vaccination-staged {
-        margin-top: 120px;
-        margin-bottom: 85px;
+.staged-wrapper {
+        margin-top: 45px;
+        margin-bottom: 45px;
 }
 
 .scheduled-header, .not-scheduled-header{
@@ -30,7 +31,6 @@ $adverse-foreground: #E7687D;
 
 
 .vaccination {
-    margin-top: 4px;
 
     .form-group:nth-child(1) {
         margin-top: 45px;
@@ -56,7 +56,7 @@ $adverse-foreground: #E7687D;
 
     .header {
         margin-right: 0;
-        margin-top: 2px;
+        margin-top: 4px;
         margin-left: 0;
         background-color: #fff;
         border-top: 1px solid #ddd;

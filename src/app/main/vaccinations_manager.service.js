@@ -83,7 +83,7 @@ angular.module('vaccinations')
             if (vaccination.adverse_reaction) {
                 $http.put(
                     '/vaccinations/' + vaccination._id +
-                    'patients/' + appConstants.patientId +
+                    '/patients/' + appConstants.patientId +
                     '/adverse_reactions/' + reaction._id,
                     {reaction: reaction} )
                 .success( function (data) {

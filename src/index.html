@@ -52,9 +52,11 @@
             </div>
         </form>
 
-        <!-- STAGED VACCINATIONS -->
-        <vaccination get-vaccination="stagedVaccination" ng-repeat="stagedVaccination in stagedVaccinations"></vaccination>
-
+        <div class="staged-wrapper" ng-if="stagedVaccinations.length > 0">
+            <!-- STAGED VACCINATIONS -->
+            <div id="alert-container"></div>
+            <vaccination get-vaccination="stagedVaccination" ng-repeat="stagedVaccination in stagedVaccinations"></vaccination>
+        </div>
     </div>
     <!-- /SEARCH ADD SECTION -->
 

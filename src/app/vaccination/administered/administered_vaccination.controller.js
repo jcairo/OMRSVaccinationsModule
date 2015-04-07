@@ -33,12 +33,19 @@ angular.module('vaccinations')
             new Date($scope.enteredEditFormData.expiry_date);
 
         if ($scope.enteredEditFormData.adverse_reaction) {
+            $scope.enteredAdverseFormData._id = $scope.enteredEditFormData.reaction_details._id;
             $scope.enteredAdverseFormData.date =
                 new Date($scope.enteredEditFormData.reaction_details.date);
             $scope.enteredAdverseFormData.adverse_event =
                 $scope.enteredEditFormData.reaction_details.adverse_event;
             $scope.enteredAdverseFormData.grade =
                 $scope.enteredEditFormData.reaction_details.grade;
+            if ($scope.enteredEditFormData.reaction_details.description) {
+                $scope.enteredAdverseFormData.description =
+                    $scope.enteredEditFormData.reaction_details.description;
+            }
+        } else {
+            $scope.enteredAdverseFormData.date = new Date();
         }
     };
 
@@ -59,10 +66,12 @@ angular.module('vaccinations')
     };
 
     $scope.unadministerVaccination = function (vaccination) {
+        // Remove all information pertaining to administration.
         vaccination.provider_id = '';
         vaccination.scheduler_id = '';
         vaccination.administered = false;
         vaccination.adverse_reaction = false;
+        vaccination.reaction_details = '';
         vaccination.administration_date = '';
         vaccination.lot_number = '';
         vaccination.manufacture_date = '';

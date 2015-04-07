@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label>Route</label>
-                <input class="form-control" type="text" ng-model="enteredEditFormData.route" placeholder="Units">
+                <input class="form-control" type="text" ng-model="enteredEditFormData.route" placeholder="Route">
             </div>
             <div class="form-group">
                 <label>Body Site Administered</label>
@@ -53,9 +53,9 @@
             </div>
             <div class="clearfix form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
-                <button class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset Form</button>
-                <button class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
+                <button type="button" class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset Form</button>
+                <button type="button" class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
                 <button type="submit" class="btn btn-warning" ng-click="updateVaccination(enteredEditFormData)">Submit</button>
             </div>
         </div>
@@ -79,11 +79,11 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea class="form-control" rows="4" ng-model="enteredAdverseFormData.description"></textarea>
+                <textarea class="form-control" type="text" rows="4" ng-model="enteredAdverseFormData.description"></textarea>
             </div>
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="button" class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteReaction(enteredAdverseFormData)">Delete</button>
                 <button type="submit" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Submit</button>
             </div>
         </div>

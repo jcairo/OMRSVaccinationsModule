@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label>Route</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.route" placeholder="Units">
+                <input class="form-control" type="text" ng-model="enteredAdminFormData.route" placeholder="Route">
             </div>
             <div class="form-group">
                 <label>Body Site Administered</label>
@@ -52,8 +52,8 @@
             </div>
             <div class="form-button-wrapper">
                 <!-- cannot delete scheduled vaccines only modify. -->
-                <button class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
-                <button class="btn btn-primary" ng-click="resetFormDataToDefaults()">Reset</button>
+                <button type="button" class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="button" class="btn btn-primary" ng-click="resetFormDataToDefaults()">Reset</button>
                 <button type="submit" class="btn btn-warning" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
             </div>
         </div>

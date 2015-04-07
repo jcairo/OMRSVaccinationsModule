@@ -1,18 +1,24 @@
 'use strict';
 
 angular.module('vaccinations')
-.controller('StagedVaccinationController', ['$scope', '$http', '$interval', 'vaccinationsManager',
-    function ($scope, $http, $interval, vaccinationsManager) {
+.controller('StagedVaccinationController', ['$scope', '$http', '$interval', '$alert', 'vaccinationsManager',
+    function ($scope, $http, $interval, $alert, vaccinationsManager) {
     //$scope.enteredFormData = getVaccination();
     $scope.state = {};
     $scope.state.administerFormOpen = true;
-    $scope.popover = {
-        title: 'New Vaccination',
-        content: 'Fill in details and click submit to save.',
-        trigger: 'hover',
-        show: true,
-        autoClose: true
-    };
+    // $scope.alert = {
+    //     title: 'New Vaccination',
+    //     content: 'Fill in details and click submit to save.',
+    //     type: 'info',
+    //     show: true,
+    //     duration: 3
+    // };
+
+    var myAlert = $alert({
+        title: 'New Vaccination.',
+        content: 'Add details and click submit to save.',
+        placement: 'top', type: 'info', show: true,
+        container: '#alert-container', duration: 4});
 
     $scope.removeStagedVaccination = function () {
         vaccinationsManager.removeStagedVaccination();
