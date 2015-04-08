@@ -67,7 +67,7 @@
         <!-- ROUTINE VACCINATIONS -->
         <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'} "></vaccination>
 
-        <div class="not-scheduled-header"><span class="label label-default">Not Scheduled</span></div>
+        <div class="not-scheduled-header"><span class="label label-default">Unscheduled</span></div>
         <!-- NONROUTINE VACCINATIONS -->
         <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}"></vaccination>
     </div>

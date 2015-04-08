@@ -109,8 +109,17 @@ angular.module('vaccinations')
             }
         },
 
-        deleteReaction: function (reaction) {
-
+        removeReaction: function (reaction) {
+            var that = this;
+            $http.delete(
+                '/vaccinations/' + reaction._vaccination_id +
+                '/patients/' + appConstants.patientId +
+                '/adverse_reactions/' + reaction._id,
+                {reaction: reaction})
+            .success( function (data) {
+                that.removeVaccination(reaction._id);
+                that.addVaccination(data.vaccination);
+            })
         },
 
         getVaccinations: function(){

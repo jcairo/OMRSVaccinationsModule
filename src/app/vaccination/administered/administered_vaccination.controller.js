@@ -33,6 +33,7 @@ angular.module('vaccinations')
             new Date($scope.enteredEditFormData.expiry_date);
 
         if ($scope.enteredEditFormData.adverse_reaction) {
+            $scope.enteredAdverseFormData = $scope.enteredEditFormData.reaction_details;
             $scope.enteredAdverseFormData._id = $scope.enteredEditFormData.reaction_details._id;
             $scope.enteredAdverseFormData.date =
                 new Date($scope.enteredEditFormData.reaction_details.date);
@@ -52,6 +53,10 @@ angular.module('vaccinations')
     $scope.addReaction = function (reaction, enteredAdminFormData) {
         reaction._vaccination_id = enteredAdminFormData._id;
         vaccinationsManager.submitReaction(reaction, enteredAdminFormData);
+    };
+
+    $scope.removeReaction = function (reaction) {
+        vaccinationsManager.removeReaction(reaction);
     };
 
     // Available for all administered vaccinations.

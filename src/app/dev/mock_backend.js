@@ -45,6 +45,7 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions){
             vaccination.reaction_details = reaction;
             vaccination.reaction_details._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
             vaccination.adverse_reaction = true;
+            vaccination.reaction_details._vaccination_id = vaccination._id;
 
             return [200, {vaccination: vaccination}, {}];
     });
@@ -62,7 +63,12 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions){
 
     $httpBackend.whenDELETE(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions\/[0-9a-zA-Z]+$/)
         .respond( function (method, url, data) {
-           var vaccination_id = data.vaccination.vaccination_id;
+            var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
+            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
+            var vaccination = vaccinations[index];
+            vaccination.reaction = false;
+            delete vaccination.reaction_details;
+            return [201, {vaccination: vaccination}, {}];
         })
 
     // Do not serve anything from the mock server on these routes.

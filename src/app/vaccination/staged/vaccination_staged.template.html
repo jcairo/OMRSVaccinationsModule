@@ -3,7 +3,6 @@
     <!-- STAGED HEADER -->
     <div class="header unadministered-header" >
         <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <h4 class="date" ng-if="vaccination.indication"><span class="label label-default">Indication: {{ vaccination.indication | date: 'mediumDate' }}</span></h4>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-info" ng-click="toggleAdministerForm()">Administer</button>
         </div>
@@ -14,8 +13,12 @@
     <form ng-if="state.administerFormOpen" class="form-wrapper show-hide">
         <div>
             <div class="form-group">
-                <label>Date</label>
+                <label>Administration Date</label>
                 <input class="form-control" type="date" ng-model="enteredAdminFormData.administration_date" placeholder="Date">
+            </div>
+            <div class="form-group">
+                <label>Scheduled Date</label>
+                <input class="form-control" type="date" ng-model="enteredAdminFormData.scheduled_date" placeholder="Scheduled Date">
             </div>
             <div class="form-group">
                 <label>Dose</label>
@@ -33,8 +36,6 @@
                 <label>Body Site Administered</label>
                 <input class="form-control" type="text" ng-model="enteredAdminFormData.body_site_administered" placeholder="Body Site Administered">
             </div>
-
-
              <div class="form-group">
                 <label>Manufacturer</label>
                 <input class="form-control" type="text" ng-model="enteredAdminFormData.manufacturer" placeholder="Manufacturer">
