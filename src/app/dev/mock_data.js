@@ -173,9 +173,8 @@ angular.module('mockData', [])
           "_id": "458d82kd",
           "_vaccination_id":"54f88ccdefe294237482eb5f",
           "date": "2014-10-01",
-          "adverse_event": "162265",
+          "adverse_event_description": "Something bad, but not too bad.",
           "grade": "160754",
-          "desctiption": "Free text for reaction desctiption."
       },
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",

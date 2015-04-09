@@ -78,16 +78,18 @@
                 <input class="form-control" type="date" ng-model="enteredAdverseFormData.date" placeholder="Date">
             </div>
             <div class="form-group">
-                <label>Adverse Event</label>
-                <input class="form-control" type="text" ng-model="enteredAdverseFormData.adverse_event" placeholder="Adverse Event">
-            </div>
-            <div class="form-group">
                 <label>Grade</label>
-                <input class="form-control" type="text" ng-model="enteredAdverseFormData.grade" placeholder="Grade">
+                <select name="Grade" class="form-control" ng-model="enteredAdverseFormData.grade">
+                    <option value=160754>Adverse Reaction Grade 1</option>
+                    <option value=160755>Adverse Reaction Grade 2</option>
+                    <option value=160756>Adverse Reaction Grade 3</option>
+                    <option value=160757>Adverse Reaction Grade 4</option>
+                    <option value=160758>Adverse Reaction Grade 5</option>
+                </select>
             </div>
             <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" type="text" rows="4" ng-model="enteredAdverseFormData.description"></textarea>
+                <label>Adverse Event Description</label>
+                <textarea class="form-control" type="text" rows="4" ng-model="enteredAdverseFormData.adverse_event_description"></textarea>
             </div>
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
