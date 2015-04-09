@@ -9,6 +9,7 @@ angular.module('vaccinations')
     $scope.state = {};
     $scope.state.administerFormOpen = false;
 
+
     $scope.resetFormDataToDefaults = function(){
         var vaccination = angular.copy($scope.getVaccination());
         vaccination.administration_date = new Date();
@@ -36,5 +37,4 @@ angular.module('vaccinations')
 
     // Form data inits.
     $scope.resetFormDataToDefaults();
-
 }]);

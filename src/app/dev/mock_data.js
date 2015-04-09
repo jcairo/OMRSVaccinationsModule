@@ -139,7 +139,7 @@ angular.module('mockData', [])
       "administration_date": "2014-10-01",
       "scheduled_date": "2014-10-01",
       "body_site_administered": "left thigh",
-      "dose_number": 1,
+      "dose_number": 2,
       "manufacturer": "P. Corp.",
       "lot_number": 1000,
       "manufacture_date": "2014-01-01",

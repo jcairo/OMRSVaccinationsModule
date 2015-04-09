@@ -1,13 +1,18 @@
 <!-- ADMINISTERED TEMPLATE -->
 <div ng-controller="AdminVaccinationController" class="vaccination administered">
+
     <!-- ADMINISTERED HEADER -->
-    <div class="header administered-header" ng-class="{'adverse-header':vaccination.adverse_reaction}">
-        <h4 class="drug"><span class="label label-default">{{ vaccination.name }}</span></h4>
-        <span class="administered-label">Administered: </span><span class="administered-date">{{ vaccination.administration_date | date: 'mediumDate' }}</span>
+    <div ng-if="firstOfKind" class="vaccination-group-header">{{ enteredEditFormData.name }}</div>
+    <div class="header administered-header" ng-class="{'adverse-header':enteredEditFormData.adverse_reaction}">
+        <span class="administered-label"><span class="label label-danger">Administered:</span></span><span class="administered-date">{{ enteredEditFormData.administration_date | date: 'mediumDate' }}</span>
+        <span ng-if="enteredEditFormData.dose_number">
+            <span class="dose-number-label">Dose Number: </span>
+            <span class "dose-number">{{ enteredEditFormData.dose_number }}</span>
+        </span>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-primary" ng-click="toggleEditForm()">Details</button>
-            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="!vaccination.adverse_reaction">Add Reaction</button>
-            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="vaccination.adverse_reaction">Reaction Details</button>
+            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="!enteredEditFormData.adverse_reaction">Add Reaction</button>
+            <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="enteredEditFormData.adverse_reaction">Reaction Details</button>
         </div>
     </div>
     <!-- /HEADER -->
@@ -19,7 +24,7 @@
                 <label>Adminstration Date</label>
                 <input class="form-control" type="date" ng-model="enteredEditFormData.administration_date" placeholder="Date">
             </div>
-            <div class="form-group" ng-if="vaccination.dose_number">
+            <div class="form-group" ng-if="enteredEditFormData.dose_number">
                 <label>Course Number</label>
                 <input disabled="disabled" class="form-control" type="text" ng-model="enteredEditFormData.dose_number" placeholder="Dose In Course">
             </div>
@@ -57,7 +62,7 @@
             </div>
             <div class="clearfix form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset</button>                <button type="button" class="btn btn-danger" ng-if="!vaccination.routine" ng-click="deleteVaccination(vaccination._id)">Delete</button>
+                <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset</button>                <button type="button" class="btn btn-danger" ng-if="!enteredEditFormData.routine" ng-click="deleteVaccination(enteredEditFormData._id)">Delete</button>
                 <button type="button" class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
                 <button type="submit" class="btn btn-warning" ng-click="updateVaccination(enteredEditFormData)">Update</button>
             </div>

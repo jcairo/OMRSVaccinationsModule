@@ -63,13 +63,13 @@
     <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
 
-        <div class="scheduled-header"><span class="label label-default">Scheduled</span></div>
+        <div class="scheduled-header"><span class="label label-default section-label">Scheduled</span></div>
         <!-- ROUTINE VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'} "></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (schedvaccs = (vaccinations | filter: {routine: 'true'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations} | filter: {staged: '!true'}))" get-vacc="schedvaccs[$index-1]"></vaccination>
 
-        <div class="not-scheduled-header"><span class="label label-default">Unscheduled</span></div>
+        <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
         <!-- NONROUTINE VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}"></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (unschedvaccs = (vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}))" get-vacc="unschedvaccs[$index-1]"></vaccination>
     </div>
     <!-- /VACCINATIONS -->
 

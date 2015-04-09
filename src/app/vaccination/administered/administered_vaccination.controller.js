@@ -13,6 +13,7 @@ angular.module('vaccinations')
     $scope.state.editFormOpen = false;
     $scope.state.adverseFormOpen = false;
 
+
     $scope.toggleReactionForm = function(){
         $scope.state.editFormOpen = false;
         $scope.state.adverseFormOpen = !$scope.state.adverseFormOpen;

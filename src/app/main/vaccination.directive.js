@@ -15,7 +15,26 @@ angular.module('vaccinations')
             return {
                 post: function postLink(scope, element, attributes) {
                     // Add popover for staged vaccinations.
-                    scope.vaccination = scope.getVaccination();
+                    scope.vaccination = {};
+                    if (scope.getVaccination()._staged) {
+                        scope.vaccination._staged = true;
+                    }
+                    scope.vaccination.administered = scope.getVaccination().administered;
+                    var prevVacc = scope.getVacc();
+
+                    // Determine whether this vaccination is the first
+                    // of its kind in the list. If so we want to put a
+                    // header on it with the drug name.
+                    if (typeof prevVacc !== 'undefined') {
+                        if (prevVacc.name !== scope.getVaccination().name) {
+                            scope.firstOfKind = true;
+                        } else {
+                            scope.firstOfKind = false;
+                        }
+                    } else {
+                        scope.firstOfKind = true;
+                    }
+
                     scope.getContentUrl = function(){
                         if (scope.vaccination.hasOwnProperty('_staged')) {
                             return '/app/vaccination/staged/vaccination_staged.template.html';
@@ -31,10 +50,10 @@ angular.module('vaccinations')
             };
         },
 
-        //template: '<header></header>',
         template: '<include-replace ng-include="getContentUrl()"></include-replace>',
         scope: {
             getVaccination: '&',
+            getVacc: '&'
         }
     };
  }]);
