@@ -20,6 +20,9 @@ angular.module('vaccinations')
                         scope.vaccination._staged = true;
                     }
                     scope.vaccination.administered = scope.getVaccination().administered;
+
+                    // Tracks the location in the list
+                    // of vaccination so grouping of the same vaccine can be done.
                     var prevVacc = scope.getVacc();
 
                     // Determine whether this vaccination is the first
