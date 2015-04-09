@@ -30,6 +30,7 @@ angular.module('vaccinations')
         addVaccination: function(vaccination) {
             var index = helperFunctions.findObjectIndexByAttribute('_id', vaccination._id, self.vaccinations);
             if (index === undefined){
+                console.log(vaccination);
                 self.vaccinations.push(vaccination);
             } else {
                 console.log("Could not add vaccination to array, a vaccination with the _id attribute already exists.");
@@ -117,7 +118,7 @@ angular.module('vaccinations')
                 '/adverse_reactions/' + reaction._id,
                 {reaction: reaction})
             .success( function (data) {
-                that.removeVaccination(reaction._id);
+                that.removeVaccination(data.vaccination._id);
                 that.addVaccination(data.vaccination);
             })
         },

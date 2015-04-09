@@ -35,17 +35,8 @@ angular.module('vaccinations')
 
         if ($scope.enteredEditFormData.adverse_reaction) {
             $scope.enteredAdverseFormData = $scope.enteredEditFormData.reaction_details;
-            $scope.enteredAdverseFormData._id = $scope.enteredEditFormData.reaction_details._id;
             $scope.enteredAdverseFormData.date =
                 new Date($scope.enteredEditFormData.reaction_details.date);
-            $scope.enteredAdverseFormData.adverse_event =
-                $scope.enteredEditFormData.reaction_details.adverse_event;
-            $scope.enteredAdverseFormData.grade =
-                $scope.enteredEditFormData.reaction_details.grade;
-            if ($scope.enteredEditFormData.reaction_details.description) {
-                $scope.enteredAdverseFormData.description =
-                    $scope.enteredEditFormData.reaction_details.description;
-            }
         } else {
             $scope.enteredAdverseFormData.date = new Date();
         }

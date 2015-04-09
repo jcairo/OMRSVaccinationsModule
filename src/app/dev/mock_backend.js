@@ -66,7 +66,7 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions){
             var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
             var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
             var vaccination = vaccinations[index];
-            vaccination.reaction = false;
+            vaccination.adverse_reaction = false;
             delete vaccination.reaction_details;
             return [201, {vaccination: vaccination}, {}];
         })
