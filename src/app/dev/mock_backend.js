@@ -32,6 +32,10 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions){
             if (vaccination.administration_date) {
                 vaccination.administered = true;
             }
+
+            // Get old reaction details since they aren't sent
+            var reaction_details = vaccinations[index].reaction_details;
+            vaccination.reaction_details = reaction_details;
             vaccinations.splice(index, 1);
             vaccinations.push(vaccination);
             return [200, {vaccination: vaccination}, {}];

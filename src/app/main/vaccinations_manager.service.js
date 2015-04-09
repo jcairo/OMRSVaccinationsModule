@@ -41,8 +41,14 @@ angular.module('vaccinations')
         // from the vaccinations list. It is only required when calling
         // the function with a new vaccination, not when the vaccination
         // exists on the server and needs to be modified.
-        submitVaccination: function(vaccination, vaccinationCopy) {
+        submitVaccination: function(vaccination, vaccsOrigCopy) {
             var that = this;
+            // Prevent unintentional sending of reaction details
+            // modifications.
+            var vaccination = angular.copy(vaccination);
+            delete vaccination.reaction_details;
+            // Check whether we are updating an existing vaccination
+            // or adding new vaccination.
             if (vaccination.hasOwnProperty('_id')) {
                 // Vaccination exists, modify on server.
                 $http.put(
@@ -62,10 +68,16 @@ angular.module('vaccinations')
                     '/vaccinations/patients/' + appConstants.patientId,
                     {vaccination: vaccination} )
                 .success( function (data) {
+                    // This catches new, unscheduled vaccinations
+                    // that have not been saved to the patients records.
                     if (vaccination._staged) {
                         that.removeStagedVaccination();
+                    // This catches scheduled vaccinations that
+                    // have yet to be saved to the patients records.
+                    // Since scheduled unadministered vaccs have no id
+                    // remove old version using object equality.
                     } else {
-                        var idx = helperFunctions.findObjectIndexByEquality(vaccinationCopy, self.vaccinations);
+                        var idx = helperFunctions.findObjectIndexByEquality(vaccsOrigCopy, self.vaccinations);
                         self.vaccinations.splice(idx, 1);
                     }
                     that.addVaccination(data.vaccination); })

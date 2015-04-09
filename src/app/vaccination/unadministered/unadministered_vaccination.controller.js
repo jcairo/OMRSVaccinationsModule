@@ -26,8 +26,8 @@ angular.module('vaccinations')
     // Called when vaccination data from form has been validated
     // and ready to create a new vaccination event.
     $scope.submitVaccination = function(vaccination) {
-        var vaccinationCopy = angular.copy($scope.getVaccination());
-        vaccinationsManager.submitVaccination(vaccination, vaccinationCopy);
+        var vaccsOrigCopy = angular.copy($scope.getVaccination());
+        vaccinationsManager.submitVaccination(vaccination, vaccsOrigCopy);
     };
 
     // Only available if the vaccination is of type unscheduled.
