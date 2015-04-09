@@ -23,8 +23,8 @@ angular.module('vaccinations')
 
                     // Tracks the location in the list
                     // of vaccination so grouping of the same vaccine can be done.
-                    var prevVacc = scope.getVacc();
-
+                    var prevVacc = scope.getVacc()[scope.$parent.$index-1];
+                    var nextVacc = scope.getVacc()[scope.$parent.$index+1]
                     // Determine whether this vaccination is the first
                     // of its kind in the list. If so we want to put a
                     // header on it with the drug name.
@@ -36,6 +36,18 @@ angular.module('vaccinations')
                         }
                     } else {
                         scope.firstOfKind = true;
+                    }
+
+                    // Check if this is the last of this type of vaccine
+                    // in the list.
+                    if (typeof nextVacc !== 'undefined') {
+                        if (nextVacc.name !== scope.getVaccination().name) {
+                            scope.lastOfKind = true;
+                        } else {
+                            scope.lastOfKind = false;
+                        }
+                    } else {
+                        scope.lastOfKind = true;
                     }
 
                     scope.getContentUrl = function(){
@@ -53,7 +65,7 @@ angular.module('vaccinations')
             };
         },
 
-        template: '<include-replace ng-include="getContentUrl()"></include-replace>',
+        template: '<div ng-include="getContentUrl()"></div>',
         scope: {
             getVaccination: '&',
             getVacc: '&'

@@ -3,7 +3,7 @@
 
     <!-- ADMINISTERED HEADER -->
     <div ng-if="firstOfKind" class="vaccination-group-header">{{ enteredEditFormData.name }}</div>
-    <div class="header administered-header" ng-class="{'adverse-header':enteredEditFormData.adverse_reaction}">
+    <div class="header administered-header" ng-class="{'adverse-header':enteredEditFormData.adverse_reaction, 'last-of-kind': lastOfKind}">
         <span class="administered-label">Administered: </span><span class="administered-date">{{ enteredEditFormData.administration_date | date: 'mediumDate' }}</span>
         <span ng-if="enteredEditFormData.dose_number">
             <span class="dose-number-label">Dose Number: </span>
