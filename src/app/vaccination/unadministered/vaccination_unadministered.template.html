@@ -3,14 +3,19 @@
     <!-- UNADMINISTERED HEADER -->
     <div ng-if="firstOfKind" class="vaccination-group-header">{{ enteredAdminFormData.name }}</div>
     <div class="header unadministered-header" >
+
+        <i class="fa fa-circle-o fa-lg unadmin-x"></i>
+
         <span ng-if="enteredAdminFormData.dose_number" class="header-info">
             <span class="dose-number-label">Dose Number: </span>
             <span class "dose-number">{{ enteredAdminFormData.dose_number }}</span>
         </span>
+
         <span ng-if="enteredAdminFormData.indication" class="header-info">
             <span class="indication-label">Indication: </span>
             <span class="indication-date">{{ enteredAdminFormData.indication | date: 'mediumDate' }}</span>
         </span>
+
         <span class="header-info">
             <span class="scheduled-label">To be administered on: </span>
             <span class="scheduled-date">{{ enteredAdminFormData.scheduled_date | date: 'mediumDate' }}</span>

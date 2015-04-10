@@ -218,7 +218,23 @@ $adverse-foreground: #E7687D;
     padding-top: 10%;
 }
 
+// Checkmarks for administered indication.
+.unadmin-x, .admin-check, .admin-check-reaction {
+    margin-left: 15px;
+}
 
+.unadmin-x {
+    color: grey;
+}
+
+.admin-check {
+    color: rgb(100, 154, 140);
+}
+
+.admin-check-reaction {
+
+    color: $adverse-foreground;
+}
 
 .btn-group {
     padding-top: 5px;

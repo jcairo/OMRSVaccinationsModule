@@ -4,14 +4,24 @@
     <!-- ADMINISTERED HEADER -->
     <div ng-if="firstOfKind" class="vaccination-group-header">{{ enteredEditFormData.name }}</div>
     <div class="header administered-header" ng-class="{'adverse-header':enteredEditFormData.adverse_reaction, 'last-of-kind': lastOfKind}">
-        <span class="administered-label">Administered: </span><span class="administered-date">{{ enteredEditFormData.administration_date | date: 'mediumDate' }}</span>
+
+        <i ng-if="!enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check"></i>
+
+        <i ng-if="enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check-reaction"></i>
+
+
         <span ng-if="enteredEditFormData.dose_number">
             <span class="dose-number-label">Dose Number: </span>
             <span class "dose-number">{{ enteredEditFormData.dose_number }}</span>
         </span>
+
+        <span class="administered-label">Administered: </span><span class="administered-date">{{ enteredEditFormData.administration_date | date: 'mediumDate' }}</span>
+
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-primary" ng-click="toggleEditForm()">Details</button>
+
             <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="!enteredEditFormData.adverse_reaction">Add Reaction</button>
+
             <button type="button" class="btn btn-danger" ng-click="toggleReactionForm()" ng-if="enteredEditFormData.adverse_reaction">Reaction Details</button>
         </div>
     </div>

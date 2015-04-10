@@ -24,7 +24,7 @@ angular.module('vaccinations')
                     // Tracks the location in the list
                     // of vaccination so grouping of the same vaccine can be done.
                     var prevVacc = scope.getVacc()[scope.$parent.$index-1];
-                    var nextVacc = scope.getVacc()[scope.$parent.$index+1]
+                    var nextVacc = scope.getVacc()[scope.$parent.$index+1];
                     // Determine whether this vaccination is the first
                     // of its kind in the list. If so we want to put a
                     // header on it with the drug name.
