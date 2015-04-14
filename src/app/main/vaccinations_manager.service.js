@@ -3,7 +3,7 @@
 // Manages the retrival of vaccinations from the server and the
 // removal and entry of vaccinations for a patient.
 angular.module('vaccinations')
-.service('vaccinationsManager', ['$http', '$filter','appConstants', 'helperFunctions',
+.service('vaccinationsManager', ['$http', '$filter', 'appConstants', 'helperFunctions',
     function($http, $filter, appConstants, helperFunctions){
     var self = this;
     self.stagedVaccinations = [];
@@ -30,7 +30,6 @@ angular.module('vaccinations')
         addVaccination: function(vaccination) {
             var index = helperFunctions.findObjectIndexByAttribute('_id', vaccination._id, self.vaccinations);
             if (index === undefined){
-                console.log(vaccination);
                 self.vaccinations.push(vaccination);
             } else {
                 console.log("Could not add vaccination to array, a vaccination with the _id attribute already exists.");

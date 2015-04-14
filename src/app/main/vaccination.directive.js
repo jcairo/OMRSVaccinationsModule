@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vaccinations')
-.directive('vaccination', [ function() {
+.directive('vaccination', [ 'helperFunctions', function(helperFunctions) {
     return {
         restrict: 'E',
         // compile: function(scope, element, attrs){
@@ -28,6 +28,10 @@ angular.module('vaccinations')
                     // Determine whether this vaccination is the first
                     // of its kind in the list. If so we want to put a
                     // header on it with the drug name.
+                    //var col1 = Math.floor(Math.random() * 255);
+                    //var col2 = Math.floor(Math.random() * 255);
+                    //scope.headercolor = 'rgb(255, ' + col2 + ',' + col2 + ')';
+                    scope.headercolor = helperFunctions.getColor();
                     if (typeof prevVacc !== 'undefined') {
                         if (prevVacc.name !== scope.getVaccination().name) {
                             scope.firstOfKind = true;
