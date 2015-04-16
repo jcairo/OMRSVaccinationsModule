@@ -1,15 +1,17 @@
 'use strict';
 
 var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E', 'mockData']);
-mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions){
+mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, appConstants){
     // Get the mock json data from the mockData module.
     var vaccinations = mockObjects.vaccinations;
-    var routineVaccines =  mockObjects.routineVaccines;
-    var nonRoutineVaccines =  mockObjects.nonRoutineVaccines;
+    var routineVaccines =  mockObjects.scheduled_vaccines;
+    var nonRoutineVaccines =  mockObjects.non_scheduled_vaccines;
+
+    appConstants.setPatiendId(1);
 
     $httpBackend.whenGET(/^\/?vaccinations\/patients\/1/).respond(mockObjects);
-    $httpBackend.whenGET(/^\/?vaccines\/routine\/?/).respond(mockObjects);
-    $httpBackend.whenGET(/^\/?vaccines\/non_routine\/?/).respond(mockObjects);
+    $httpBackend.whenGET(/^\/?vaccines\/scheduled$/).respond(mockObjects);
+    $httpBackend.whenGET(/^\/?vaccines\/non_scheduled$/).respond(mockObjects);
 
     $httpBackend.whenPOST(/^\/vaccinations\/patients\/1/).respond(function(method, url, data){
         var vaccination = angular.fromJson(data).vaccination;

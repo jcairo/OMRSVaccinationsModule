@@ -17,7 +17,6 @@ angular.module('vaccinations')
     };
 
     var promise = $http.get('vaccinations/patients/1')
-        // var vaccsPromise = $http.get('/vaccinations/patients/' + appConstants.patientId)
         .success(function(data, status, headers, config){
             setVaccinations(data.vaccinations);
         })
@@ -32,7 +31,7 @@ angular.module('vaccinations')
             if (index === undefined){
                 self.vaccinations.push(vaccination);
             } else {
-                console.log("Could not add vaccination to array, a vaccination with the _id attribute already exists.");
+                throw new Error('Could not add vaccination to array, a vaccination with the _id attribute already exists.');
             }
         },
 
@@ -45,26 +44,30 @@ angular.module('vaccinations')
             // Prevent unintentional sending of reaction details
             // modifications.
             var vaccination = angular.copy(vaccination);
-            delete vaccination.reaction_details;
+            try {
+                delete vaccination.reaction_details;
+            } catch(err) {
+                console.log(err);
+            }
             // Check whether we are updating an existing vaccination
             // or adding new vaccination.
             if (vaccination.hasOwnProperty('_id')) {
                 // Vaccination exists, modify on server.
                 $http.put(
                     '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.patientId,
+                    '/patients/' + appConstants.getPatientId(window.location.href),
                     {vaccination: vaccination})
                 .success( function (data) {
                     // Remove the old version and add the new version
                     that.removeVaccination(vaccination._id);
                     that.addVaccination(data.vaccination); })
                 .error( function (data) {
-                    alert("The vaccination was not saved. Please try again.")
+                    alert("The vaccination was not saved. Please try again.");
                 });
             } else {
                 // Vaccination does not exist on server. Post to server.
                 $http.post(
-                    '/vaccinations/patients/' + appConstants.patientId,
+                    '/vaccinations/patients/' + appConstants.getPatientId(window.location.href),
                     {vaccination: vaccination} )
                 .success( function (data) {
                     // This catches new, unscheduled vaccinations
@@ -95,7 +98,7 @@ angular.module('vaccinations')
             if (vaccination.adverse_reaction) {
                 $http.put(
                     '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.patientId +
+                    '/patients/' + appConstants.getPatientId(window.location.href) +
                     '/adverse_reactions/' + reaction._id,
                     {reaction: reaction} )
                 .success( function (data) {
@@ -103,12 +106,12 @@ angular.module('vaccinations')
                     that.addVaccination(data.vaccination);
                 })
                 .error( function (data) {
-                    alert("Adverse reaction could not be modified. Try again.");
+                    alert("An error occured while sending information to server. Try again.");
                 });
             } else {
                 $http.post(
                     '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.patientId +
+                    '/patients/' + appConstants.getPatientId(window.location.href) +
                     '/adverse_reactions',
                     {reaction: reaction} )
                 .success( function (data) {
@@ -116,7 +119,7 @@ angular.module('vaccinations')
                     that.addVaccination(data.vaccination);
                 })
                 .error( function (data) {
-                    alert("Adverse reaction could not be created. Try again.");
+                    alert("An error occured while sending information to server. Try again.");
                 });
             }
         },
@@ -125,7 +128,7 @@ angular.module('vaccinations')
             var that = this;
             $http.delete(
                 '/vaccinations/' + reaction._vaccination_id +
-                '/patients/' + appConstants.patientId +
+                '/patients/' + appConstants.getPatientId(window.location.href) +
                 '/adverse_reactions/' + reaction._id,
                 {reaction: reaction})
             .success( function (data) {

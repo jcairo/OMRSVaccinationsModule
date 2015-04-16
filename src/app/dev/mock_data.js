@@ -88,7 +88,7 @@ angular.module('mockData', [])
       "administered": false,
       "adverse_reaction": false,
       "administration_date": "",
-      "scheduled_date": "2015-07-01",
+      "scheduled_date": "2015-03-01",
       "body_site_administered": "right outer thigh",
       "dose_number": 1,
     },
@@ -186,7 +186,7 @@ angular.module('mockData', [])
     }
   ],
 
-  nonRoutineVaccines: [
+  non_scheduled_vaccines: [
 
       {
         "_vaccine_id": "550b4604d6f88cbkkk3587ba",
@@ -245,7 +245,7 @@ angular.module('mockData', [])
 
     ],
 
-    routineVaccines: [
+    scheduled_vaccines: [
       {
         "_vaccine_id": "550b46047fcba390ff335aaa",
         "name": "Bacillus Calmette-Guerin",

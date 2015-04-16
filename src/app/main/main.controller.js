@@ -24,7 +24,7 @@ angular.module('vaccinations')
 
     // Get list of vaccines.
     vaccinesManager.getVaccines().success( function(data) {
-        $scope.vaccines = data.nonRoutineVaccines;
+        $scope.vaccines = data.non_scheduled_vaccines;
     });
 
     $scope.stageNewVaccination = function (vaccine) {
@@ -32,5 +32,20 @@ angular.module('vaccinations')
         stagedVaccination._staged = true;
         vaccinationsManager.addStagedVaccination(stagedVaccination);
         $scope.newVaccine = '';
+    };
+
+    $scope.formatVaccine = function (vaccine) {
+        var formattedVaccineName;
+        formattedVaccineName = vaccine.name + ':: ';
+        if (typeof vaccine.dose !== 'undefined') {
+            formattedVaccineName += 'Dose: ' + vaccine.dose + ' ';
+        }
+        if (typeof vaccine.dosing_unit !== 'undefined') {
+            formattedVaccineName += 'Unit: ' + vaccine.dosing_unit + ' ';
+        }
+        if (typeof vaccine.route !== 'undefined') {
+            formattedVaccineName += 'Route: ' + vaccine.route + ' ';
+        }
+        return  formattedVaccineName;
     };
 }]);

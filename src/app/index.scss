@@ -214,6 +214,11 @@ $adverse-foreground: #E7687D;
     }
 }
 
+.staged.header {
+    @include border-top-radius(4px);
+    border-top: 1px solid lightgrey;
+}
+
 .container {
     padding-top: 10%;
 }
@@ -232,8 +237,11 @@ $adverse-foreground: #E7687D;
 }
 
 .admin-check-reaction {
-
     color: $adverse-foreground;
+}
+
+.due-label {
+    margin-left: 5px;
 }
 
 // Button stuff.

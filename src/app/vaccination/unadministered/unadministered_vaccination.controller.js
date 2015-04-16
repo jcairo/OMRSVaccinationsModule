@@ -15,7 +15,13 @@ angular.module('vaccinations')
         vaccination.administration_date = new Date();
         vaccination.manufacture_date = new Date();
         vaccination.expiry_date = new Date();
+        vaccination.scheduled_date = new Date(vaccination.scheduled_date);
         $scope.enteredAdminFormData = vaccination;
+
+        if ($scope.enteredAdminFormData.scheduled_date <= (new Date())) {
+            $scope.due = true;
+        }
+
     };
 
 

@@ -3,8 +3,8 @@
 angular.module('vaccinations')
 .service('vaccinesManager', ['$http', function($http) {
     var self = this;
-    var promise = $http.get('vaccines/non_routine.json').success( function(data) {
-        self.vaccines = data.nonRoutineVaccines;
+    var promise = $http.get('/vaccines/non_scheduled').success( function(data) {
+        self.vaccines = data.non_scheduled_vaccines;
     });
 
     var exports = {
