@@ -31,57 +31,98 @@
     <!-- /HEADER -->
 
     <!-- ADMINISTRATION FORM -->
-    <form ng-if="state.administerFormOpen" class="form-wrapper">
+    <form name="form" ng-if="state.administerFormOpen" class="form-wrapper css-form" novalidate>
         <div>
+
             <div class="form-group">
                 <label>Administration Date</label>
-                <input class="form-control" type="date" ng-model="enteredAdminFormData.administration_date" placeholder="Administration Date">
+                <input name="administration_date" class="form-control" type="date" ng-model="enteredAdminFormData.administration_date" placeholder="Administration Date"required>
             </div>
-            <div class="form-group">
-                <label>Scheduled Date</label>
-                <input class="form-control" type="date" ng-model="enteredAdminFormData.scheduled_date" placeholder="Scheduled Date">
+            <div ng-show="form.administration_date.$error.date" class="form-warning">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid administration date.</div>
             </div>
+
             <div class="form-group" ng-if="enteredAdminFormData.dose_number">
                 <label>Course Number</label>
                 <input disabled="disabled" class="form-control" type="text" ng-model="enteredAdminFormData.dose_number" placeholder="Dose in Course">
             </div>
+
             <div class="form-group">
                 <label>Dose</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.dose" placeholder="Dose">
+                <input name="dose" class="form-control" type="number" ng-model="enteredAdminFormData.dose" placeholder="Dose" required>
             </div>
+            <div ng-show="form.dose.$error.required && !form.dose.$error.number">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid dose. Dose must be a number</div>
+            </div>
+
+
             <div class="form-group">
                 <label>Units</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units">
+                <input name="dosing_unit" class="form-control" type="text" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
             </div>
+            <div ng-show="form.dosing_unit.$error.required">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid dosing unit. For example ml, drops...</div>
+            </div>
+
             <div class="form-group">
                 <label>Route</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.route" placeholder="Route">
+                <input name="route" class="form-control" type="text" ng-model="enteredAdminFormData.route" placeholder="Route" required>
             </div>
+            <div ng-show="form.route.$error.required">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid administrationg route. For example intradermal, oral...</div>
+            </div>
+
             <div class="form-group">
                 <label>Body Site Administered</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.body_site_administered" placeholder="Body Site Administered">
+                <input name="body_site_administered" class="form-control" type="text" ng-model="enteredAdminFormData.body_site_administered" placeholder="Body Site Administered" required>
             </div>
+            <div ng-show="form.body_site_administered.$error.required">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid site. For example right outer thigh, left outer shoulder...</div>
+            </div>
+
             <div class="form-group">
                 <label>Manufacturer</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.manufacturer" placeholder="Manufacturer">
+                <input name="manufacturer" class="form-control" type="text" ng-model="enteredAdminFormData.manufacturer" placeholder="Manufacturer" required>
             </div>
+            <div ng-show="form.manufacturer.$error.required">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid manufacturer. For example Pfizer, Procter and Gamble...</div>
+            </div>
+
+
             <div class="form-group">
                 <label>Lot Number</label>
-                <input class="form-control" type="text" ng-model="enteredAdminFormData.lot_number" placeholder="Lot Number">
+                <input name="lot_number" class="form-control" type="text" ng-model="enteredAdminFormData.lot_number" placeholder="Lot Number" required>
             </div>
+            <div ng-show="form.lot_number.$error.required">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid vaccine lot number.</div>
+            </div>
+
+
+
             <div class="form-group">
                 <label>Manufacture Date</label>
-                <input class="form-control" type="date" ng-model="enteredAdminFormData.manufacture_date" placeholder="Manufacture Date">
+                <input name="manufacture_date" class="form-control" type="date" ng-model="enteredAdminFormData.manufacture_date" placeholder="Manufacture Date" required>
             </div>
+            <div ng-show="form.manufacture_date.$error.date" class="form-warning">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid manufacture date.</div>
+            </div>
+
+
             <div class="form-group">
                 <label>Expiry Date</label>
-                <input class="form-control" type="date" ng-model="enteredAdminFormData.expiry_date" placeholder="Expiry Date">
+                <input name="expiry_date" class="form-control" type="date" ng-model="enteredAdminFormData.expiry_date" placeholder="Expiry Date" required>
             </div>
+            <div ng-show="form.expiry_date.$error.date" class="form-warning">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid expiry date.</div>
+            </div>
+
+
+
             <div class="form-button-wrapper">
                 <!-- cannot delete scheduled vaccines only modify. -->
                 <button type="button" class="btn btn-danger" ng-if="!enteredAdminFormData.routine" ng-click="deleteVaccination(enteredAdminFormData._id)">Delete</button>
                 <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset</button>
-                <button type="submit" class="btn btn-warning" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
+                <button ng-show="form.$valid" type="submit" class="btn btn-warning" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
             </div>
         </div>
     </form>

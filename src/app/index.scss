@@ -262,5 +262,16 @@ $adverse-foreground: #E7687D;
     background-color: #FAFAFA;
 }
 
+
+// Form styling
+.css-form input.ng-invalid.ng-touched {
+    //background-color: #f2dede;
+    border: 3px solid #f2dede;
+}
+
+.form-warning {
+    padding-top: 5px;
+}
+
 // injector
 // endinjector
