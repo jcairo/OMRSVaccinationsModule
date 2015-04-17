@@ -51,7 +51,7 @@
                 <label>Dose</label>
                 <input name="dose" class="form-control" type="number" ng-model="enteredAdminFormData.dose" placeholder="Dose" required>
             </div>
-            <div ng-show="form.dose.$error.required && !form.dose.$error.number">
+            <div ng-show="form.dose.$error.required || form.dose.$error.number" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid dose. Dose must be a number</div>
             </div>
 
@@ -60,7 +60,7 @@
                 <label>Units</label>
                 <input name="dosing_unit" class="form-control" type="text" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
             </div>
-            <div ng-show="form.dosing_unit.$error.required">
+            <div ng-show="form.dosing_unit.$error.required" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid dosing unit. For example ml, drops...</div>
             </div>
 
@@ -68,7 +68,7 @@
                 <label>Route</label>
                 <input name="route" class="form-control" type="text" ng-model="enteredAdminFormData.route" placeholder="Route" required>
             </div>
-            <div ng-show="form.route.$error.required">
+            <div ng-show="form.route.$error.required" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid administrationg route. For example intradermal, oral...</div>
             </div>
 
@@ -76,7 +76,7 @@
                 <label>Body Site Administered</label>
                 <input name="body_site_administered" class="form-control" type="text" ng-model="enteredAdminFormData.body_site_administered" placeholder="Body Site Administered" required>
             </div>
-            <div ng-show="form.body_site_administered.$error.required">
+            <div ng-show="form.body_site_administered.$error.required" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid site. For example right outer thigh, left outer shoulder...</div>
             </div>
 
@@ -84,7 +84,7 @@
                 <label>Manufacturer</label>
                 <input name="manufacturer" class="form-control" type="text" ng-model="enteredAdminFormData.manufacturer" placeholder="Manufacturer" required>
             </div>
-            <div ng-show="form.manufacturer.$error.required">
+            <div ng-show="form.manufacturer.$error.required" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid manufacturer. For example Pfizer, Procter and Gamble...</div>
             </div>
 
@@ -93,7 +93,7 @@
                 <label>Lot Number</label>
                 <input name="lot_number" class="form-control" type="text" ng-model="enteredAdminFormData.lot_number" placeholder="Lot Number" required>
             </div>
-            <div ng-show="form.lot_number.$error.required">
+            <div ng-show="form.lot_number.$error.required" class="form-warning">
                 <div class="alert alert-danger"><strong>Error: </strong>Enter a valid vaccine lot number.</div>
             </div>
 

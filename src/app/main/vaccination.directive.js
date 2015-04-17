@@ -4,9 +4,6 @@ angular.module('vaccinations')
 .directive('vaccination', [ 'helperFunctions', function(helperFunctions) {
     return {
         restrict: 'E',
-        // compile: function(scope, element, attrs){
-        //     console.log(scope);
-        // },
         // The link function provides access to the scope of the vaccination
         // element. Use the vaccinations.administered property to decide on
         // which template to include administered/unadministered.

@@ -86,28 +86,34 @@
     <!-- /EDIT FORM -->
 
     <!-- ADVERSE REACTION FORM -->
-    <form ng-if="state.adverseFormOpen">
+    <form name="form" ng-if="state.adverseFormOpen" class="css-form" novalidate>
         <div class="form-wrapper" >
 
             <div class="form-group">
                 <label>Date</label>
-                <input class="form-control" type="date" ng-model="enteredAdverseFormData.date" placeholder="Date">
+                <input name="date" class="form-control" type="date" ng-model="enteredAdverseFormData.date" placeholder="Date" required>
+            </div>
+            <div ng-show="form.date.$error.date" class="form-warning">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid reaction date.</div>
             </div>
 
             <div class="form-group">
                 <label>Grade</label>
-                <select name="Grade" class="form-control" ng-model="enteredAdverseFormData.grade">
-                    <option value=160754>Adverse Reaction Grade 1</option>
-                    <option value=160755>Adverse Reaction Grade 2</option>
-                    <option value=160756>Adverse Reaction Grade 3</option>
-                    <option value=160757>Adverse Reaction Grade 4</option>
-                    <option value=160758>Adverse Reaction Grade 5</option>
+                <select name="grade" class="form-control" ng-model="enteredAdverseFormData.grade" required>
+                    <option selected="selected" value="160754">Adverse Reaction Grade 1</option>
+                    <option value="160755">Adverse Reaction Grade 2</option>
+                    <option value="160756">Adverse Reaction Grade 3</option>
+                    <option value="160757">Adverse Reaction Grade 4</option>
+                    <option value="160758">Adverse Reaction Grade 5</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Adverse Event Description</label>
-                <textarea class="form-control" type="text" rows="4" ng-model="enteredAdverseFormData.adverse_event_description"></textarea>
+                <textarea name="adverse_event_description" class="form-control" type="text" rows="4" ng-model="enteredAdverseFormData.adverse_event_description" placeholder="Description" required></textarea>
+            </div>
+            <div ng-show="form.adverse_event_description.$error.required" class="form-warning">
+                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid adverse event description.</div>
             </div>
 
             <div class="form-button-wrapper">

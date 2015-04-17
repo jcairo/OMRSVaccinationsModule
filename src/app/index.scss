@@ -266,11 +266,11 @@ $adverse-foreground: #E7687D;
 // Form styling
 .css-form input.ng-invalid.ng-touched {
     //background-color: #f2dede;
-    border: 3px solid #f2dede;
 }
 
 .form-warning {
     padding-top: 5px;
+    margin-top: -15px;
 }
 
 // injector
