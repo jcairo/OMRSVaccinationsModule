@@ -62,18 +62,19 @@ angular.module('vaccinations')
         vaccinationsManager.submitVaccination(vaccination);
     };
 
-    $scope.unadministerVaccination = function (vaccination) {
+    $scope.unadministerVaccination = function () {
         // Remove all information pertaining to administration.
-        vaccination.provider_id = '';
-        vaccination.scheduler_id = '';
+        var vaccination = angular.copy($scope.getVaccination());
         vaccination.administered = false;
-        vaccination.adverse_reaction = false;
-        vaccination.reaction_details = '';
-        vaccination.administration_date = '';
-        vaccination.lot_number = '';
-        vaccination.manufacture_date = '';
-        vaccination.expiry_date = '';
-        vaccination.manufacturer = '';
+        delete vaccination.provider_id;
+        delete vaccination.scheduler_id;
+        delete vaccination.adverse_reaction;
+        delete vaccination.reaction_details;
+        delete vaccination.administration_date;
+        delete vaccination.lot_number;
+        delete vaccination.manufacture_date;
+        delete vaccination.expiry_date;
+        delete vaccination.manufacturer;
         vaccinationsManager.submitVaccination(vaccination);
     };
 
