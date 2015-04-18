@@ -6,19 +6,6 @@ angular.module('vaccinations')
     //$scope.enteredFormData = getVaccination();
     $scope.state = {};
     $scope.state.administerFormOpen = true;
-    // $scope.alert = {
-    //     title: 'New Vaccination',
-    //     content: 'Fill in details and click submit to save.',
-    //     type: 'info',
-    //     show: true,
-    //     duration: 3
-    // };
-
-    var myAlert = $alert({
-        title: 'New Vaccination.',
-        content: 'Add details and click submit to save.',
-        placement: 'top', type: 'info', show: true,
-        container: '#alert-container', duration: 4});
 
     $scope.removeStagedVaccination = function () {
         vaccinationsManager.removeStagedVaccination();
@@ -29,11 +16,18 @@ angular.module('vaccinations')
          vaccination.administration_date = new Date();
          vaccination.manufacture_date = new Date();
          vaccination.expiry_date = new Date();
+         vaccination.scheduled_date = new Date();
          $scope.enteredAdminFormData = vaccination;
     };
 
-    $scope.saveVaccination = function () {
-        vaccinationsManager.submitVaccination($scope.enteredAdminFormData);
+    $scope.saveVaccination = function (enteredAdminFormData) {
+        // When saving an administered vaccination ensure no scheduled
+        // date is saved.
+        vaccinationsManager.submitVaccination(enteredAdminFormData);
+    };
+
+    $scope.scheduleVaccination = function (enteredAdminFormData) {
+        vaccinationsManager.submitVaccination(enteredAdminFormData);
     };
 
     $scope.resetFormDataToDefaults();

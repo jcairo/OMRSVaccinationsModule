@@ -32,33 +32,38 @@
         <div class="form-group form-group-sm">
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="input-group">
-                    <span class="input-group-addon">Search</span>
+                    <span class="input-group-addon search-add-lbls">Search</span>
                     <input class="form-control" type="text" id="search" ng-model="search.vaccinations" placeholder="Search Patient's Vaccinations">
                 </div>
             </div>
         </div>
     </form>
+    <!-- /SEARCH ADD SECTION -->
 
     <div class="add-vaccination-wrapper">
         <form class="form-horizontal">
             <div class="form-group form-group-sm">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="input-group">
-                        <span class="input-group-addon">Add New Vaccination</span>
+                        <span class="input-group-addon search-add-lbls">Add New Vaccination</span>
                         <input class="form-control" type="text" id="search" placeholder="Add a New Vaccination" ng-model="newVaccine" bs-options="vaccines as formatVaccine(vaccines) for vaccines in vaccines " bs-typeahead>
-                        <span class="input-group-addon" ng-click="stageNewVaccination(newVaccine)">+</span>
+                        <span class="input-group-addon admin-vacc-btn" ng-click="stageVaccination(newVaccine, false)"><strong>Administer</strong></span>
+                        <span class="input-group-addon sched-vacc-btn" ng-click="stageVaccination(newVaccine, true)"><strong>Schedule</strong></span>
                     </div>
                 </div>
             </div>
         </form>
 
         <div class="staged-wrapper" ng-if="stagedVaccinations.length > 0">
+
             <!-- STAGED VACCINATIONS -->
             <div id="alert-container"></div>
             <vaccination get-vaccination="stagedVaccination" ng-repeat="stagedVaccination in stagedVaccinations"></vaccination>
+            <!-- /STAGED VACCINATION -->
+
         </div>
+
     </div>
-    <!-- /SEARCH ADD SECTION -->
 
     <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
@@ -70,6 +75,7 @@
         <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
         <!-- NONROUTINE VACCINATIONS -->
         <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (unschedvaccs = (vaccinations | filter: {routine: 'false'} | orderBy:['name', 'scheduled_date'] | filter:{name:search.vaccinations}| filter: {staged: '!true'}))" get-vacc="unschedvaccs"></vaccination>
+
     </div>
     <!-- /VACCINATIONS -->
 

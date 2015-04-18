@@ -18,9 +18,14 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, 
         // Add a vaccination id field and remove the
         // staged marker.
         vaccination._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
+        debugger;
         delete vaccination._staged;
+        delete vaccination._administering;
+        delete vaccination._scheduling;
         if (vaccination.administration_date) {
             vaccination.administered = true;
+        } else {
+            vaccination.administered = false;
         }
         vaccinations.push(vaccination);
         return [200, {vaccination:vaccination}, {}];

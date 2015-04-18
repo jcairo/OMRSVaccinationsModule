@@ -224,23 +224,34 @@ angular.module('mockData', [])
       },
       {
         "_vaccine_id": "550b4604a829wwwxxx512ccc",
-        "name": "Rabies"
+        "name": "Rabies",
+        "routine": false
       },
       {
         "_vaccine_id": "5zzz4604a829wwwxxx512ccc",
-        "name": "Cholera"
+        "name": "Cholera",
+        "routine": false
       },
       {
         "_vaccine_id": "5zzz4gg4a829wwwxxx512ccc",
-        "name": "Mumps"
+        "name": "Mumps",
+        "routine": false
       },
       {
         "_vaccine_id": "xzzz4gg4a829wwwxxx512ccc",
-        "name": "Rubella"
+        "name": "Rubella",
+        "routine": false
       },
       {
         "_vaccine_id": "xzzz4gg4ls29wwwxxx512ccc",
-        "name": "Tetanus toxoid"
+        "name": "Tetanus toxoid",
+        "routine": false
+      },
+      {
+        "_vaccine_id": "CUSTOM",
+        "custom": true,
+        "name": "",
+        "routine": false,
       }
 
     ],

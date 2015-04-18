@@ -38,9 +38,7 @@
                 <label>Administration Date</label>
                 <input name="administration_date" class="form-control" type="date" ng-model="enteredAdminFormData.administration_date" placeholder="Administration Date"required>
             </div>
-            <div ng-show="form.administration_date.$error.date" class="form-warning">
-                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid administration date.</div>
-            </div>
+            <feedback warn="form.administration_date.$error.date" warning="Enter a valid administration date."></feedback>
 
             <div class="form-group" ng-if="enteredAdminFormData.dose_number">
                 <label>Course Number</label>
@@ -84,10 +82,8 @@
                 <label>Manufacturer</label>
                 <input name="manufacturer" class="form-control" type="text" ng-model="enteredAdminFormData.manufacturer" placeholder="Manufacturer" required>
             </div>
-            <div ng-show="form.manufacturer.$error.required" class="form-warning">
-                <div class="alert alert-danger"><strong>Error: </strong>Enter a valid manufacturer. For example Pfizer, Procter and Gamble...</div>
-            </div>
 
+            <feedback warn="form.manufacturer.$error.required" warning="Enter a valid manufacturer. For example Pfizer, Procter and Gamble..."></feedback>
 
             <div class="form-group">
                 <label>Lot Number</label>

@@ -36,11 +36,23 @@ $adverse-foreground: #E7687D;
     margin-bottom: 90px;
 }
 
-.staged-wrapper {
-        margin-top: 45px;
-        margin-bottom: 45px;
+// Add vaccination stuff
+.admin-vacc-btn {
+    background-color: #5bc0de;
+    color: white;
+    border-left: 0px;
 }
 
+.sched-vacc-btn {
+    background-color: rgb(255, 229, 229);
+}
+
+.staged-wrapper {
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+// Label for Scheduled/Unscheduled sections.
 .scheduled-header, .not-scheduled-header{
     border-bottom: 1px solid lightgrey;
     margin-top: 20px;
@@ -49,7 +61,10 @@ $adverse-foreground: #E7687D;
     font-size: 18px;
 }
 
-// Label for Scheduled/Unscheduled sections.
+.not-scheduled-header {
+    margin-top: 35px;
+}
+
 .section-label {
     border-bottom: 1px solid lightgrey;
     background: black;
@@ -171,7 +186,7 @@ $adverse-foreground: #E7687D;
     }
 
     .adverse-header {
-        // background-color: $adverse-background;
+        background-color: $adverse-background;
         border-color: #FAB9C4;
         .drug .label {
             border: 1px solid white;
@@ -258,19 +273,19 @@ $adverse-foreground: #E7687D;
     margin-top: 4px;
 }
 
-.input-group-addon {
+.search-add-lbls {
     background-color: #FAFAFA;
 }
 
-
 // Form styling
-.css-form input.ng-invalid.ng-touched {
-    //background-color: #f2dede;
-}
-
 .form-warning {
     padding-top: 5px;
     margin-top: -15px;
+    transition: .4s;
+}
+
+.form-warning.ng-hide {
+    opacity: 0;
 }
 
 // injector

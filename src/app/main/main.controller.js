@@ -27,9 +27,15 @@ angular.module('vaccinations')
         $scope.vaccines = data.non_scheduled_vaccines;
     });
 
-    $scope.stageNewVaccination = function (vaccine) {
+    $scope.stageVaccination = function (vaccine, scheduled) {
         var stagedVaccination = angular.copy(vaccine);
         stagedVaccination._staged = true;
+        if (scheduled) {
+            stagedVaccination._scheduling = true;
+        } else {
+            stagedVaccination._administering = true;
+        }
+        debugger;
         vaccinationsManager.addStagedVaccination(stagedVaccination);
         $scope.newVaccine = '';
     };
@@ -37,6 +43,9 @@ angular.module('vaccinations')
     $scope.formatVaccine = function (vaccine) {
         var formattedVaccineName;
         formattedVaccineName = vaccine.name + ':: ';
+        if (vaccine.custom) {
+            return 'Custom Vaccine::';
+        }
         if (typeof vaccine.dose !== 'undefined') {
             formattedVaccineName += 'Dose: ' + vaccine.dose + ' ';
         }
@@ -46,6 +55,7 @@ angular.module('vaccinations')
         if (typeof vaccine.route !== 'undefined') {
             formattedVaccineName += 'Route: ' + vaccine.route + ' ';
         }
-        return  formattedVaccineName;
+        return formattedVaccineName;
+
     };
 }]);
