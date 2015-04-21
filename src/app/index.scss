@@ -32,6 +32,7 @@ $adverse-foreground: #E7687D;
     border-top-left-radius: $radius;
 }
 
+// Main app container
 .container {
     margin-bottom: 90px;
 }
@@ -40,11 +41,13 @@ $adverse-foreground: #E7687D;
 .admin-vacc-btn {
     background-color: #5bc0de;
     color: white;
-    border-left: 0px;
+    border: 0px;
 }
 
 .sched-vacc-btn {
-    background-color: rgb(255, 229, 229);
+    background-color: #428bca;
+    color: white;
+    border: 0px;
 }
 
 .staged-wrapper {
@@ -109,8 +112,20 @@ $adverse-foreground: #E7687D;
         border-left: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         border-right: 1px solid #ddd;
-        // border-radius: 0 0 4px 4px;
-        box-shadow: none;
+    }
+
+    .form-wrapper.ng-enter, .form-wrapper.ng-leave {
+        transition: all .3s linear;
+    }
+
+    .form-wrapper.ng-enter, .form-wrapper.ng-leave.ng-leave-active {
+        opacity: 0;
+        max-height: 0px;
+    }
+
+    .form-wrapper.ng-leave, .form-wrapper.ng-enter.ng-enter-active {
+        max-height: 1000px;
+        opacity: 1;
     }
 
     .header {
@@ -257,16 +272,17 @@ $adverse-foreground: #E7687D;
 
 .base-label {
     margin-left: 5px;
-    display: inline-block;
     text-align: center;
 }
 
 .due-label {
     @extend .base-label;
+    background-color: rgb(100, 154, 140);
 }
 
 .adverse-label {
-    @extend .due-label;
+    @extend .base-label;
+    background-color: red;
 }
 
 // Button stuff.
@@ -300,11 +316,13 @@ button {
 .form-warning {
     padding-top: 5px;
     margin-top: -15px;
-    transition: .4s;
+    transition: all .3s ease;
+    max-height: 50px;
 }
 
 .form-warning.ng-hide {
     opacity: 0;
+    max-height: 0px;
 }
 
 // injector

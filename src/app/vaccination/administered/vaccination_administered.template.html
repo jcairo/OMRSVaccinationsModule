@@ -9,9 +9,7 @@
 
         <i ng-if="enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check-reaction"></i>
 
-        <span class="adverse-label">
-            <span ng-if="enteredEditFormData.adverse_reaction" class="label label-danger">Adverse Reaction</span>
-        </span>
+        <span ng-if="enteredEditFormData.adverse_reaction" class="label label-danger adverse-label">Adverse Reaction</span>
 
         <span ng-if="enteredEditFormData.dose_number">
             <span class="dose-number-label">Dose Number: </span>
@@ -31,8 +29,8 @@
     <!-- /HEADER -->
 
     <!-- EDIT FORM -->
-    <form ng-if="state.editFormOpen" name="form" novalidate>
-        <div class="form-wrapper">
+    <div ng-if="state.editFormOpen" class="form-wrapper">
+    <form  name="form" novalidate>
 
             <div class="form-group">
                 <label>Adminstration Date</label>
@@ -102,15 +100,15 @@
 
                 <button type="button" class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
 
-                <button ng-if="form.$valid" type="submit" class="btn btn-warning" ng-click="updateVaccination(enteredEditFormData)">Update</button>
+                <button ng-if="form.$valid" type="submit" class="btn btn-primary" ng-click="updateVaccination(enteredEditFormData)">Update</button>
             </div>
-        </div>
     </form>
+    </div>
     <!-- /EDIT FORM -->
 
     <!-- ADVERSE REACTION FORM -->
-    <form name="form" ng-if="state.adverseFormOpen" novalidate>
-        <div class="form-wrapper" >
+    <div class="form-wrapper" ng-if="state.adverseFormOpen">
+        <form name="form"  novalidate>
 
             <div class="form-group">
                 <label>Date</label>
@@ -144,9 +142,8 @@
 
                 <button ng-if="enteredEditFormData.adverse_reaction" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Update</button>
             </div>
-
-        </div>
-    </form>
+        </form>
+    </div>
     <!-- /ADVERSE REACTION FORM -->
 </div>
 <!-- ADMINISTERED TEMPLATE -->

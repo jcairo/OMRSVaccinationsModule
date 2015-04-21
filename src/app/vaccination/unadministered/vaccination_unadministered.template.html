@@ -6,9 +6,7 @@
 
         <i class="fa fa-circle-o fa-lg unadmin-x"></i>
 
-        <span class="due-label">
-            <span ng-if="due" class="label label-danger">Due</span>
-        </span>
+        <span ng-if="due" class="label label-danger due-label">Due</span>
 
         <span ng-if="enteredAdminFormData.dose_number" class="header-info">
             <span class="dose-number-label">Dose Number: </span>
@@ -31,8 +29,9 @@
     <!-- /HEADER -->
 
     <!-- ADMINISTRATION FORM -->
-    <form name="form" ng-if="state.administerFormOpen" class="form-wrapper css-form" novalidate>
-        <div>
+    <div ng-if="state.administerFormOpen" class="form-wrapper css-form">
+
+        <form name="form" novalidate>
 
             <div class="form-group">
                 <label>Administration Date</label>
@@ -53,9 +52,9 @@
 
             <div class="form-group">
                 <label>Units</label>
-                <input name="dosing_unit" class="form-control" type="number" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
+                <input name="dosing_unit" class="form-control" type="text" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
             </div>
-            <feedback warn="form.dosing_unit.$error.required || form.dosing_unit.$error.number" warning="Enter a valid dosing unit. For example ml, drops..."></feedback>
+            <feedback warn="form.dosing_unit.$error.required" warning="Enter a valid dosing unit. For example ml, drops..."></feedback>
 
             <div class="form-group">
                 <label>Route</label>
@@ -97,10 +96,10 @@
                 <!-- cannot delete scheduled vaccines only modify. -->
                 <button type="button" class="btn btn-danger" ng-if="!enteredAdminFormData.routine" ng-click="deleteVaccination(enteredAdminFormData._id)">Delete</button>
                 <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset</button>
-                <button ng-show="form.$valid" type="submit" class="btn btn-warning" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
+                <button ng-show="form.$valid" type="submit" class="btn btn-primary" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <!-- / ADMINISTRATION FORM -->
 </div>
 <!-- /UNADMINISTERED TEMPLATE -->
