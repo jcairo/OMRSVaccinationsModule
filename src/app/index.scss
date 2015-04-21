@@ -58,7 +58,7 @@ $adverse-foreground: #E7687D;
 // Label for Scheduled/Unscheduled sections.
 .scheduled-header, .not-scheduled-header{
     border-bottom: 1px solid lightgrey;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 20px;
     margin-right: 20px;
     font-size: 18px;
@@ -250,7 +250,7 @@ $adverse-foreground: #E7687D;
 }
 
 .container {
-    padding-top: 10%;
+    margin-top: 5%;
 }
 
 // Checkmarks for administered indication.
