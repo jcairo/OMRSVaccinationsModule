@@ -35,7 +35,6 @@ angular.module('vaccinations')
         } else {
             stagedVaccination._administering = true;
         }
-        debugger;
         vaccinationsManager.addStagedVaccination(stagedVaccination);
         $scope.newVaccine = '';
     };

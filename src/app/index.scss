@@ -255,11 +255,30 @@ $adverse-foreground: #E7687D;
     color: $adverse-foreground;
 }
 
-.due-label {
+.base-label {
     margin-left: 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.due-label {
+    @extend .base-label;
+}
+
+.adverse-label {
+    @extend .due-label;
 }
 
 // Button stuff.
+// Remove blue outline.
+button {
+    outline: 0 !important;
+}
+
+.btn {
+    transition: all .5s ease;
+}
+
 .btn-group {
     padding-top: 5px;
     padding-right: 15px;

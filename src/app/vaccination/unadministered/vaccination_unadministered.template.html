@@ -1,31 +1,31 @@
 <!-- UNADIMISTERED TEMPLATE -->
 <div ng-controller="UnAdminVaccinationController" class="vaccination unadministered">
     <!-- UNADMINISTERED HEADER -->
-    <div ng-if="firstOfKind" class="vaccination-group-header" style="background-color: {{ headercolor }}">{{ enteredAdminFormData.name }}</div>
+    <div ng-if="firstOfKind" class="vaccination-group-header">{{ ::enteredAdminFormData.name }}</div>
     <div class="header unadministered-header" >
 
         <i class="fa fa-circle-o fa-lg unadmin-x"></i>
 
-        <span ng-if="due" class="due-label">
-            <span class="label label-danger">Due</span>
+        <span class="due-label">
+            <span ng-if="due" class="label label-danger">Due</span>
         </span>
 
         <span ng-if="enteredAdminFormData.dose_number" class="header-info">
             <span class="dose-number-label">Dose Number: </span>
-            <span class "dose-number">{{ enteredAdminFormData.dose_number }}</span>
+            <span class "dose-number">{{ ::enteredAdminFormData.dose_number }}</span>
         </span>
 
         <span ng-if="enteredAdminFormData.indication" class="header-info">
             <span class="indication-label">Indication: </span>
-            <span class="indication-date">{{ enteredAdminFormData.indication | date: 'mediumDate' }}</span>
+            <span class="indication-date">{{ ::enteredAdminFormData.indication | date: 'mediumDate' }}</span>
         </span>
 
         <span class="header-info">
             <span class="scheduled-label">To be administered on: </span>
-            <span class="scheduled-date">{{ enteredAdminFormData.scheduled_date | date: 'mediumDate' }}</span>
+            <span class="scheduled-date">{{ ::enteredAdminFormData.scheduled_date | date: 'mediumDate' }}</span>
         </span>
         <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-info" ng-click="toggleAdministerForm()">Administer</button>
+            <button type="button" class="btn btn-info" ng-class="{ 'active': state.administerFormOpen }" ng-click="toggleAdministerForm()">Administer</button>
         </div>
     </div>
     <!-- /HEADER -->
@@ -53,9 +53,9 @@
 
             <div class="form-group">
                 <label>Units</label>
-                <input name="dosing_unit" class="form-control" type="text" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
+                <input name="dosing_unit" class="form-control" type="number" ng-model="enteredAdminFormData.dosing_unit" placeholder="Units" required>
             </div>
-            <feedback warn="form.dosing_unit.$error.required" warning="Enter a valid dosing unit. For example ml, drops..."></feedback>
+            <feedback warn="form.dosing_unit.$error.required || form.dosing_unit.$error.number" warning="Enter a valid dosing unit. For example ml, drops..."></feedback>
 
             <div class="form-group">
                 <label>Route</label>
