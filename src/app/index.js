@@ -13,6 +13,6 @@
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'ngResource',
-    'mgcrea.ngStrap'
+    'ngResource'
 ]);
+

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('vaccinations')
-.controller('StagedVaccinationController', ['$scope', '$http', '$interval', '$alert', 'vaccinationsManager',
-    function ($scope, $http, $interval, $alert, vaccinationsManager) {
+.controller('StagedVaccinationController', ['$scope', '$http', 'vaccinationsManager',
+    function ($scope, $http, vaccinationsManager) {
     //$scope.enteredFormData = getVaccination();
     $scope.state = {};
     $scope.state.administerFormOpen = true;

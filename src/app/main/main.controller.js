@@ -12,7 +12,6 @@ angular.module('vaccinations')
     function($scope, $http, vaccinationsManager, vaccinesManager){
 
     $scope.search = {};
-    $scope.search.vaccinations = '';
     $scope.search.vaccines = '';
 
     // Get list of patient vaccinations.

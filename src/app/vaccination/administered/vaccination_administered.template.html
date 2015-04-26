@@ -13,7 +13,7 @@
 
         <span ng-if="enteredEditFormData.dose_number">
             <span class="dose-number-label">Dose Number: </span>
-            <span class "dose-number">{{ ::enteredEditFormData.dose_number }}</span>
+            <span class="dose-number">{{ ::enteredEditFormData.dose_number }}</span>
         </span>
 
         <span class="administered-label">Administered: </span><span class="administered-date">{{ ::enteredEditFormData.administration_date | date: 'mediumDate' }}</span>
@@ -98,7 +98,7 @@
 
                 <button type="button" class="btn btn-danger" ng-if="!enteredEditFormData.routine" ng-click="deleteVaccination(enteredEditFormData._id)">Delete</button>
 
-                <button type="button" class="btn btn-danger" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
+                <button type="button" class="btn btn-warning" ng-click="unadministerVaccination(enteredEditFormData)">Unadminister</button>
 
                 <button ng-if="form.$valid" type="submit" class="btn btn-primary" ng-click="updateVaccination(enteredEditFormData)">Update</button>
             </div>

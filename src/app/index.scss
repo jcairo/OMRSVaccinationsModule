@@ -38,21 +38,9 @@ $adverse-foreground: #E7687D;
 }
 
 // Add vaccination stuff
-.admin-vacc-btn {
-    background-color: #5bc0de;
-    color: white;
-    border: 0px;
-}
-
-.sched-vacc-btn {
-    background-color: #428bca;
-    color: white;
-    border: 0px;
-}
-
-.staged-wrapper {
-    margin-top: 45px;
-    margin-bottom: 45px;
+.add-vaccination-select-wrapper {
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 // Label for Scheduled/Unscheduled sections.
@@ -62,6 +50,16 @@ $adverse-foreground: #E7687D;
     margin-left: 20px;
     margin-right: 20px;
     font-size: 18px;
+}
+
+.add-vaccination-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.staged-wrapper {
+    margin-top: 45px;
+    margin-bottom: 45px;
 }
 
 .not-scheduled-header {
@@ -92,8 +90,6 @@ $adverse-foreground: #E7687D;
 }
 
 .vaccination {
-
-
 
     .form-group:nth-child(1) {
         margin-top: 45px;
@@ -131,7 +127,6 @@ $adverse-foreground: #E7687D;
     .header {
         margin-right: 0;
         margin-left: 0;
-        background-color: #fff;
         border-left: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         border-right: 1px solid #ddd;
@@ -234,16 +229,6 @@ $adverse-foreground: #E7687D;
     }
 }
 
-.vaccination {
-    .form-button-wrapper {
-        text-align: center;
-        button {
-            margin-bottom: 30px;
-            margin-top: 15px;
-        }
-    }
-}
-
 .staged.header {
     @include border-top-radius(4px);
     border-top: 1px solid lightgrey;
@@ -287,6 +272,15 @@ $adverse-foreground: #E7687D;
 
 // Button stuff.
 // Remove blue outline.
+
+.form-button-wrapper {
+  text-align: center;
+  button {
+    margin-bottom: 30px;
+    margin-top: 15px;
+  }
+}
+
 button {
     outline: 0 !important;
 }

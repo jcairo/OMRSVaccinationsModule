@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Manages a vaccination instance on each vaccination
 // directive.
 angular.module('vaccinations')
@@ -8,6 +7,7 @@ angular.module('vaccinations')
     // Form data inits.
     $scope.enteredEditFormData = {}
     $scope.enteredAdverseFormData = {};
+
     // Form states and methods.
     $scope.state = {};
     $scope.state.editFormOpen = false;
@@ -79,4 +79,5 @@ angular.module('vaccinations')
     };
 
     $scope.resetFormDataToDefaults();
+
 }]);
