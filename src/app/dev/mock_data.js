@@ -6,7 +6,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccdfb16c75e35261900",
       "_vaccine_id": "550b46047fcba390ff335aaa",
-      "routine": true,
+      "scheduled": true,
       "name": "Bacillus Calmette-Guerin",
       "indication": "Birth to 1 yo",
       "dose": 0.05,
@@ -25,7 +25,7 @@ angular.module('mockData', [])
     },
     {
       "_vaccine_id": "550b46047fcba390ff335bba",
-      "routine": true,
+      "scheduled": true,
       "name": "Bacillus Calmette-Guerin",
       "indication": "Older than 1 yo",
       "dose": 0.1,
@@ -41,7 +41,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccdfb16c75e35261802",
       "_vaccine_id": "550b46047fcba390ff335cca",
-      "routine": true,
+      "scheduled": true,
       "name": "Polio",
       "indication": "Birth to 2 weeks",
       "dose": 2,
@@ -61,7 +61,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccd6bba27070e77d3dc",
       "_vaccine_id": "4aslkjlkjaslkfjlkah234ql",
-      "routine": false,
+      "scheduled": false,
       "provider_id": "AAAA",
       "name": "Rotavirus",
       "dose": 0.1,
@@ -79,7 +79,7 @@ angular.module('mockData', [])
     },
     {
       "_vaccine_id": "550b46047fcba390ff335fff",
-      "routine": true,
+      "scheduled": true,
       "name": "Measles",
       "indication": "9 mo",
       "dose": .5,
@@ -95,7 +95,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccddce0415f38397d33",
       "_vaccine_id": "999",
-      "routine": false,
+      "scheduled": false,
       "provider_id": "BBBB",
       "name": "Hepatitis B",
       "dose": 2,
@@ -113,7 +113,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccddce0415f38397d34",
       "_vaccine_id": 60000,
-      "routine": false,
+      "scheduled": false,
       "name": "Hepatitis B",
       "dose": 2,
       "dosing_unit": "ml",
@@ -127,7 +127,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccda57c4a6954ecfe19",
       "_vaccine_id": "550b46047fcba390ff33ddda",
-      "routine": true,
+      "scheduled": true,
       "provider_id": "BBBB",
       "name": "Polio",
       "indication": "6 weeks",
@@ -148,7 +148,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccd2b5b5bbe9ad07c59",
       "_vaccine_id": 80000,
-      "routine": false,
+      "scheduled": false,
       "name": "Rotavirus",
       "dose": 0.05,
       "dosing_unit": "ml",
@@ -161,7 +161,7 @@ angular.module('mockData', [])
     {
       "_id": "54f88ccdefe294237482eb5f",
       "_vaccine_id": "550b4604d6f88cbkkk3587ba",
-      "routine": false,
+      "scheduled": false,
       "provider_id": "BBBB",
       "name": "DPT",
       "dose": 0.1,
@@ -191,27 +191,27 @@ angular.module('mockData', [])
       {
         "_vaccine_id": "550b4604d6f88cbkkk3587ba",
         "name": "Rabies",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "550b4604d6f88cbkkk3587ba",
         "name": "DPT",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "550b460499dc11cccf4420bb",
         "name": "Hepatitis A",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "550b4604a8298qqqb151205d",
         "name": "Hepatitis B",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "4aslkjlkjaslkfjlkah234ql",
         "name": "Rotavirus",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "550b4604a829wwweb1512ccc",
@@ -220,38 +220,38 @@ angular.module('mockData', [])
         "dosing_unit": "IU",
         "route": "PO",
         "indication": "6 mo",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b4604a829wwwxxx512ccc",
         "name": "Rabies",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "5zzz4604a829wwwxxx512ccc",
         "name": "Cholera",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "5zzz4gg4a829wwwxxx512ccc",
         "name": "Mumps",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "xzzz4gg4a829wwwxxx512ccc",
         "name": "Rubella",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "xzzz4gg4ls29wwwxxx512ccc",
         "name": "Tetanus toxoid",
-        "routine": false
+        "scheduled": false
       },
       {
         "_vaccine_id": "CUSTOM",
         "custom": true,
         "name": "",
-        "routine": false,
+        "scheduled": false,
       }
 
     ],
@@ -265,7 +265,7 @@ angular.module('mockData', [])
         "dose_number": 1,
         "route": "Intra-dermal left forearm",
         "indication": "Birth to 1 yo",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff335bba",
@@ -275,7 +275,7 @@ angular.module('mockData', [])
         "dose_number": 2,
         "route": "Intra-dermal left forearm",
         "indication": "Older than 1 yo",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff335cca",
@@ -285,7 +285,7 @@ angular.module('mockData', [])
         "dose_number": 1,
         "route": "PO",
         "indication": "Birth to 2 weeks",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff33ddda",
@@ -295,7 +295,7 @@ angular.module('mockData', [])
         "dose_number": 2,
         "route": "PO",
         "indication": "6 weeks",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff33xxxa",
@@ -305,7 +305,7 @@ angular.module('mockData', [])
         "dose_number": 3,
         "route": "PO",
         "indication": "10 weeks",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff335ccc",
@@ -315,7 +315,7 @@ angular.module('mockData', [])
         "dose_number": 4,
         "route": "PO",
         "indication": "14 weeks",
-        "routine": true
+        "scheduled": true
       },
       {
         "_vaccine_id": "550b46047fcba390ff335fff",
@@ -325,7 +325,7 @@ angular.module('mockData', [])
         "dose_number": 1,
         "route": "right upper arm",
         "indication": "9 mo",
-        "routine": true
+        "scheduled": true
       },
     ]
 })
