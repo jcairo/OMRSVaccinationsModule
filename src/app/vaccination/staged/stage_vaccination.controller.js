@@ -3,7 +3,6 @@
 angular.module('vaccinations')
 .controller('StagedVaccinationController', ['$scope', '$http', 'vaccinationsManager',
     function ($scope, $http, vaccinationsManager) {
-    //$scope.enteredFormData = getVaccination();
     $scope.state = {};
     $scope.state.administerFormOpen = true;
 
@@ -23,17 +22,10 @@ angular.module('vaccinations')
     $scope.saveVaccination = function (enteredAdminFormData) {
         // When saving an administered vaccination ensure no scheduled
         // date is saved.
-        delete enteredAdminFormData._administering;
-        delete enteredAdminFormData.scheduled_date;
         vaccinationsManager.submitVaccination(enteredAdminFormData);
     };
 
     $scope.scheduleVaccination = function (enteredAdminFormData) {
-        delete enteredAdminFormData._scheduling;
-        delete enteredAdminFormData.administration_date;
-        delete enteredAdminFormData.manufacture_date;
-        delete enteredAdminFormData.expiry_date;
-        var scheduledVacc = {};
         vaccinationsManager.submitVaccination(enteredAdminFormData);
     };
 

@@ -10,9 +10,8 @@
 angular.module('vaccinations')
 .controller('MainController', ['$scope', '$http', 'vaccinationsManager', 'vaccinesManager',
     function($scope, $http, vaccinationsManager, vaccinesManager){
-
-    $scope.search = {};
-    $scope.search.vaccines = '';
+    $scope.state = {};
+    $scope.state.loading = false;
 
     // Get list of patient vaccinations.
     vaccinationsManager.getVaccinations().success(function(data) {

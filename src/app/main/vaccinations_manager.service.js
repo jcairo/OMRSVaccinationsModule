@@ -41,6 +41,7 @@ angular.module('vaccinations')
         // exists on the server and needs to be modified.
         submitVaccination: function(vaccination, vaccsOrigCopy) {
             var that = this;
+
             // Prevent unintentional sending of reaction details
             // modifications.
             var vaccination = angular.copy(vaccination);

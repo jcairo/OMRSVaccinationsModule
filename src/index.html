@@ -23,6 +23,7 @@
   <body>
 
 <div class="container" ng-controller="MainController">
+    <loader ng-if="loading"></loader>
 
     <!-- ADD SECTION -->
     <div class="add-vaccination-wrapper">
@@ -43,8 +44,7 @@
         <div class="staged-wrapper" ng-if="stagedVaccinations.length > 0">
 
             <!-- STAGED VACCINATIONS -->
-            <div id="alert-container"></div>
-            <vaccination get-vaccination="stagedVaccination" ng-repeat="stagedVaccination in stagedVaccinations"></vaccination>
+            <vaccination ng-if="stagedVaccinations" get-vaccination="stagedVaccinations[0]"></vaccination>
             <!-- /STAGED VACCINATION -->
 
         </div>
