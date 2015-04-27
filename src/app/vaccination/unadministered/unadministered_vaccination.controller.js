@@ -3,12 +3,12 @@
 // Manages a vaccination instance on each vaccination
 // directive.
 angular.module('vaccinations')
-.controller('UnAdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
+.controller('UnAdminVaccinationController', ['$scope', 'vaccinationsManager',
+    function($scope, vaccinationsManager){
 
     // Form states and methods.
     $scope.state = {};
     $scope.state.administerFormOpen = false;
-
 
     $scope.resetFormDataToDefaults = function(){
         var vaccination = angular.copy($scope.getVaccination());
@@ -21,7 +21,6 @@ angular.module('vaccinations')
             $scope.due = true;
         }
     };
-
 
     $scope.toggleAdministerForm = function(){
         $scope.state.administerFormOpen = !$scope.state.administerFormOpen;

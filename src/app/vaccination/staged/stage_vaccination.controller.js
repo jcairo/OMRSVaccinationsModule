@@ -22,11 +22,19 @@ angular.module('vaccinations')
     $scope.saveVaccination = function (enteredAdminFormData) {
         // When saving an administered vaccination ensure no scheduled
         // date is saved.
-        vaccinationsManager.submitVaccination(enteredAdminFormData);
+        var enteredAdminFormDataCopy = angular.copy(enteredAdminFormData);
+        delete enteredAdminFormDataCopy.scheduled_date;
+        vaccinationsManager.submitVaccination(enteredAdminFormDataCopy);
     };
 
     $scope.scheduleVaccination = function (enteredAdminFormData) {
-        vaccinationsManager.submitVaccination(enteredAdminFormData);
+        // When scheduling remove date properties that are setup for
+        // administration.
+        var enteredAdminFormDataCopy = angular.copy(enteredAdminFormData);
+        delete enteredAdminFormDataCopy.administration_date;
+        delete enteredAdminFormDataCopy.manufacture_date;
+        delete enteredAdminFormDataCopy.expiry_date;
+        vaccinationsManager.submitVaccination(enteredAdminFormDataCopy);
     };
 
     $scope.resetFormDataToDefaults();

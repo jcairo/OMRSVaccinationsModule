@@ -5,14 +5,13 @@
 angular.module('vaccinations')
 .controller('AdminVaccinationController', ['$scope', 'vaccinationsManager', function($scope, vaccinationsManager){
     // Form data inits.
-    $scope.enteredEditFormData = {}
+    $scope.enteredEditFormData = {};
     $scope.enteredAdverseFormData = {};
 
     // Form states and methods.
     $scope.state = {};
     $scope.state.editFormOpen = false;
     $scope.state.adverseFormOpen = false;
-
 
     $scope.toggleReactionForm = function(){
         $scope.state.editFormOpen = false;
@@ -25,25 +24,22 @@ angular.module('vaccinations')
     };
 
     $scope.resetFormDataToDefaults = function () {
-        $scope.enteredEditFormData = angular.copy($scope.getVaccination());
-        $scope.enteredEditFormData.administration_date =
-            new Date($scope.enteredEditFormData.administration_date);
-        $scope.enteredEditFormData.manufacture_date =
-            new Date($scope.enteredEditFormData.manufacture_date);
-        $scope.enteredEditFormData.expiry_date =
-            new Date($scope.enteredEditFormData.expiry_date);
+        var vaccination = angular.copy($scope.getVaccination());
+        vaccination = angular.copy($scope.getVaccination());
+        vaccination.administration_date = new Date(vaccination.administration_date);
+        vaccination.manufacture_date = new Date(vaccination.manufacture_date);
+        vaccination.expiry_date = new Date(vaccination.expiry_date);
+        $scope.enteredEditFormData = vaccination;
 
-        if ($scope.enteredEditFormData.adverse_reaction) {
-            $scope.enteredAdverseFormData = $scope.enteredEditFormData.reaction_details;
-            $scope.enteredAdverseFormData.date =
-                new Date($scope.enteredEditFormData.reaction_details.date);
+        if (vaccination.adverse_reaction) {
+            $scope.enteredAdverseFormData = vaccination.reaction_details;
+            $scope.enteredAdverseFormData.date = new Date(vaccination.reaction_details.date);
         } else {
             $scope.enteredAdverseFormData.date = new Date();
         }
     };
 
     $scope.addReaction = function (reaction, enteredAdminFormData) {
-        reaction._vaccination_id = enteredAdminFormData._id;
         vaccinationsManager.submitReaction(reaction, enteredAdminFormData);
     };
 

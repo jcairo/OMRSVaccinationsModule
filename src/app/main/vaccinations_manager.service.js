@@ -3,8 +3,8 @@
 // Manages the retrival of vaccinations from the server and the
 // removal and entry of vaccinations for a patient.
 angular.module('vaccinations')
-.service('vaccinationsManager', ['$http', '$filter', 'appConstants', 'helperFunctions',
-    function($http, $filter, appConstants, helperFunctions){
+.service('vaccinationsManager', ['$http', '$filter', '$rootScope', 'appConstants', 'helperFunctions',
+    function($http, $filter, $rootScope, appConstants, helperFunctions){
     var self = this;
     self.stagedVaccinations = [];
 
@@ -41,7 +41,7 @@ angular.module('vaccinations')
         // exists on the server and needs to be modified.
         submitVaccination: function(vaccination, vaccsOrigCopy) {
             var that = this;
-
+            $rootScope.$broadcast('waiting');
             // Prevent unintentional sending of reaction details
             // modifications.
             var vaccination = angular.copy(vaccination);
@@ -60,6 +60,7 @@ angular.module('vaccinations')
                     {vaccination: vaccination})
                 .success( function (data) {
                     // Remove the old version and add the new version
+                    $rootScope.$broadcast('success');
                     that.removeVaccination(vaccination._id);
                     that.addVaccination(data.vaccination); })
                 .error( function (data) {
@@ -73,6 +74,7 @@ angular.module('vaccinations')
                 .success( function (data) {
                     // This catches new, unscheduled vaccinations
                     // that have not been saved to the patients records.
+                    $rootScope.$broadcast('success');
                     if (vaccination._staged) {
                         that.removeStagedVaccination();
                     // This catches scheduled vaccinations that
@@ -94,8 +96,8 @@ angular.module('vaccinations')
             // Get the vaccination from the array.
             // Adding reaction details to the vaccination passed
             // into the function will only change the copy.
+            $rootScope.$broadcast('waiting');
             var that = this;
-            var vacc = this.getVaccinationById(vaccination._id);
             if (vaccination.adverse_reaction) {
                 $http.put(
                     '/vaccinations/' + vaccination._id +
@@ -103,6 +105,7 @@ angular.module('vaccinations')
                     '/adverse_reactions/' + reaction._id,
                     {reaction: reaction} )
                 .success( function (data) {
+                    $rootScope.$broadcast('success');
                     that.removeVaccination(vaccination._id);
                     that.addVaccination(data.vaccination);
                 })
@@ -116,6 +119,7 @@ angular.module('vaccinations')
                     '/adverse_reactions',
                     {reaction: reaction} )
                 .success( function (data) {
+                    $rootScope.$broadcast('success');
                     that.removeVaccination(vaccination._id);
                     that.addVaccination(data.vaccination);
                 })
@@ -133,6 +137,7 @@ angular.module('vaccinations')
                 '/adverse_reactions/' + reaction._id,
                 {reaction: reaction})
             .success( function (data) {
+                $rootScope.$broadcast('success');
                 that.removeVaccination(data.vaccination._id);
                 that.addVaccination(data.vaccination);
             })

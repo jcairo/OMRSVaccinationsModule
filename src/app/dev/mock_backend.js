@@ -1,7 +1,7 @@
 'use strict';
 
 var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E', 'mockData']);
-mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, appConstants){
+mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, appConstants){
     // Get the mock json data from the mockData module.
     var vaccinations = mockObjects.vaccinations;
     var routineVaccines =  mockObjects.scheduled_vaccines;
@@ -17,8 +17,8 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, 
         var vaccination = angular.fromJson(data).vaccination;
         // Add a vaccination id field and remove the
         // staged marker.
-        vaccination._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
         debugger;
+        vaccination._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
         delete vaccination._staged;
         delete vaccination._administering;
         delete vaccination._scheduling;
@@ -51,7 +51,10 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, 
     $httpBackend.whenPOST(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions$/)
         .respond(function (method, url, data) {
             var reaction = angular.fromJson(data).reaction;
-            var index = helperFunctions.findObjectIndexByAttribute('_id', reaction._vaccination_id, vaccinations);
+
+            var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
+            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
+
             var vaccination = vaccinations[index];
             vaccination.reaction_details = reaction;
             vaccination.reaction_details._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
@@ -64,7 +67,9 @@ mockBackend.run(function($httpBackend, $resource, mockObjects, helperFunctions, 
     $httpBackend.whenPUT(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions\/[0-9a-zA-Z]+$/)
         .respond(function (method, url, data) {
             var reaction = angular.fromJson(data).reaction;
-            var index = helperFunctions.findObjectIndexByAttribute('_id', reaction._vaccination_id, vaccinations);
+
+            var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
+            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
             var vaccination = vaccinations[index];
             vaccination.reaction_details = reaction;
             vaccination.adverse_reaction = true;

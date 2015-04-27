@@ -8,8 +8,8 @@
  * Controller of the vaccinations
  */
 angular.module('vaccinations')
-.controller('MainController', ['$scope', '$http', 'vaccinationsManager', 'vaccinesManager',
-    function($scope, $http, vaccinationsManager, vaccinesManager){
+.controller('MainController', ['$scope', 'vaccinationsManager', 'vaccinesManager',
+    function($scope, vaccinationsManager, vaccinesManager){
     $scope.state = {};
     $scope.state.loading = false;
 
@@ -23,6 +23,15 @@ angular.module('vaccinations')
     // Get list of vaccines.
     vaccinesManager.getVaccines().success( function(data) {
         $scope.vaccines = data.non_scheduled_vaccines;
+    });
+
+    $scope.$on('waiting', function () {
+        $scope.state.loading = true;
+    });
+
+    $scope.$on('success', function () {
+        debugger;
+        $scope.state.loading = false;
     });
 
     $scope.stageVaccination = function (vaccine, scheduled) {
