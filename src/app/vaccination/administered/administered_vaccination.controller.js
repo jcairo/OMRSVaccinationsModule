@@ -50,8 +50,8 @@ angular.module('vaccinations')
     // Available for all administered vaccinations.
     // Deletes a vaccination of type unscheduled, vaccinations of type
     // scheduled become unadministered instead of being removed.
-    $scope.deleteVaccination = function(id) {
-        vaccinationsManager.removeVaccination(id);
+    $scope.deleteVaccination = function(vaccination) {
+        vaccinationsManager.deleteVaccination(vaccination);
     };
 
     $scope.updateVaccination = function (vaccination) {

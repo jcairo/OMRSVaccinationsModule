@@ -20,33 +20,36 @@ angular.module('vaccinations')
 
                     // Tracks the location in the list
                     // of vaccination so grouping of the same vaccine can be done.
-                    if (!scope.vaccination._staged) {
-                        var prevVacc = scope.getVacc()[scope.$parent.$index-1];
-                        var nextVacc = scope.getVacc()[scope.$parent.$index+1];
-                        scope.headercolor = helperFunctions.getColor();
-                        if (typeof prevVacc !== 'undefined') {
-                            if (prevVacc.name !== scope.getVaccination().name) {
+
+                    scope.indexVaccination = function () {
+                        if (!scope.vaccination._staged) {
+                            var prevVacc = scope.getVacc()[scope.$parent.$index-1];
+                            var nextVacc = scope.getVacc()[scope.$parent.$index+1];
+                            if (typeof prevVacc !== 'undefined') {
+                                if (prevVacc.name !== scope.getVaccination().name) {
+                                    scope.firstOfKind = true;
+                                } else {
+                                    scope.firstOfKind = false;
+                                }
+                            } else {
                                 scope.firstOfKind = true;
-                            } else {
-                                scope.firstOfKind = false;
                             }
-                        } else {
-                            scope.firstOfKind = true;
-                        }
 
-                        // Check if this is the last of this type of vaccine
-                        // in the list.
-                        if (typeof nextVacc !== 'undefined') {
-                            if (nextVacc.name !== scope.getVaccination().name) {
+                            // Check if this is the last of this type of vaccine
+                            // in the list.
+                            if (typeof nextVacc !== 'undefined') {
+                                if (nextVacc.name !== scope.getVaccination().name) {
+                                    scope.lastOfKind = true;
+                                } else {
+                                    scope.lastOfKind = false;
+                                }
+                            } else {
                                 scope.lastOfKind = true;
-                            } else {
-                                scope.lastOfKind = false;
                             }
-                        } else {
-                            scope.lastOfKind = true;
                         }
-                    }
+                    };
 
+                    scope.indexVaccination();
 
                     scope.getContentUrl = function(){
                         if (scope.vaccination.hasOwnProperty('_staged')) {

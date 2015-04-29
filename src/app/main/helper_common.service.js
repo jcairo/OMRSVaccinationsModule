@@ -3,6 +3,24 @@
 angular.module('vaccinations')
 .service('helperFunctions', function(){
     return {
+        // Format vaccine names for dropdown
+        formatVaccineName: function (vaccine) {
+            var formattedVaccineName = vaccine.name + ':: ';
+            if (vaccine.custom) {
+                return 'Custom Vaccine::';
+            }
+            if (typeof vaccine.dose !== 'undefined') {
+                formattedVaccineName += 'Dose: ' + vaccine.dose + ' ';
+            }
+            if (typeof vaccine.dosing_unit !== 'undefined') {
+                formattedVaccineName += 'Unit: ' + vaccine.dosing_unit + ' ';
+            }
+            if (typeof vaccine.route !== 'undefined') {
+                formattedVaccineName += 'Route: ' + vaccine.route + ' ';
+            }
+            return formattedVaccineName;
+        },
+
         // Generate a random color
         getColor: function (mix) {
             var red = Math.floor((Math.random() * 16)) + 245;

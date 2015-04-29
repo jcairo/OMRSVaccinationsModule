@@ -2,13 +2,15 @@
 
 angular.module('vaccinations')
 .directive('feedback', [ function () {
-    return {
+    var ddo = {
         replace: true,
-        templateUrl: '/app/main/feedback.template.html',
+        templateUrl: '/app/feedback/feedback.template.html',
         scope: {
             // Boolean indicating whether to show or hide.
             warn: '&',
             warning: '@'
         }
     };
+
+    return ddo;
 }]);

@@ -94,7 +94,7 @@
 
             <div class="form-button-wrapper">
                 <!-- cannot delete scheduled vaccines only modify. -->
-                <button type="button" class="btn btn-danger" ng-if="!enteredAdminFormData.scheduled" ng-click="deleteVaccination(enteredAdminFormData._id)">Delete</button>
+                <button type="button" class="btn btn-danger" ng-if="!enteredAdminFormData.scheduled" ng-click="deleteVaccination(enteredAdminFormData)">Delete</button>
                 <button type="button" class="btn btn-default" ng-click="resetFormDataToDefaults()">Reset</button>
                 <button ng-show="form.$valid" type="submit" class="btn btn-primary" ng-click="submitVaccination(enteredAdminFormData)">Submit</button>
             </div>

@@ -1,5 +1,5 @@
-<div class="loader">
-    <div class="spinner">
+<div ng-if="state.loading || state.success" class="loader">
+    <div ng-if="state.loading" class="spinner">
         <div class="spinner-container container1">
             <div class="circle1"></div>
             <div class="circle2"></div>
@@ -18,5 +18,8 @@
             <div class="circle3"></div>
             <div class="circle4"></div>
         </div>
+    </div>
+    <div ng-if="state.success" class="success-check">
+        <i class="fa fa-check fa-5x"></i>
     </div>
 </div>

@@ -23,7 +23,8 @@
   <body>
 
 <div class="container" ng-controller="MainController">
-    <loader ng-if="state.loading"></loader>
+
+    <loader></loader>
 
     <!-- ADD SECTION -->
     <div class="add-vaccination-wrapper">
@@ -57,12 +58,12 @@
 
         <div class="scheduled-header"><span class="label label-default section-label">Scheduled</span></div>
         <!-- SCHEDULED VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (schedvaccs = (vaccinations | filter: {scheduled: 'true'} | orderBy:['name', 'scheduled_date'] | filter: {staged: '!true'}))" get-vacc="schedvaccs"></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (schedvaccs = (vaccinations | filter: {scheduled: 'true'} | orderBy:['name', 'scheduled_date'] ))" get-vacc="schedvaccs"></vaccination>
 
         <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
 
         <!-- UNSCHEDULED VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (unschedvaccs = (vaccinations | filter: {scheduled: 'false'} | orderBy:['name', 'scheduled_date'] | filter: {staged: '!true'}))" get-vacc="unschedvaccs"></vaccination>
+        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (unschedvaccs = (vaccinations | filter: {scheduled: 'false'} | orderBy:['name', 'scheduled_date'] ))" get-vacc="unschedvaccs"></vaccination>
 
     </div>
     <!-- /VACCINATIONS -->

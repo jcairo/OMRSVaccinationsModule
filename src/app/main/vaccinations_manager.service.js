@@ -64,6 +64,7 @@ angular.module('vaccinations')
                     that.removeVaccination(vaccination._id);
                     that.addVaccination(data.vaccination); })
                 .error( function (data) {
+                    $rootScope.$broadcast('failure');
                     alert("The vaccination was not saved. Please try again.");
                 });
             } else {
@@ -87,9 +88,27 @@ angular.module('vaccinations')
                     }
                     that.addVaccination(data.vaccination); })
                 .error( function (data) {
+                    $rootScope.$broadcast('failure');
                     alert("The vaccination was not saved. Please try again.");
                 });
             }
+        },
+
+        deleteVaccination: function(vaccination) {
+            var that = this;
+            $rootScope.$broadcast('waiting');
+            $http.delete(
+                '/vaccinations/' + vaccination._id +
+                '/patients/' + appConstants.getPatientId(window.location.href))
+            .success( function () {
+                that.removeVaccination(vaccination._id);
+                $rootScope.$broadcast('vaccinationRemoved');
+                $rootScope.$broadcast('success');
+            })
+            .error( function () {
+                $rootScope.$broadcast('error');
+                alert("The vaccination could not be deleted. Please try again.");
+            });
         },
 
         submitReaction: function (reaction, vaccination) {
@@ -110,6 +129,7 @@ angular.module('vaccinations')
                     that.addVaccination(data.vaccination);
                 })
                 .error( function (data) {
+                    $rootScope.$broadcast('failure');
                     alert("An error occured while sending information to server. Try again.");
                 });
             } else {
@@ -124,6 +144,7 @@ angular.module('vaccinations')
                     that.addVaccination(data.vaccination);
                 })
                 .error( function (data) {
+                    $rootScope.$broadcast('failure');
                     alert("An error occured while sending information to server. Try again.");
                 });
             }
@@ -131,6 +152,7 @@ angular.module('vaccinations')
 
         removeReaction: function (reaction) {
             var that = this;
+            $rootScope.$broadcast('waiting');
             $http.delete(
                 '/vaccinations/' + reaction._vaccination_id +
                 '/patients/' + appConstants.getPatientId(window.location.href) +
@@ -141,6 +163,10 @@ angular.module('vaccinations')
                 that.removeVaccination(data.vaccination._id);
                 that.addVaccination(data.vaccination);
             })
+            .error( function (data) {
+                $rootScope.$broadcast('failure');
+                alert("An error occured while sending information to the server. Try again.");
+            });
         },
 
         getVaccinations: function(){
