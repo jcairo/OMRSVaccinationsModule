@@ -13,6 +13,7 @@
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'ngResource'
+    'ngResource',
+    'angular.filter'
 ]);
 

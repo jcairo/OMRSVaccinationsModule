@@ -102,7 +102,6 @@ angular.module('vaccinations')
                 '/patients/' + appConstants.getPatientId(window.location.href))
             .success( function () {
                 that.removeVaccination(vaccination._id);
-                $rootScope.$broadcast('vaccinationRemoved');
                 $rootScope.$broadcast('success');
             })
             .error( function () {

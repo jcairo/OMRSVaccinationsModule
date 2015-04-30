@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('vaccinations')
-.controller('StagedVaccinationController', ['$scope', '$http', 'vaccinationsManager',
-    function ($scope, $http, vaccinationsManager) {
+.controller('StagedVaccinationController', ['$scope', '$filter', 'vaccinationsManager',
+    function ($scope, $filter, vaccinationsManager) {
     $scope.state = {};
     $scope.state.administerFormOpen = true;
 
@@ -24,6 +24,7 @@ angular.module('vaccinations')
         // date is saved.
         var enteredAdminFormDataCopy = angular.copy(enteredAdminFormData);
         delete enteredAdminFormDataCopy.scheduled_date;
+        enteredAdminFormDataCopy.name = $filter('uppercase')(enteredAdminFormDataCopy.name);
         vaccinationsManager.submitVaccination(enteredAdminFormDataCopy);
     };
 
@@ -34,6 +35,7 @@ angular.module('vaccinations')
         delete enteredAdminFormDataCopy.administration_date;
         delete enteredAdminFormDataCopy.manufacture_date;
         delete enteredAdminFormDataCopy.expiry_date;
+        enteredAdminFormDataCopy.name = $filter('uppercase')(enteredAdminFormDataCopy.name);
         vaccinationsManager.submitVaccination(enteredAdminFormDataCopy);
     };
 

@@ -56,14 +56,19 @@
     <!-- VACCINATIONS -->
     <div class="vaccinations-wrapper">
 
-        <div class="scheduled-header"><span class="label label-default section-label">Scheduled</span></div>
         <!-- SCHEDULED VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (schedvaccs = (vaccinations | filter: {scheduled: 'true'} | orderBy:['name', 'scheduled_date'] ))" get-vacc="schedvaccs"></vaccination>
-
-        <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
+        <div class="scheduled-header"><span class="label label-default section-label">Scheduled</span></div>
+        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'true'} | groupBy: 'name' | orderBy: ['scheduled_date']">
+            <div class="vaccination-group-header" >{{ ::name }}</div>
+            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup"></vaccination>
+        </div>
 
         <!-- UNSCHEDULED VACCINATIONS -->
-        <vaccination get-vaccination="vaccination" ng-repeat="vaccination in (unschedvaccs = (vaccinations | filter: {scheduled: 'false'} | orderBy:['name', 'scheduled_date'] ))" get-vacc="unschedvaccs"></vaccination>
+        <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
+        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'false'} | groupBy: 'name' | orderBy: ['scheduled_date']">
+            <div class="vaccination-group-header" >{{ ::name }}</div>
+            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup"></vaccination>
+        </div>
 
     </div>
     <!-- /VACCINATIONS -->

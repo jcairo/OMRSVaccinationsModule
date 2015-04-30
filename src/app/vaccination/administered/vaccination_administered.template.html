@@ -2,7 +2,6 @@
 <div ng-controller="AdminVaccinationController" class="vaccination administered">
 
     <!-- ADMINISTERED HEADER -->
-    <div ng-if="firstOfKind" class="vaccination-group-header" >{{ ::enteredEditFormData.name }}</div>
     <div class="header administered-header" ng-class="{'adverse-header': enteredEditFormData.adverse_reaction, 'last-of-kind': lastOfKind}">
 
         <i ng-if="!enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check"></i>

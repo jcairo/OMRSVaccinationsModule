@@ -4,7 +4,7 @@ var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E', 'm
 mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, appConstants){
     // Get the mock json data from the mockData module.
     var vaccinations = mockObjects.vaccinations;
-
+    var loaderDelay = 1000;
     appConstants.setPatiendId(1);
 
     $httpBackend.whenGET(/^\/?vaccinations\/patients\/1/).respond(mockObjects);
@@ -15,7 +15,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
         var vaccination = angular.fromJson(data).vaccination;
         // Add a vaccination id field and remove the
         // staged marker.
-        var time = new Date().getTime() + 500;
+        var time = new Date().getTime() + loaderDelay;
         while (new Date() < time) {}
 
         vaccination._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
@@ -34,7 +34,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
 
     $httpBackend.whenPUT(/^\/vaccinations\/[a-zA-Z0-9_]+\/patients\/[a-zA-Z0-9]+$/)
         .respond( function (method, url, data) {
-            var time = new Date().getTime() + 500;
+            var time = new Date().getTime() + loaderDelay;
             while (new Date() < time) {}
 
             var vaccination = angular.fromJson(data).vaccination;
@@ -53,7 +53,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
 
     $httpBackend.whenDELETE(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+$/)
         .respond( function (method, url, data) {
-            var time = new Date().getTime() + 500;
+            var time = new Date().getTime() + loaderDelay;
             while (new Date() < time) {}
 
             var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
@@ -65,7 +65,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
 
     $httpBackend.whenPOST(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions$/)
         .respond(function (method, url, data) {
-            var time = new Date().getTime() + 500;
+            var time = new Date().getTime() + loaderDelay;
             while (new Date() < time) {}
 
             var reaction = angular.fromJson(data).reaction;
@@ -84,7 +84,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
 
     $httpBackend.whenPUT(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions\/[0-9a-zA-Z]+$/)
         .respond(function (method, url, data) {
-            var time = new Date().getTime() + 500;
+            var time = new Date().getTime() + loaderDelay;
             while (new Date() < time) {}
 
             var reaction = angular.fromJson(data).reaction;
@@ -101,7 +101,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
     $httpBackend.whenDELETE(/^\/vaccinations\/[a-zA-Z0-9]+\/patients\/[a-zA-Z0-9]+\/adverse_reactions\/[0-9a-zA-Z]+$/)
         .respond( function (method, url, data) {
 
-            var time = new Date().getTime() + 500;
+            var time = new Date().getTime() + loaderDelay;
             while (new Date() < time) {}
 
             var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
