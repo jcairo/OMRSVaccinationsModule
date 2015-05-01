@@ -4,7 +4,7 @@ var mockBackend = angular.module('mockBackend', ['vaccinations', 'ngMockE2E', 'm
 mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, appConstants){
     // Get the mock json data from the mockData module.
     var vaccinations = mockObjects.vaccinations;
-    var loaderDelay = 1000;
+    var loaderDelay = 10000;
     appConstants.setPatiendId(1);
 
     $httpBackend.whenGET(/^\/?vaccinations\/patients\/1/).respond(mockObjects);

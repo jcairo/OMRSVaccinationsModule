@@ -58,16 +58,16 @@
 
         <!-- SCHEDULED VACCINATIONS -->
         <div class="scheduled-header"><span class="label label-default section-label">Scheduled</span></div>
-        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'true'} | groupBy: 'name' | orderBy: ['scheduled_date']">
+        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'true'} | groupBy: 'name'">
             <div class="vaccination-group-header" >{{ ::name }}</div>
-            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup"></vaccination>
+            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup | orderBy: ['dose_number']"></vaccination>
         </div>
 
         <!-- UNSCHEDULED VACCINATIONS -->
         <div class="not-scheduled-header"><span class="label label-default section-label">Unscheduled</span></div>
-        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'false'} | groupBy: 'name' | orderBy: ['scheduled_date']">
+        <div ng-repeat="(name, vaccinationsGroup) in vaccinations | filter: {scheduled: 'false'} | groupBy: 'name'">
             <div class="vaccination-group-header" >{{ ::name }}</div>
-            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup"></vaccination>
+            <vaccination get-vaccination="vaccination" ng-repeat="vaccination in vaccinationsGroup | orderBy: ['scheduled_date']"></vaccination>
         </div>
 
     </div>

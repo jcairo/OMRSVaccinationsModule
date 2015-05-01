@@ -95,8 +95,8 @@ angular.module('vaccinations')
         },
 
         deleteVaccination: function(vaccination) {
-            var that = this;
             $rootScope.$broadcast('waiting');
+            var that = this;
             $http.delete(
                 '/vaccinations/' + vaccination._id +
                 '/patients/' + appConstants.getPatientId(window.location.href))
