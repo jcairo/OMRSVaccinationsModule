@@ -2,13 +2,13 @@
 <div ng-controller="AdminVaccinationController" class="vaccination administered">
 
     <!-- ADMINISTERED HEADER -->
-    <div class="header administered-header" ng-class="{'adverse-header': enteredEditFormData.adverse_reaction, 'last-of-kind': lastOfKind}">
+    <div class="header administered-header" ng-class="{'adverse-header': enteredEditFormData.adverse_reaction_observed, 'last-of-kind': lastOfKind}">
 
-        <i ng-if="!enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check"></i>
+        <i ng-if="!enteredEditFormData.adverse_reaction_observed" class="fa fa-check-circle-o fa-lg admin-check"></i>
 
-        <i ng-if="enteredEditFormData.adverse_reaction" class="fa fa-check-circle-o fa-lg admin-check-reaction"></i>
+        <i ng-if="enteredEditFormData.adverse_reaction_observed" class="fa fa-check-circle-o fa-lg admin-check-reaction"></i>
 
-        <span ng-if="enteredEditFormData.adverse_reaction" class="label label-danger adverse-label">Adverse Reaction</span>
+        <span ng-if="enteredEditFormData.adverse_reaction_observed" class="label label-danger adverse-label">Adverse Reaction</span>
 
         <span ng-if="enteredEditFormData.dose_number">
             <span class="dose-number-label">Dose Number: </span>
@@ -20,9 +20,9 @@
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-primary" ng-class="{'active': state.editFormOpen}" ng-click="toggleEditForm()">Details</button>
 
-            <button type="button" class="btn btn-danger" ng-class="{'active': state.adverseFormOpen}" ng-click="toggleReactionForm()" ng-if="!enteredEditFormData.adverse_reaction">Add Reaction</button>
+            <button type="button" class="btn btn-danger" ng-class="{'active': state.adverseFormOpen}" ng-click="toggleReactionForm()" ng-if="!enteredEditFormData.adverse_reaction_observed">Add Reaction</button>
 
-            <button class="btn btn-danger" ng-class="{ 'active': state.adverseFormOpen }" ng-click="toggleReactionForm()" ng-if="enteredEditFormData.adverse_reaction">Reaction Details</button>
+            <button class="btn btn-danger" ng-class="{ 'active': state.adverseFormOpen }" ng-click="toggleReactionForm()" ng-if="enteredEditFormData.adverse_reaction_observed">Reaction Details</button>
         </div>
     </div>
     <!-- /HEADER -->
@@ -135,11 +135,11 @@
 
             <div class="form-button-wrapper">
             <!-- cannot delete scheduled vaccines. -->
-                <button class="btn btn-danger" ng-if="enteredEditFormData.adverse_reaction" ng-click="removeReaction(enteredAdverseFormData)">Delete</button>
+                <button class="btn btn-danger" ng-if="enteredEditFormData.adverse_reaction_observed" ng-click="removeReaction(enteredAdverseFormData)">Delete</button>
 
-                <button ng-if="!enteredEditFormData.adverse_reaction && form.$valid" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Submit</button>
+                <button ng-if="!enteredEditFormData.adverse_reaction_observed && form.$valid" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Submit</button>
 
-                <button ng-if="enteredEditFormData.adverse_reaction" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Update</button>
+                <button ng-if="enteredEditFormData.adverse_reaction_observed" class="btn btn-warning" ng-click="addReaction(enteredAdverseFormData, enteredEditFormData)">Update</button>
             </div>
         </form>
     </div>

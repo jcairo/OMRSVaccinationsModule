@@ -13,9 +13,9 @@
             <span class="dose-number">{{ ::enteredAdminFormData.dose_number }}</span>
         </span>
 
-        <span ng-if="enteredAdminFormData.indication" class="header-info">
+        <span ng-if="enteredAdminFormData.indication_name" class="header-info">
             <span class="indication-label">Indication: </span>
-            <span class="indication-date">{{ ::enteredAdminFormData.indication | date: 'mediumDate' }}</span>
+            <span class="indication-date">{{ ::enteredAdminFormData.indication_name | date: 'mediumDate' }}</span>
         </span>
 
         <span class="header-info">

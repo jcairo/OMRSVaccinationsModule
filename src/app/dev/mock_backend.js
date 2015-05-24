@@ -8,7 +8,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
     appConstants.setPatiendId(1);
 
     $httpBackend.whenGET(/^\/?vaccinations\/patients\/1/).respond(mockObjects);
-    $httpBackend.whenGET(/^\/?vaccines\/scheduled$/).respond(mockObjects);
+    $httpBackend.whenGET(/^\/?vaccines/).respond(mockObjects);
     $httpBackend.whenGET(/^\/?vaccines\/non_scheduled$/).respond(mockObjects);
 
     $httpBackend.whenPOST(/^\/vaccinations\/patients\/1/).respond(function(method, url, data){
@@ -76,7 +76,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
             var vaccination = vaccinations[index];
             vaccination.reaction_details = reaction;
             vaccination.reaction_details._id = "NEWLYADDED" + Math.floor(Math.random() * 10000000);
-            vaccination.adverse_reaction = true;
+            vaccination.adverse_reaction_observed = true;
             vaccination.reaction_details._vaccination_id = vaccination._id;
 
             return [200, {vaccination: vaccination}, {}];
@@ -93,7 +93,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
             var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
             var vaccination = vaccinations[index];
             vaccination.reaction_details = reaction;
-            vaccination.adverse_reaction = true;
+            vaccination.adverse_reaction_observed = true;
 
             return [200, {vaccination: vaccination}, {}];
     });
@@ -107,7 +107,7 @@ mockBackend.run(function($httpBackend, $timeout, mockObjects, helperFunctions, a
             var vaccinationId = /[a-zA-Z0-9]+(?=\/patients\/)/.exec(url)[0];
             var index = helperFunctions.findObjectIndexByAttribute('_id', vaccinationId, vaccinations);
             var vaccination = vaccinations[index];
-            vaccination.adverse_reaction = false;
+            vaccination.adverse_reaction_observed = false;
             delete vaccination.reaction_details;
             return [201, {vaccination: vaccination}, {}];
         })

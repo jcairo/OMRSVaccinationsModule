@@ -31,7 +31,7 @@ angular.module('vaccinations')
         vaccination.expiry_date = new Date(vaccination.expiry_date);
         $scope.enteredEditFormData = vaccination;
 
-        if (vaccination.adverse_reaction) {
+        if (vaccination.adverse_reaction_observed) {
             $scope.enteredAdverseFormData = vaccination.reaction_details;
             $scope.enteredAdverseFormData.date = new Date(vaccination.reaction_details.date);
         } else {
@@ -64,7 +64,7 @@ angular.module('vaccinations')
         vaccination.administered = false;
         delete vaccination.provider_id;
         delete vaccination.scheduler_id;
-        delete vaccination.adverse_reaction;
+        delete vaccination.adverse_reaction_observed;
         delete vaccination.reaction_details;
         delete vaccination.administration_date;
         delete vaccination.lot_number;
