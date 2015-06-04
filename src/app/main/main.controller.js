@@ -8,12 +8,12 @@
  * Controller of the vaccinations
  */
 angular.module('vaccinations')
-.controller('MainController', ['$scope', 'vaccinationsManager', 'vaccinesManager', 'helperFunctions',
-    function($scope, vaccinationsManager, vaccinesManager, helperFunctions){
+.controller('MainController', ['$scope', '$filter', 'vaccinationsManager', 'vaccinesManager', 'helperFunctions',
+    function($scope, $filter, vaccinationsManager, vaccinesManager, helperFunctions){
 
     // Get list of patient vaccinations.
     vaccinationsManager.getVaccinations().success(function(data) {
-        $scope.vaccinations = data.vaccinations;
+        $scope.vaccinations = data;
     });
 
 
@@ -22,7 +22,7 @@ angular.module('vaccinations')
 
     // Get list of vaccines.
     vaccinesManager.getVaccines().success( function(data) {
-        $scope.vaccines = data.non_scheduled_vaccines;
+        $scope.vaccines = data;
     });
 
     $scope.stageVaccination = function (vaccine, scheduled) {

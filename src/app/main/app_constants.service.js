@@ -13,6 +13,11 @@
 angular.module('vaccinations')
 .service('appConstants', function ($http) {
     var exports = {
+        // Set url for testing
+        URL: 'http://208.77.196.178:64000',
+        PATH:'/openmrs/ws/rest/v2/vaccinationsmodule/vaccinations',
+
+
         // Should only be used for testing purposes
         setPatiendId: function (id) {
             this.patientId = id;
@@ -29,6 +34,8 @@ angular.module('vaccinations')
 
         // Retrive patient ID from window.location;
         getPatientId: function (url) {
+            return 3;
+
             if (this.patientId) {
                 return this.patientId;
             }

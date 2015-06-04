@@ -15,5 +15,7 @@
     'ngSanitize',
     'ngResource',
     'angular.filter'
-]);
-
+])
+.config(function ($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+});

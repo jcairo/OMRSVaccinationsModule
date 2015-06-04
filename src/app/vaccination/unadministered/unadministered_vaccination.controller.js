@@ -11,6 +11,7 @@ angular.module('vaccinations')
     $scope.state.administerFormOpen = false;
 
     $scope.resetFormDataToDefaults = function(){
+
         var vaccination = angular.copy($scope.getVaccination());
         vaccination.administration_date = new Date();
         vaccination.manufacture_date = new Date();

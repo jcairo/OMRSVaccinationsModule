@@ -9,24 +9,19 @@ angular.module('vaccinations')
             if (vaccine.custom) {
                 return 'Custom Vaccine::';
             }
-            if (typeof vaccine.dose !== 'undefined') {
+            if (typeof vaccine.dose_number !== 'undefined' && vaccine.dose_number !== null) {
+                formattedVaccineName += 'Dose Number: ' + vaccine.dose_number + ' ';
+            }
+            if (typeof vaccine.dose !== 'undefined' && vaccine.dose !== null) {
                 formattedVaccineName += 'Dose: ' + vaccine.dose + ' ';
             }
-            if (typeof vaccine.dosing_unit !== 'undefined') {
+            if (typeof vaccine.dosing_unit !== 'undefined' && vaccine.dosing_unit !== null) {
                 formattedVaccineName += 'Unit: ' + vaccine.dosing_unit + ' ';
             }
-            if (typeof vaccine.route !== 'undefined') {
+            if (typeof vaccine.route !== 'undefined' && vaccine.route !== null) {
                 formattedVaccineName += 'Route: ' + vaccine.route + ' ';
             }
             return formattedVaccineName;
-        },
-
-        // Generate a random color
-        getColor: function (mix) {
-            var red = Math.floor((Math.random() * 16)) + 245;
-            var green = Math.floor((Math.random() * 21)) + 235;
-            var blue = Math.floor((Math.random() * 21)) + 235;
-            return 'rgb(' + red + ',' + green + ',' + blue + ')'
         },
 
         // Find the index of an object with a given id.

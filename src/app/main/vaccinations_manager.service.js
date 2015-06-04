@@ -16,10 +16,17 @@ angular.module('vaccinations')
         }
     };
 
-    var promise = $http.get('vaccinations/patients/1')
+    // Get all patient vaccinations
+    var promise = $http.get(
+            appConstants.URL +
+            appConstants.PATH +
+            '/patient/' +
+            appConstants.getPatientId(window.location.href))
+
         .success(function(data, status, headers, config){
-            setVaccinations(data.vaccinations);
+            setVaccinations(data);
         })
+
         .error(function(data, status, headers, config){
             alert('Error when retrieving patient vaccinations from server.');
         });
@@ -27,11 +34,12 @@ angular.module('vaccinations')
     var exports = {
 
         addVaccination: function(vaccination) {
-            var index = helperFunctions.findObjectIndexByAttribute('_id', vaccination._id, self.vaccinations);
+            debugger;
+            var index = helperFunctions.findObjectIndexByAttribute('uuid', vaccination.uuid, self.vaccinations);
             if (index === undefined){
                 self.vaccinations.push(vaccination);
             } else {
-                throw new Error('Could not add vaccination to array, a vaccination with the _id attribute already exists.');
+                throw new Error('Could not add vaccination to array, a vaccination with the id attribute already exists.');
             }
         },
 
@@ -39,6 +47,7 @@ angular.module('vaccinations')
         // from the vaccinations list. It is only required when calling
         // the function with a new vaccination, not when the vaccination
         // exists on the server and needs to be modified.
+
         submitVaccination: function(vaccination, vaccsOrigCopy) {
             var that = this;
             $rootScope.$broadcast('waiting');
@@ -52,26 +61,40 @@ angular.module('vaccinations')
             }
             // Check whether we are updating an existing vaccination
             // or adding new vaccination.
-            if (vaccination.hasOwnProperty('_id')) {
+            if (vaccination.id !== null) {
                 // Vaccination exists, modify on server.
                 $http.put(
-                    '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.getPatientId(window.location.href),
-                    {vaccination: vaccination})
+                    appConstants.URL +
+                    appConstants.PATH + '/' +
+                    vaccination.id +
+                    '/patient/' +
+                    appConstants.getPatientId(window.location.href),
+                    vaccination)
+
                 .success( function (data) {
                     // Remove the old version and add the new version
                     $rootScope.$broadcast('success');
-                    that.removeVaccination(vaccination._id);
-                    that.addVaccination(data.vaccination); })
+                    that.removeVaccination(vaccination.id);
+                    that.addVaccination(data); })
+
                 .error( function (data) {
                     $rootScope.$broadcast('failure');
                     alert("The vaccination was not saved. Please try again.");
                 });
             } else {
                 // Vaccination does not exist on server. Post to server.
+                // Removed internal staged field before sending.
+                delete vaccination.staged;
+                // Set administered flag.
+                vaccination.administered = true;
+
                 $http.post(
-                    '/vaccinations/patients/' + appConstants.getPatientId(window.location.href),
-                    {vaccination: vaccination} )
+                    appConstants.URL +
+                    appConstants.PATH +
+                    '/patient/' +
+                    appConstants.getPatientId(window.location.href),
+                    vaccination)
+
                 .success( function (data) {
                     // This catches new, unscheduled vaccinations
                     // that have not been saved to the patients records.
@@ -86,7 +109,7 @@ angular.module('vaccinations')
                         var idx = helperFunctions.findObjectIndexByEquality(vaccsOrigCopy, self.vaccinations);
                         self.vaccinations.splice(idx, 1);
                     }
-                    that.addVaccination(data.vaccination); })
+                    that.addVaccination(data); })
                 .error( function (data) {
                     $rootScope.$broadcast('failure');
                     alert("The vaccination was not saved. Please try again.");
@@ -98,12 +121,23 @@ angular.module('vaccinations')
             $rootScope.$broadcast('waiting');
             var that = this;
             $http.delete(
-                '/vaccinations/' + vaccination._id +
-                '/patients/' + appConstants.getPatientId(window.location.href))
-            .success( function () {
-                that.removeVaccination(vaccination._id);
+                appConstants.URL +
+                appConstants.PATH + '/' +
+                vaccination.id +
+                '/patient/' +
+                appConstants.getPatientId(window.location.href))
+
+            .success( function (data) {
+                debugger;
+                that.removeVaccination('uuid', vaccination.uuid);
+                // If deleting a scheduled vaccination, add back template to the vaccinations list.
+                // If the vaccination is unscheduled just remove it.
+                if (vaccination.scheduled === true) {
+                    that.addVaccination(data);
+                }
                 $rootScope.$broadcast('success');
             })
+
             .error( function () {
                 $rootScope.$broadcast('error');
                 alert("The vaccination could not be deleted. Please try again.");
@@ -118,30 +152,39 @@ angular.module('vaccinations')
             var that = this;
             if (vaccination.adverse_reaction) {
                 $http.put(
-                    '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.getPatientId(window.location.href) +
-                    '/adverse_reactions/' + reaction._id,
-                    {reaction: reaction} )
+                    appConstants.URL +
+                    appConstants.PATH +
+                    '/adverseReactions/' +
+                    reaction.id +
+                    'patient/' +
+                    appConstants.getPatientId(window.location.href),
+                    reaction)
+
                 .success( function (data) {
                     $rootScope.$broadcast('success');
-                    that.removeVaccination(vaccination._id);
-                    that.addVaccination(data.vaccination);
+                    that.removeVaccination(vaccination.id);
+                    that.addVaccination(data);
                 })
+
                 .error( function (data) {
                     $rootScope.$broadcast('failure');
                     alert("An error occured while sending information to server. Try again.");
                 });
             } else {
                 $http.post(
-                    '/vaccinations/' + vaccination._id +
-                    '/patients/' + appConstants.getPatientId(window.location.href) +
-                    '/adverse_reactions',
-                    {reaction: reaction} )
+                    appConstants.URL +
+                    appConstants.PATH +
+                    '/adverseReactions/' +
+                    'patient/' +
+                    appConstants.getPatientId(window.location.href),
+                    reaction)
+
                 .success( function (data) {
                     $rootScope.$broadcast('success');
-                    that.removeVaccination(vaccination._id);
-                    that.addVaccination(data.vaccination);
+                    that.removeVaccination(vaccination.id);
+                    that.addVaccination(data);
                 })
+
                 .error( function (data) {
                     $rootScope.$broadcast('failure');
                     alert("An error occured while sending information to server. Try again.");
@@ -153,15 +196,19 @@ angular.module('vaccinations')
             var that = this;
             $rootScope.$broadcast('waiting');
             $http.delete(
-                '/vaccinations/' + reaction._vaccination_id +
-                '/patients/' + appConstants.getPatientId(window.location.href) +
-                '/adverse_reactions/' + reaction._id,
-                {reaction: reaction})
+                    appConstants.URL +
+                    appConstants.PATH +
+                    '/adverseReactions/' +
+                    reaction.id +
+                    'patient/' +
+                    appConstants.getPatientId(window.location.href))
+
             .success( function (data) {
                 $rootScope.$broadcast('success');
-                that.removeVaccination(data.vaccination._id);
-                that.addVaccination(data.vaccination);
+                that.removeVaccination(data.id);
+                that.addVaccination(data);
             })
+
             .error( function (data) {
                 $rootScope.$broadcast('failure');
                 alert("An error occured while sending information to the server. Try again.");
@@ -174,15 +221,17 @@ angular.module('vaccinations')
 
         getVaccinationById: function(id){
             var vaccination = $filter('filter')(self.vaccinations, function(vaccination, index){
-                return vaccination._id === id;
+                return vaccination.id === id;
             });
             return vaccination[0];
         },
 
-        removeVaccination: function(id){
-            var index = helperFunctions.findObjectIndexByAttribute('_id', id, self.vaccinations);
+        removeVaccination: function(key, value){
+            var index = helperFunctions.findObjectIndexByAttribute(key, value, self.vaccinations);
             if (index !== undefined){
+                console.log(self.vaccinations);
                 self.vaccinations.splice(index, 1);
+                console.log(self.vaccinations);
             } else {
                 console.log("The index of the vaccination to be removed could not be found.");
             }

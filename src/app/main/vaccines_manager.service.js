@@ -1,10 +1,15 @@
 'use strict';
 
 angular.module('vaccinations')
-.service('vaccinesManager', ['$http', function($http) {
+.service('vaccinesManager', ['$http', 'appConstants', function($http, appConstants) {
     var self = this;
-    var promise = $http.get('vaccines').success( function(data) {
-        self.vaccines = data.non_scheduled_vaccines;
+    var promise = $http.get(
+        appConstants.URL +
+        '/openmrs/ws/rest/v2/vaccinationsmodule/' +
+        '/vaccines/unscheduled')
+
+    .success( function(data) {
+        self.vaccines = data;
     });
 
     var exports = {
