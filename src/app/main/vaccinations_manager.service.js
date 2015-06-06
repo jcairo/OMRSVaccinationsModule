@@ -34,7 +34,6 @@ angular.module('vaccinations')
     var exports = {
 
         addVaccination: function(vaccination) {
-            debugger;
             var index = helperFunctions.findObjectIndexByAttribute('uuid', vaccination.uuid, self.vaccinations);
             if (index === undefined){
                 self.vaccinations.push(vaccination);
@@ -128,7 +127,6 @@ angular.module('vaccinations')
                 appConstants.getPatientId(window.location.href))
 
             .success( function (data) {
-                debugger;
                 that.removeVaccination('uuid', vaccination.uuid);
                 // If deleting a scheduled vaccination, add back template to the vaccinations list.
                 // If the vaccination is unscheduled just remove it.
@@ -145,6 +143,7 @@ angular.module('vaccinations')
         },
 
         submitReaction: function (reaction, vaccination) {
+            debugger;
             // Get the vaccination from the array.
             // Adding reaction details to the vaccination passed
             // into the function will only change the copy.
@@ -154,10 +153,12 @@ angular.module('vaccinations')
                 $http.put(
                     appConstants.URL +
                     appConstants.PATH +
+                    '/openmrs/ws/rest/v2/vaccinationsmodule/' +
                     '/adverseReactions/' +
                     reaction.id +
                     'patient/' +
-                    appConstants.getPatientId(window.location.href),
+                    appConstants.getPatientId(window.location.href) + '/' +
+                    'vaccinations/' + vaccination.id,
                     reaction)
 
                 .success( function (data) {
@@ -174,9 +175,11 @@ angular.module('vaccinations')
                 $http.post(
                     appConstants.URL +
                     appConstants.PATH +
+                    '/openmrs/ws/rest/v2/vaccinationsmodule/' +
                     '/adverseReactions/' +
                     'patient/' +
-                    appConstants.getPatientId(window.location.href),
+                    appConstants.getPatientId(window.location.href) + '/' +
+                    'vaccinations/' + vaccination.id,
                     reaction)
 
                 .success( function (data) {
